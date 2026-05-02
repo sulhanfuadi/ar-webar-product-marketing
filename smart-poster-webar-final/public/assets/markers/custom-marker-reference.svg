@@ -1,0 +1,8 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" fill="#F8FAFC"/>
+  <rect x="32" y="32" width="448" height="448" fill="#111827"/>
+  <rect x="96" y="96" width="320" height="320" fill="#F8FAFC"/>
+  <rect x="156" y="156" width="200" height="200" fill="#111827"/>
+  <circle cx="256" cy="256" r="48" fill="#F8FAFC"/>
+  <text x="132" y="458" fill="#0F172A" font-family="Arial, sans-serif" font-size="28">Nova X Vision Marker</text>
+</svg>

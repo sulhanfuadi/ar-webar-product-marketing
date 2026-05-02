@@ -1,0 +1,7 @@
+<svg width="1080" height="1080" viewBox="0 0 1080 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1080" height="1080" fill="white"/>
+  <rect x="96" y="96" width="888" height="888" fill="black"/>
+  <rect x="210" y="210" width="660" height="660" fill="white"/>
+  <path d="M371 292H507V408H575V292H711V788H575V528H507V788H371V292Z" fill="black"/>
+  <text x="540" y="980" text-anchor="middle" fill="#111827" font-family="Arial, sans-serif" font-size="44">Reference marker for preset Hiro</text>
+</svg>

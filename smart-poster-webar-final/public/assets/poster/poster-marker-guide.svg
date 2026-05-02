@@ -1,0 +1,15 @@
+<svg width="1080" height="1528" viewBox="0 0 1080 1528" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1080" height="1528" fill="#0F172A"/>
+  <rect x="72" y="72" width="936" height="1384" rx="40" fill="#020617" stroke="#38BDF8" stroke-opacity="0.34" stroke-width="4" stroke-dasharray="14 14"/>
+  <text x="108" y="180" fill="#E0F2FE" font-family="Arial, sans-serif" font-size="52" font-weight="700">Guide Penempatan Marker</text>
+  <text x="108" y="246" fill="#CBD5E1" font-family="Arial, sans-serif" font-size="28">Tempatkan marker di area kanan bawah poster, jangan tertutup teks, dan jaga kontras hitam-putih tetap tajam.</text>
+  <rect x="676" y="1066" width="260" height="260" rx="28" fill="#F8FAFC" stroke="#7DD3FC" stroke-width="6"/>
+  <rect x="712" y="1102" width="188" height="188" rx="18" fill="#111827"/>
+  <rect x="746" y="1136" width="120" height="120" fill="#F8FAFC"/>
+  <line x1="420" y1="756" x2="804" y2="1066" stroke="#38BDF8" stroke-width="5" stroke-dasharray="14 14"/>
+  <circle cx="420" cy="756" r="14" fill="#38BDF8"/>
+  <text x="148" y="726" fill="#E2E8F0" font-family="Arial, sans-serif" font-size="30">Rekomendasi:</text>
+  <text x="148" y="780" fill="#CBD5E1" font-family="Arial, sans-serif" font-size="28">• Marker minimal 18–22% lebar poster</text>
+  <text x="148" y="834" fill="#CBD5E1" font-family="Arial, sans-serif" font-size="28">• Jangan dekat lipatan atau glare</text>
+  <text x="148" y="888" fill="#CBD5E1" font-family="Arial, sans-serif" font-size="28">• Sisakan area kosong di sekeliling marker</text>
+</svg>

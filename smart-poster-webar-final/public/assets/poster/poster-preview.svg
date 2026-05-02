@@ -1,0 +1,37 @@
+<svg width="1080" height="1528" viewBox="0 0 1080 1528" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1080" height="1528" fill="#020617"/>
+  <rect x="54" y="54" width="972" height="1420" rx="42" fill="url(#bg)" stroke="rgba(125,211,252,0.32)"/>
+  <text x="108" y="180" fill="#7DD3FC" font-family="Arial, sans-serif" font-size="34" letter-spacing="8">SMART POSTER + WEBAR</text>
+  <text x="108" y="262" fill="#F8FAFC" font-family="Arial, sans-serif" font-size="84" font-weight="700">Nova X Vision 5G</text>
+  <text x="108" y="336" fill="#CBD5E1" font-family="Arial, sans-serif" font-size="30">Scan poster ini untuk melihat smartphone muncul dalam AR</text>
+  <rect x="108" y="408" width="440" height="720" rx="54" fill="#0F172A" stroke="#38BDF8" stroke-opacity="0.38"/>
+  <rect x="136" y="444" width="384" height="648" rx="38" fill="url(#screen)"/>
+  <circle cx="234" cy="520" r="34" fill="#E2E8F0" fill-opacity="0.92"/>
+  <circle cx="314" cy="520" r="34" fill="#BFDBFE" fill-opacity="0.92"/>
+  <circle cx="394" cy="520" r="34" fill="#E2E8F0" fill-opacity="0.92"/>
+  <text x="604" y="488" fill="#E0F2FE" font-family="Arial, sans-serif" font-size="44" font-weight="700">Fitur Utama</text>
+  <text x="604" y="566" fill="#CBD5E1" font-family="Arial, sans-serif" font-size="30">• 200MP Ultra Detail Camera</text>
+  <text x="604" y="628" fill="#CBD5E1" font-family="Arial, sans-serif" font-size="30">• AMOLED 144Hz HDR Display</text>
+  <text x="604" y="690" fill="#CBD5E1" font-family="Arial, sans-serif" font-size="30">• Flagship 5G + 12GB RAM</text>
+  <text x="604" y="752" fill="#CBD5E1" font-family="Arial, sans-serif" font-size="30">• 5200mAh + 100W Hyper Charge</text>
+  <rect x="604" y="840" width="328" height="88" rx="26" fill="url(#cta)"/>
+  <text x="656" y="895" fill="white" font-family="Arial, sans-serif" font-size="30" font-weight="700">Tap after scan</text>
+  <rect x="718" y="1124" width="228" height="228" rx="24" fill="#F8FAFC"/>
+  <rect x="746" y="1152" width="172" height="172" rx="18" fill="#111827"/>
+  <rect x="778" y="1184" width="108" height="108" fill="#F8FAFC"/>
+  <text x="714" y="1388" fill="#94A3B8" font-family="Arial, sans-serif" font-size="24">Area marker untuk scan AR</text>
+  <defs>
+    <linearGradient id="bg" x1="54" y1="54" x2="1026" y2="1474" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#08111F"/>
+      <stop offset="1" stop-color="#172554"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="136" y1="444" x2="520" y2="1092" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38BDF8"/>
+      <stop offset="1" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <linearGradient id="cta" x1="604" y1="840" x2="932" y2="928" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0EA5E9"/>
+      <stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+  </defs>
+</svg>

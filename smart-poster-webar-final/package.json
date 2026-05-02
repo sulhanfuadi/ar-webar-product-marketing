@@ -1,0 +1,19 @@
+{
+  "name": "smart-poster-webar-final",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "smoke:test": "node scripts/smoke-check.mjs"
+  },
+  "dependencies": {
+    "@ar-js-org/ar.js": "^3.4.8",
+    "aframe": "^1.7.1"
+  },
+  "devDependencies": {
+    "vite": "^7.1.7"
+  }
+}
