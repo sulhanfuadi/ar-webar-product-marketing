@@ -14,11 +14,7 @@ interface UseMindArOptions {
   bootNonce: number;
 }
 
-const MINDAR_MODULE_URLS = [
-  'https://esm.sh/mind-ar@1.2.5/dist/mindar-image-three.prod.js?bundle',
-  'https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js?module',
-  'https://unpkg.com/mind-ar@1.2.5/dist/mindar-image-three.prod.js?module',
-];
+const MINDAR_MODULE_SPECIFIERS = ['mindar-image-three'];
 
 function withTimeout<T>(promise: Promise<T>, timeoutMs: number, label: string) {
   return Promise.race<T>([
@@ -42,7 +38,7 @@ function normalizeRuntimeError(error: unknown) {
   }
 
   if (message.includes('script load') || message.includes('module load') || message.includes('failed to fetch dynamically imported module')) {
-    return 'AR engine module failed to load. Check network/adblock/shields, then retry.';
+    return 'AR engine module failed to load. Check network/adblock/shields or import map access, then retry.';
   }
 
   if (message.includes('timed out')) {
@@ -81,9 +77,9 @@ async function loadMindARModule() {
 
   let lastError: unknown = null;
 
-  for (const url of MINDAR_MODULE_URLS) {
+  for (const moduleSpecifier of MINDAR_MODULE_SPECIFIERS) {
     try {
-      const moduleValue = await import(/* @vite-ignore */ url);
+      const moduleValue = await import(/* @vite-ignore */ moduleSpecifier);
       ensureGlobalMindAR(moduleValue);
       return;
     } catch (error) {
