@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FeatureHotspots } from '../components/FeatureHotspots';
 import { ScanHUD } from '../components/ScanHUD';
 import { routes, scanTarget, viewCopy } from '../content/appContent';
 import { useScanSession } from '../state/ScanSessionContext';
@@ -70,10 +69,9 @@ export function ScanPage() {
         </button>
       </header>
 
-      <main className="relative mx-auto h-[calc(100dvh-4.2rem)] w-full max-w-6xl overflow-hidden border-y border-apple-stroke bg-black sm:rounded-apple sm:border">
+      <main className="relative mx-auto h-[calc(100dvh-4.2rem)] w-full max-w-6xl overflow-hidden bg-black sm:rounded-apple sm:border sm:border-apple-stroke">
         <div ref={containerRef} className="absolute inset-0 z-10 bg-black" />
         <ScanHUD runtime={runtime} isMobile={mobile} />
-        <FeatureHotspots />
       </main>
     </div>
   );
