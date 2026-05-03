@@ -7,7 +7,9 @@ import { OfflineCompiler } from '@zenith-xperience/mindar-offline-compiler';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
-const sourceRoot = path.resolve(projectRoot, '../resources/products');
+
+const primarySourceRoot = path.resolve(projectRoot, 'public/assets/products/source');
+const legacySourceRoot = path.resolve(projectRoot, '../resources/products');
 const targetRoot = path.resolve(projectRoot, 'public/assets/markers/products');
 
 const productSources = {
@@ -18,15 +20,39 @@ const productSources = {
   'apple-watch': 'apple-watch.png',
 };
 
-async function ensureFile(filePath) {
+async function exists(filePath) {
   try {
     await fs.access(filePath);
+    return true;
   } catch {
+    return false;
+  }
+}
+
+async function resolveSourceRoot() {
+  const hasPrimary = await exists(primarySourceRoot);
+  if (hasPrimary) {
+    return primarySourceRoot;
+  }
+
+  const hasLegacy = await exists(legacySourceRoot);
+  if (hasLegacy) {
+    process.stdout.write(`Fallback source root detected: ${legacySourceRoot}\n`);
+    return legacySourceRoot;
+  }
+
+  throw new Error(
+    `No source image folder found. Expected at ${primarySourceRoot} (preferred) or ${legacySourceRoot} (legacy).`
+  );
+}
+
+async function ensureFile(filePath) {
+  if (!(await exists(filePath))) {
     throw new Error(`Missing file: ${filePath}`);
   }
 }
 
-async function generateProductTarget(productId, filename) {
+async function generateProductTarget(sourceRoot, productId, filename) {
   const sourceImagePath = path.join(sourceRoot, filename);
   const productDir = path.join(targetRoot, productId);
   const targetMindPath = path.join(productDir, 'target.mind');
@@ -50,11 +76,13 @@ async function generateProductTarget(productId, filename) {
 }
 
 async function main() {
+  const sourceRoot = await resolveSourceRoot();
+
   process.stdout.write(`Source root: ${sourceRoot}\n`);
   process.stdout.write(`Target root: ${targetRoot}\n\n`);
 
   for (const [productId, filename] of Object.entries(productSources)) {
-    await generateProductTarget(productId, filename);
+    await generateProductTarget(sourceRoot, productId, filename);
   }
 
   process.stdout.write('\nAll product markers generated successfully.\n');

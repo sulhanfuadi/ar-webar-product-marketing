@@ -1,7 +1,7 @@
 # Next Steps TODO
 
 ## Done
-- [x] Replaced per-product marker references with real images from `resources/products`.
+- [x] Replaced per-product marker references with real images from `public/assets/products/source`.
 - [x] Recompiled per-product `target.mind` files for:
   - `apple-iphone`
   - `apple-macbook`

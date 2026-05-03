@@ -33,7 +33,8 @@ A modern AR-first web demo for Apple-device poster campaigns, rebuilt with React
 - Local marker map is preconfigured to:
   - `public/assets/markers/products/<productId>/target.mind`
   - `public/assets/markers/products/<productId>/reference.png`
-- You can regenerate all marker targets from `resources/products` using:
+- Product source images live in `public/assets/products/source`
+- You can regenerate all marker targets using:
 
 ```bash
 npm run markers:generate
