@@ -11,6 +11,18 @@
   - `/scan?product=apple-watch`
 - Prepare marker reference image used by the selected product target.
 
+## Marker asset placement (local)
+- Put marker assets per product in:
+  - `public/assets/markers/products/apple-iphone/`
+  - `public/assets/markers/products/apple-macbook/`
+  - `public/assets/markers/products/apple-airpods/`
+  - `public/assets/markers/products/apple-ipad/`
+  - `public/assets/markers/products/apple-watch/`
+- Required files per folder:
+  - `target.mind`
+  - `reference.svg` (or replace with your own reference image)
+- Template map is documented in `public/assets/markers/products/README.md`.
+
 ## Live flow
 1. Start at `/?product=<productId>` and set context quickly.
 2. Tap `Start AR Scan` and grant camera permission.
@@ -20,7 +32,7 @@
 ## Add new product
 1. Add a new product file in `src/content/products/`.
 2. Export product from `src/content/products/index.ts`.
-3. Set `scanTarget.mindTargetUrl` to a public HTTPS `.mind` file.
+3. Set `scanTarget.mindTargetUrl` to local path or public HTTPS `.mind` file.
 4. Set `scanTarget.referenceImageUrl` and product-specific copy/CTA/hotspots.
 5. Validate with `/scan?product=<newProductId>` on mobile HTTPS.
 

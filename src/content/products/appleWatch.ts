@@ -1,5 +1,5 @@
 import type { ProductConfig } from '../../types/app';
-import { baseRuntimeMessages, commonAfterScanCopy, commonIntroCopy, fallbackSampleScanTarget } from './shared';
+import { baseRuntimeMessages, buildProductScanTarget, commonAfterScanCopy, commonIntroCopy } from './shared';
 
 export const appleWatch: ProductConfig = {
   id: 'apple-watch',
@@ -24,7 +24,7 @@ export const appleWatch: ProductConfig = {
     title: 'Complete the Apple Watch handoff',
     offerLabel: 'Open Apple Watch Offer Page',
   },
-  scanTarget: fallbackSampleScanTarget,
+  scanTarget: buildProductScanTarget('apple-watch'),
   offerCTA: {
     url: 'https://example.com/apple-watch-offer',
     label: 'Open Apple Watch Offer Page',

@@ -1,5 +1,5 @@
 import type { ProductConfig } from '../../types/app';
-import { baseRuntimeMessages, commonAfterScanCopy, commonIntroCopy, fallbackSampleScanTarget } from './shared';
+import { baseRuntimeMessages, buildProductScanTarget, commonAfterScanCopy, commonIntroCopy } from './shared';
 
 export const appleMacbook: ProductConfig = {
   id: 'apple-macbook',
@@ -24,10 +24,7 @@ export const appleMacbook: ProductConfig = {
     title: 'Complete the MacBook handoff',
     offerLabel: 'Open MacBook Offer Page',
   },
-  scanTarget: {
-    ...fallbackSampleScanTarget,
-    mindTargetUrl: 'https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/band-example/band.mind',
-  },
+  scanTarget: buildProductScanTarget('apple-macbook'),
   offerCTA: {
     url: 'https://example.com/apple-macbook-offer',
     label: 'Open MacBook Offer Page',

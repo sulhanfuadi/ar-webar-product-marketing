@@ -1,5 +1,5 @@
 import type { ProductConfig } from '../../types/app';
-import { baseRuntimeMessages, commonAfterScanCopy, commonIntroCopy, sharedScanTarget } from './shared';
+import { baseRuntimeMessages, buildProductScanTarget, commonAfterScanCopy, commonIntroCopy } from './shared';
 
 export const appleIphone: ProductConfig = {
   id: 'apple-iphone',
@@ -25,7 +25,7 @@ export const appleIphone: ProductConfig = {
     title: 'Complete the iPhone handoff',
     offerLabel: 'Open iPhone Offer Page',
   },
-  scanTarget: sharedScanTarget,
+  scanTarget: buildProductScanTarget('apple-iphone'),
   offerCTA: {
     url: 'https://example.com/apple-iphone-offer',
     label: 'Open iPhone Offer Page',

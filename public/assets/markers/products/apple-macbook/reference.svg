@@ -1,0 +1,12 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" fill="#F8FAFC"/>
+  <rect x="42" y="42" width="428" height="428" rx="28" fill="#111827"/>
+  <rect x="108" y="108" width="296" height="296" rx="18" fill="#F8FAFC"/>
+  <rect x="144" y="144" width="224" height="224" rx="12" fill="#111827"/>
+  <rect x="186" y="186" width="140" height="140" rx="20" fill="#F8FAFC"/>
+  <path d="M186 186H256V256H186V186Z" fill="#111827"/>
+  <path d="M256 256H326V326H256V256Z" fill="#111827"/>
+  <circle cx="386" cy="126" r="20" fill="#38BDF8"/>
+  <circle cx="126" cy="386" r="20" fill="#38BDF8"/>
+  <text x="68" y="486" fill="#0F172A" font-family="Arial, sans-serif" font-size="28" font-weight="700">Nova X Vision AR Marker Reference</text>
+</svg>

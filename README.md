@@ -29,6 +29,13 @@ A modern AR-first web demo for Apple-device poster campaigns, rebuilt with React
   - `/scan?product=apple-watch`
 - Invalid or missing product falls back to default with a non-blocking notice.
 
+## Marker placement
+- Local marker map is preconfigured to:
+  - `public/assets/markers/products/<productId>/target.mind`
+  - `public/assets/markers/products/<productId>/reference.svg`
+- Replace placeholder marker assets in each product folder.
+- Detailed template: `public/assets/markers/products/README.md`.
+
 ## Run locally
 ```bash
 npm install
@@ -47,10 +54,9 @@ npm run smoke:test
 - Registry export is `src/content/products/index.ts`.
 - For each product, set:
   - copy (intro/scan/after-scan)
-  - `scanTarget.mindTargetUrl` (public HTTPS `.mind` file)
+  - `scanTarget.mindTargetUrl`
   - `scanTarget.referenceImageUrl`
   - `offerCTA` and `hotspots`
-- Current AirPods, iPad, and Watch entries still reuse sample MindAR targets and must be replaced with final poster `.mind` targets for production.
 
 ## QA policy
 - Desktop is preview-only.
