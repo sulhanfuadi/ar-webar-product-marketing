@@ -1,26 +1,26 @@
 # Nova X Vision Smart Poster AR
 
-Aplikasi marker-based static WebAR untuk presentasi akademik: mengubah poster smartphone yang statis menjadi demonstrasi produk yang lebih hidup melalui hotspot AR dan FAQ pendukung presentasi.
+A marker-based static WebAR application for academic presentations: transforming static consumer electronics posters into more engaging product demonstrations through AR hotspots and presentation-supporting FAQs.
 
-## Fokus final
-- Academic polished demo, bukan prototipe mentah
-- Alur presentasi tunggal: poster → scan AR → hotspot fitur → FAQ singkat → CTA
-- Chatbot local-first sebagai jalur demo utama
-- Static-first deploy agar presentasi tetap stabil tanpa ketergantungan backend
+## Final focus
+- Academic polished demo, not a raw prototype
+- Single presentation flow: poster → AR scan → feature hotspots → concise FAQ → CTA
+- Local-first chatbot as the primary demo path
+- Static-first deployment so presentations remain stable without backend dependency
 
 ## Stack
 - Vite vanilla
 - A-Frame
 - AR.js
-- FAQ assistant local-first (remote-ready tetap opsional)
+- Local-first FAQ assistant (remote-ready remains optional)
 
-## Jalankan project
+## Run the project
 ```bash
 npm install
 npm run dev
 ```
 
-## Build dan verifikasi
+## Build and verify
 ```bash
 npm run build
 npm run preview
@@ -28,20 +28,20 @@ npm run smoke:test
 ```
 
 ## Source of truth
-- `src/config/content.js` untuk branding, narasi, runtime copy, operator guidance, CTA, dan konfigurasi chatbot.
-- `src/lib/arScene.js` untuk struktur visual landing, panel presentasi, dan stage AR.
-- `src/lib/chatbot.js` untuk FAQ local-first dan fallback aman.
-- `src/main.js` untuk orchestrator state runtime AR dan sinkronisasi UI.
+- `src/config/content.js` for branding, narrative, runtime copy, operator guidance, CTA, and chatbot configuration.
+- `src/lib/arScene.js` for landing visuals, presentation panel structure, and AR stage layout.
+- `src/lib/chatbot.js` for local-first FAQ behavior and safe fallback.
+- `src/main.js` for AR runtime state orchestration and UI synchronization.
 
-## Alur demonstrasi
-1. Buka halaman di browser mobile modern melalui HTTPS atau localhost.
-2. Tekan `Mulai Demonstrasi AR` dan izinkan kamera.
-3. Kunci marker custom pada poster hingga produk AR muncul.
-4. Jelaskan fitur lewat hotspot secara berurutan.
-5. Gunakan FAQ singkat jika ada pertanyaan audiens.
-6. Tutup dengan tombol `Buka Halaman Penawaran`.
+## Demo flow
+1. Open the page in a modern mobile browser via HTTPS or localhost.
+2. Tap `Mulai Demonstrasi AR` and allow camera access.
+3. Align and hold the custom marker on the poster until the AR product appears.
+4. Explain features through hotspots in sequence.
+5. Use concise FAQ answers when the audience asks questions.
+6. Close with the `Buka Halaman Penawaran` button.
 
-## Asset yang dapat diganti
+## Replaceable assets
 - `public/assets/poster/poster-preview.svg`
 - `public/assets/poster/poster-marker-guide.svg`
 - `public/assets/markers/custom-marker-reference.svg`
@@ -49,24 +49,24 @@ npm run smoke:test
 - `public/assets/branding/brand-thumb.svg`
 - `public/assets/models/phone-demo.glb`
 
-## Prinsip chatbot final
-- Mode presentasi utama: `local`
-- Mode `remote` hanya opsi teknis tambahan
-- Jika remote gagal, jawaban harus kembali aman ke FAQ lokal
+## Final chatbot principles
+- Primary presentation mode: `local`
+- `remote` mode is only an additional technical option
+- If remote fails, answers must safely fall back to the local FAQ
 
-## Manual QA minimum
-- Layout tetap rapi di desktop sempit dan mobile sempit.
-- Overlay AR tidak bertabrakan dengan CTA/guidance.
-- State permission denied, searching, found, lost berjalan konsisten.
-- FAQ lokal menjawab pertanyaan inti (harga, kamera, promo, pembelian).
-- Poster preview dan marker guide termuat benar.
+## Minimum manual QA
+- Layout remains clean on narrow desktop and narrow mobile screens.
+- AR overlay does not collide with CTA or guidance components.
+- Permission states (denied, searching, found, lost) run consistently.
+- Local FAQ answers core questions (price, camera, promo, purchase).
+- Poster preview and marker guide load correctly.
 
 ## Deploy
-- Target rekomendasi: `Vercel`
-- Jalur final tetap dianggap lulus pada static-first path
-- Endpoint `/api/chatbot` bersifat optional untuk demonstrasi remote-ready
+- Recommended deployment target: `Vercel`
+- Final acceptance still passes on the static-first path
+- `/api/chatbot` endpoint is optional for remote-ready demos
 
-## Dokumen handoff
+## Handoff documents
 - `docs/operator-runbook.md`
 - `docs/mobile-qa-matrix.md`
 - `docs/known-limitations.md`
