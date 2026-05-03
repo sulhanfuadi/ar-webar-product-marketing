@@ -20,8 +20,8 @@
   - `/scan?product=apple-airpods`
   - `/scan?product=apple-ipad`
   - `/scan?product=apple-watch`
-- New product configs stored in `src/content/products/` with registry update in `src/content/products/index.ts`.
-- AirPods/iPad/Watch marker targets flagged as sample targets pending final poster `.mind` files.
+- Product configs stored in `src/content/products/` with registry update in `src/content/products/index.ts`.
+- Product marker assets are present in `public/assets/markers/products/<product-id>/`.
 
 ## Mobile quality gate (strict)
 - Passes on latest Chrome Android.

@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "smoke:test": "node scripts/smoke-check.mjs"
+    "smoke:test": "node scripts/smoke-check.mjs",
+    "markers:generate": "node scripts/generate-product-markers.mjs"
   },
   "dependencies": {
     "react": "^19.2.0",
@@ -20,7 +21,9 @@
     "@types/react-dom": "^19.2.2",
     "@types/three": "^0.184.0",
     "@vitejs/plugin-react": "^5.2.0",
+    "@zenith-xperience/mindar-offline-compiler": "^0.0.2",
     "autoprefixer": "^10.4.21",
+    "canvas": "^3.2.3",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
     "typescript": "^6.0.3",

@@ -9,23 +9,23 @@ export const sampleReferenceImageUrl =
 export const productMarkerPaths = {
   'apple-iphone': {
     mindTargetUrl: '/assets/markers/products/apple-iphone/target.mind',
-    referenceImageUrl: '/assets/markers/products/apple-iphone/reference.svg',
+    referenceImageUrl: '/assets/markers/products/apple-iphone/reference.png',
   },
   'apple-macbook': {
     mindTargetUrl: '/assets/markers/products/apple-macbook/target.mind',
-    referenceImageUrl: '/assets/markers/products/apple-macbook/reference.svg',
+    referenceImageUrl: '/assets/markers/products/apple-macbook/reference.png',
   },
   'apple-airpods': {
     mindTargetUrl: '/assets/markers/products/apple-airpods/target.mind',
-    referenceImageUrl: '/assets/markers/products/apple-airpods/reference.svg',
+    referenceImageUrl: '/assets/markers/products/apple-airpods/reference.png',
   },
   'apple-ipad': {
     mindTargetUrl: '/assets/markers/products/apple-ipad/target.mind',
-    referenceImageUrl: '/assets/markers/products/apple-ipad/reference.svg',
+    referenceImageUrl: '/assets/markers/products/apple-ipad/reference.png',
   },
   'apple-watch': {
     mindTargetUrl: '/assets/markers/products/apple-watch/target.mind',
-    referenceImageUrl: '/assets/markers/products/apple-watch/reference.svg',
+    referenceImageUrl: '/assets/markers/products/apple-watch/reference.png',
   },
 } as const;
 

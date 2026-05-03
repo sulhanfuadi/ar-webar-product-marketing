@@ -32,8 +32,13 @@ A modern AR-first web demo for Apple-device poster campaigns, rebuilt with React
 ## Marker placement
 - Local marker map is preconfigured to:
   - `public/assets/markers/products/<productId>/target.mind`
-  - `public/assets/markers/products/<productId>/reference.svg`
-- Replace placeholder marker assets in each product folder.
+  - `public/assets/markers/products/<productId>/reference.png`
+- You can regenerate all marker targets from `resources/products` using:
+
+```bash
+npm run markers:generate
+```
+
 - Detailed template: `public/assets/markers/products/README.md`.
 
 ## Run locally

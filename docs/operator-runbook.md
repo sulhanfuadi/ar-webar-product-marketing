@@ -20,7 +20,9 @@
   - `public/assets/markers/products/apple-watch/`
 - Required files per folder:
   - `target.mind`
-  - `reference.svg` (or replace with your own reference image)
+  - `reference.png`
+- Regenerate all product markers from `resources/products` with:
+  - `npm run markers:generate`
 - Template map is documented in `public/assets/markers/products/README.md`.
 
 ## Live flow
@@ -32,9 +34,10 @@
 ## Add new product
 1. Add a new product file in `src/content/products/`.
 2. Export product from `src/content/products/index.ts`.
-3. Set `scanTarget.mindTargetUrl` to local path or public HTTPS `.mind` file.
-4. Set `scanTarget.referenceImageUrl` and product-specific copy/CTA/hotspots.
-5. Validate with `/scan?product=<newProductId>` on mobile HTTPS.
+3. Add source image in `resources/products/`.
+4. Add marker path entry in `src/content/products/shared.ts`.
+5. Run `npm run markers:generate`.
+6. Validate with `/scan?product=<newProductId>` on mobile HTTPS.
 
 ## Troubleshooting
 - Camera denied: re-enable site camera permission and retry.
