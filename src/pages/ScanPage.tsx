@@ -43,7 +43,8 @@ export function ScanPage() {
 
   useMindArRuntime({
     containerRef,
-    imageTargetSrc: scanTarget.imageTargetSrc,
+    imageTargetSrc: scanTarget.customImageTargetSrc,
+    fallbackImageTargetSrc: scanTarget.fallbackImageTargetSrc,
     onStage,
     onCameraGranted: setCameraGranted,
     onMarkerLocked: setMarkerLocked,

@@ -5,6 +5,7 @@ import * as THREE from 'three';
 interface UseMindArOptions {
   containerRef: RefObject<HTMLDivElement | null>;
   imageTargetSrc: string;
+  fallbackImageTargetSrc?: string;
   onStage: (stage: 'requesting_camera' | 'ready' | 'searching' | 'found' | 'lost' | 'error') => void;
   onCameraGranted: (granted: boolean) => void;
   onMarkerLocked: (locked: boolean) => void;
@@ -39,6 +40,7 @@ function loadMindARScript() {
 export function useMindArRuntime({
   containerRef,
   imageTargetSrc,
+  fallbackImageTargetSrc,
   onStage,
   onCameraGranted,
   onMarkerLocked,
@@ -58,13 +60,14 @@ export function useMindArRuntime({
       setIsBooting(true);
       onStage('requesting_camera');
 
-      try {
-        await loadMindARScript();
-        if (canceled || !containerRef.current || !window.MINDAR?.IMAGE?.MindARThree) return;
+      const buildRuntime = (targetSrc: string) => {
+        if (!containerRef.current || !window.MINDAR?.IMAGE?.MindARThree) {
+          throw new Error('MindAR runtime unavailable');
+        }
 
         const mindarThree = new window.MINDAR.IMAGE.MindARThree({
           container: containerRef.current,
-          imageTargetSrc,
+          imageTargetSrc: targetSrc,
           uiLoading: 'no',
           uiScanning: 'no',
           maxTrack: 1,
@@ -100,22 +103,44 @@ export function useMindArRuntime({
           onStage('lost');
         };
 
-        await mindarThree.start();
+        return { mindarThree, renderer, scene, camera };
+      };
+
+      try {
+        await loadMindARScript();
+        if (canceled || !containerRef.current || !window.MINDAR?.IMAGE?.MindARThree) return;
+
+        let runtime = buildRuntime(imageTargetSrc);
+
+        try {
+          await runtime.mindarThree.start();
+        } catch (primaryError) {
+          runtime.mindarThree.stop();
+          runtime.renderer.setAnimationLoop(null);
+
+          if (!fallbackImageTargetSrc || fallbackImageTargetSrc === imageTargetSrc) {
+            throw primaryError;
+          }
+
+          runtime = buildRuntime(fallbackImageTargetSrc);
+          await runtime.mindarThree.start();
+        }
+
         if (canceled) {
-          mindarThree.stop();
+          runtime.mindarThree.stop();
           return;
         }
 
         onCameraGranted(true);
         onStage('searching');
 
-        renderer.setAnimationLoop(() => {
-          renderer.render(scene, camera);
+        runtime.renderer.setAnimationLoop(() => {
+          runtime.renderer.render(runtime.scene, runtime.camera);
         });
 
         runtimeRef.current.stop = () => {
-          renderer.setAnimationLoop(null);
-          mindarThree.stop();
+          runtime.renderer.setAnimationLoop(null);
+          runtime.mindarThree.stop();
         };
 
         runtimeRef.current.cleanup = () => {
@@ -140,7 +165,7 @@ export function useMindArRuntime({
       runtimeRef.current.stop = null;
       runtimeRef.current.cleanup = null;
     };
-  }, [containerRef, enabled, imageTargetSrc, onCameraGranted, onMarkerLocked, onStage]);
+  }, [containerRef, enabled, fallbackImageTargetSrc, imageTargetSrc, onCameraGranted, onMarkerLocked, onStage]);
 
   return status;
 }
