@@ -177,7 +177,7 @@ export function ScanPage() {
       </header>
 
       <main className="relative mx-auto h-[calc(100dvh-4.2rem)] w-full max-w-6xl overflow-hidden bg-black sm:rounded-apple sm:border sm:border-apple-stroke">
-        <div ref={containerRef} className="absolute inset-0 z-10 bg-black" />
+        <div ref={containerRef} className="mindar-stage absolute inset-0 z-10 bg-black" />
 
         {basicCameraMode && (
           <video

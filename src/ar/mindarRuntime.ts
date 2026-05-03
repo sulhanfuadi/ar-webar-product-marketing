@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { RefObject } from 'react';
-import * as THREE from 'three';
+
+type ThreeModule = typeof import('three');
 
 interface UseMindArOptions {
   containerRef: RefObject<HTMLDivElement | null>;
@@ -15,6 +16,7 @@ interface UseMindArOptions {
 }
 
 const MINDAR_MODULE_SPECIFIERS = ['mindar-image-three'];
+const THREE_MODULE_SPECIFIERS = ['three'];
 
 function withTimeout<T>(promise: Promise<T>, timeoutMs: number, label: string) {
   return Promise.race<T>([
@@ -70,6 +72,34 @@ function ensureGlobalMindAR(moduleValue: unknown) {
   imageNamespace.MindARThree = maybeCtor as typeof imageNamespace.MindARThree;
 }
 
+async function loadThreeModule() {
+  let lastError: unknown = null;
+
+  for (const moduleSpecifier of THREE_MODULE_SPECIFIERS) {
+    try {
+      const moduleValue = await import(/* @vite-ignore */ moduleSpecifier);
+      return moduleValue as ThreeModule;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError instanceof Error ? lastError : new Error('Unable to load Three.js module');
+}
+
+function enforceCameraFill(container: HTMLDivElement | null) {
+  if (!container) return;
+
+  const mediaNodes = container.querySelectorAll<HTMLElement>('video, canvas');
+  mediaNodes.forEach((node) => {
+    node.style.position = 'absolute';
+    node.style.inset = '0';
+    node.style.width = '100%';
+    node.style.height = '100%';
+    node.style.objectFit = 'cover';
+  });
+}
+
 async function loadMindARModule() {
   if (window.MINDAR?.IMAGE?.MindARThree) {
     return;
@@ -117,7 +147,7 @@ export function useMindArRuntime({
       onStage('requesting_camera');
       let permissionGranted = false;
 
-      const buildRuntime = (targetSrc: string) => {
+      const buildRuntime = (targetSrc: string, threeModule: ThreeModule) => {
         if (!containerRef.current || !window.MINDAR?.IMAGE?.MindARThree) {
           throw new Error('MindAR runtime unavailable');
         }
@@ -132,19 +162,19 @@ export function useMindArRuntime({
 
         const { renderer, scene, camera } = mindarThree;
 
-        const lightA = new THREE.HemisphereLight(0xffffff, 0xb2b2b2, 1.2);
-        const lightB = new THREE.DirectionalLight(0xffffff, 0.9);
+        const lightA = new threeModule.HemisphereLight(0xffffff, 0xb2b2b2, 1.2);
+        const lightB = new threeModule.DirectionalLight(0xffffff, 0.9);
         lightB.position.set(0, 1, 1);
         scene.add(lightA, lightB);
 
         const anchor = mindarThree.addAnchor(0);
-        const body = new THREE.Mesh(
-          new THREE.BoxGeometry(0.6, 1.1, 0.06),
-          new THREE.MeshStandardMaterial({ color: 0x1d1d1f, roughness: 0.3, metalness: 0.2 }),
+        const body = new threeModule.Mesh(
+          new threeModule.BoxGeometry(0.6, 1.1, 0.06),
+          new threeModule.MeshStandardMaterial({ color: 0x1d1d1f, roughness: 0.3, metalness: 0.2 }),
         );
-        const screen = new THREE.Mesh(
-          new THREE.BoxGeometry(0.53, 0.95, 0.01),
-          new THREE.MeshStandardMaterial({ color: 0x9ec9f7, roughness: 0.45, metalness: 0.0 }),
+        const screen = new threeModule.Mesh(
+          new threeModule.BoxGeometry(0.53, 0.95, 0.01),
+          new threeModule.MeshStandardMaterial({ color: 0x9ec9f7, roughness: 0.45, metalness: 0.0 }),
         );
         screen.position.z = 0.035;
         anchor.group.add(body);
@@ -179,9 +209,10 @@ export function useMindArRuntime({
         onStage('ready');
 
         await withTimeout(loadMindARModule(), 9000, 'MindAR module load');
+        const threeModule = await withTimeout(loadThreeModule(), 5000, 'Three.js module load');
         if (canceled || !containerRef.current || !window.MINDAR?.IMAGE?.MindARThree) return;
 
-        let runtime = buildRuntime(imageTargetSrc);
+        let runtime = buildRuntime(imageTargetSrc, threeModule);
 
         try {
           await withTimeout(runtime.mindarThree.start(), 12000, 'MindAR start');
@@ -193,7 +224,7 @@ export function useMindArRuntime({
             throw primaryError;
           }
 
-          runtime = buildRuntime(fallbackImageTargetSrc);
+          runtime = buildRuntime(fallbackImageTargetSrc, threeModule);
           await withTimeout(runtime.mindarThree.start(), 12000, 'MindAR fallback start');
         }
 
@@ -204,6 +235,11 @@ export function useMindArRuntime({
 
         onCameraGranted(true);
         onStage('searching');
+
+        enforceCameraFill(containerRef.current);
+        [120, 300, 600, 1000].forEach((delayMs) => {
+          window.setTimeout(() => enforceCameraFill(containerRef.current), delayMs);
+        });
 
         runtime.renderer.setAnimationLoop(() => {
           runtime.renderer.render(runtime.scene, runtime.camera);

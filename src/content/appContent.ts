@@ -105,7 +105,9 @@ export const offerCTA = {
 };
 
 export const scanTarget = {
-  customImageTargetSrc: import.meta.env.VITE_MINDAR_TARGET_URL || '/assets/markers/poster-target.mind',
+  customImageTargetSrc:
+    import.meta.env.VITE_MINDAR_TARGET_URL ||
+    'https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind',
   fallbackImageTargetSrc:
     'https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind',
   referenceImage:
