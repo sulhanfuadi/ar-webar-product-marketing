@@ -126,6 +126,14 @@ function openArStage() {
   document.body.classList.add('ar-active');
 }
 
+function scrollToArStage() {
+  if (!appElements.arStage) return;
+
+  window.requestAnimationFrame(() => {
+    appElements.arStage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
 function setFallbackModeLabel() {
   const fallbackLabel = assetManifest.marker.devFallbackMode === 'preset-hiro' ? 'Hiro fallback ready' : assetManifest.marker.devFallbackMode;
   setPill(appElements.fallbackModePill, fallbackLabel, 'warning');
@@ -307,6 +315,7 @@ async function requestCameraAccess() {
 
 appElements.enterArButton.addEventListener('click', async () => {
   openArStage();
+  scrollToArStage();
   setFallbackModeLabel();
 
   if (!checkCompatibility()) {
