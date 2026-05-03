@@ -1,18 +1,19 @@
 # Mobile QA Matrix
 
-## Device target minimum
-- Chrome Android terbaru
-- Safari iPhone terbaru
+## Minimum device targets
+- Latest Chrome on Android
+- Latest Safari on iPhone
 
-## Skenario wajib lulus
-- Landing terbaca jelas dan CTA utama mudah ditemukan.
-- Permission kamera diterima dan ditolak sama-sama memberi feedback yang tepat.
-- Marker lock pada kondisi cahaya baik.
-- Marker lost kembali ke searching state dengan guidance yang jelas.
-- Hotspot tetap mudah ditekan dan terbaca pada layar sempit.
-- FAQ lokal menjawab pertanyaan inti tanpa error UI.
-- CTA penawaran tetap terlihat saat AR stage terbuka.
+## Required pass scenarios
+- Intro view loads cleanly with one clear primary CTA.
+- Tapping `Start AR Scan` immediately transitions to AR view.
+- Camera permission allow/deny both provide clear runtime feedback.
+- Marker lock works under good lighting.
+- Marker lost transitions back to searching with clear guidance.
+- Hotspots remain tappable and readable on narrow screens.
+- Chatbot appears only on post-scan view and responds from local FAQ.
+- Offer CTA remains visible in post-scan support view.
 
-## Catatan validasi
-- Desktop preview hanya untuk sanity layout, bukan validasi tracking utama.
-- Marker glossy, blur, atau kecil akan menurunkan stabilitas lock.
+## Validation notes
+- Desktop is preview mode only; tracking validation must be done on mobile.
+- Glossy, blurry, or undersized markers reduce lock stability.

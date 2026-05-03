@@ -1,14 +1,15 @@
 # Release Checklist
 
-## Siap presentasi
-- `npm run build` lulus.
-- `npm run smoke:test` lulus.
-- Landing, AR stage, hotspot, FAQ, dan CTA terbaca jelas.
-- Alur local-first chatbot aktif dan stabil.
-- Operator memahami `docs/operator-runbook.md`.
+## Presentation-ready
+- `npm run build` passes.
+- `npm run smoke:test` passes.
+- Intro screen is minimal with one dominant `Start AR Scan` CTA.
+- AR scan view shows compact status + guidance without overlay collisions.
+- Post-scan view contains local-first FAQ support and offer CTA.
+- Operator understands `docs/operator-runbook.md`.
 
-## Siap deploy
-- Origin deploy menggunakan HTTPS.
-- Asset poster/marker/branding termuat tanpa broken path.
-- Known limitations sudah disampaikan secara jujur.
-- Static-first path berjalan tanpa dependency backend wajib.
+## Deploy-ready
+- Production origin uses HTTPS.
+- Poster/marker/branding assets load without broken paths.
+- Known limitations are communicated honestly.
+- Static-first path runs without mandatory backend dependency.

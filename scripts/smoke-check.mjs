@@ -17,7 +17,7 @@ const files = [
   'public/assets/markers/custom-marker-reference.svg',
   'public/assets/markers/custom-marker-placeholder.patt',
   'public/assets/branding/brand-thumb.svg',
-  'public/assets/models/phone-demo.glb'
+  'public/assets/models/phone-demo.glb',
 ];
 
 const missing = files.filter((file) => !fs.existsSync(path.join(root, file)));
@@ -28,14 +28,14 @@ if (missing.length) {
 
 const configText = fs.readFileSync(path.join(root, 'src/config/content.js'), 'utf8');
 const requiredConfigSnippets = [
-  'Academic WebAR Showcase',
-  'narrativeTitle',
-  'Alur Demonstrasi',
+  'intro_minimal',
+  'ar_scan',
+  'post_scan',
+  'appleInspired',
   "mode: 'local'",
   'Presentation FAQ Assistant',
   'knownLimitations',
-  'recommendedTarget',
-  'markerSearchTimeoutMs'
+  'markerSearchTimeoutMs',
 ];
 const missingConfigSnippets = requiredConfigSnippets.filter((snippet) => !configText.includes(snippet));
 if (missingConfigSnippets.length) {
@@ -45,12 +45,12 @@ if (missingConfigSnippets.length) {
 
 const sceneText = fs.readFileSync(path.join(root, 'src/lib/arScene.js'), 'utf8');
 const requiredSceneSnippets = [
-  'hero-panel',
-  'explain-panel',
-  'Mulai Demonstrasi AR',
+  'data-view="intro_minimal"',
+  'data-view="ar_scan"',
+  'data-view="post_scan"',
+  'enter-ar-btn',
+  'main-marker',
   'chatbot-panel',
-  'Panduan Operator',
-  'main-marker'
 ];
 const missingSceneSnippets = requiredSceneSnippets.filter((snippet) => !sceneText.includes(snippet));
 if (missingSceneSnippets.length) {
@@ -62,9 +62,9 @@ const runtimeText = fs.readFileSync(path.join(root, 'src/main.js'), 'utf8');
 const requiredRuntimeSnippets = [
   'setRuntimeStage',
   'setChatbotPending',
-  'Mode presentasi: local-first',
+  'setView',
   'startMarkerSearchTimer',
-  'checkCompatibility'
+  'checkCompatibility',
 ];
 const missingRuntimeSnippets = requiredRuntimeSnippets.filter((snippet) => !runtimeText.includes(snippet));
 if (missingRuntimeSnippets.length) {
@@ -73,11 +73,11 @@ if (missingRuntimeSnippets.length) {
 }
 
 const readmeText = fs.readFileSync(path.join(root, 'README.md'), 'utf8');
-const requiredReadmeSnippets = ['Academic polished', 'local-first', 'Static-first', 'Handoff documents'];
+const requiredReadmeSnippets = ['Apple-inspired', 'minimal intro', 'post-scan', 'Handoff documents'];
 const missingReadmeSnippets = requiredReadmeSnippets.filter((snippet) => !readmeText.includes(snippet));
 if (missingReadmeSnippets.length) {
   console.error('README missing snippets:\n' + missingReadmeSnippets.join('\n'));
   process.exit(1);
 }
 
-console.log('Smoke check passed: soft rebuild structure, academic-polished narrative, and local-first presentation flow are present.');
+console.log('Smoke check passed: three-view Apple-inspired flow, AR scan runtime, and local-first FAQ support are present.');

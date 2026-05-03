@@ -5,15 +5,15 @@ function withBase(path) {
 }
 
 export const appConfig = {
-  appName: 'Nova X Vision Smart Poster AR',
+  appName: 'Apple Devices Smart Poster AR Demo',
   appEyebrow: 'Academic WebAR Showcase',
   appDescription:
-    'Smart poster smartphone berbasis marker untuk presentasi akademik yang menyatukan visual poster, eksplorasi AR, dan FAQ penjualan ringan dalam satu alur yang rapi.',
-  supportUrl: 'https://example.com/nova-x-vision-5g',
+    'A marker-based WebAR demo for Apple device campaigns, designed as a minimal scan-first flow for live presentations.',
+  supportUrl: 'https://example.com/apple-device-offer',
   deploy: {
     recommendedTarget: 'Vercel',
     requiresHttps: true,
-    previewUrlHint: 'Deploy ke HTTPS agar kamera browser mobile bisa aktif penuh.',
+    previewUrlHint: 'Use HTTPS on mobile browsers to enable full camera behavior for AR scanning.',
   },
   runtime: {
     markerSearchTimeoutMs: 12000,
@@ -21,111 +21,153 @@ export const appConfig = {
     sceneReadyTimeoutMs: 7000,
     chatbotRequestTimeoutMs: 4500,
   },
+  views: {
+    intro_minimal: {
+      id: 'intro_minimal',
+      title: 'Scan your poster. Start the demo instantly.',
+      subtitle: 'A clean AR-first journey for Apple device storytelling from print to interaction.',
+      primaryCtaLabel: 'Start AR Scan',
+      helperLabel: 'How to scan',
+      helperBody:
+        'Use a modern mobile browser over HTTPS or localhost, allow camera access, and place the marker fully inside the frame.',
+      desktopPreview:
+        'Desktop is preview-only. Use a modern mobile browser for real marker lock and camera validation.',
+    },
+    ar_scan: {
+      id: 'ar_scan',
+      fallbackHintLabel: 'Need fallback help?',
+      fallbackHintBody:
+        'If marker lock is slow, flatten the poster, reduce glare, and keep 20–35 cm camera distance.',
+      finishLabel: 'Continue to FAQ & Offer',
+      backLabel: 'Back',
+    },
+    post_scan: {
+      id: 'post_scan',
+      title: 'Post-scan support',
+      subtitle: 'Use concise FAQ support and close with one clear offer action.',
+      backToScanLabel: 'Back to AR Scan',
+      restartLabel: 'Restart Demo',
+    },
+  },
+  theme: {
+    mode: 'light',
+    appleInspired: true,
+    surfaces: {
+      base: '#f5f5f7',
+      card: '#ffffff',
+      elevated: '#fbfbfd',
+      text: '#1d1d1f',
+      muted: '#6e6e73',
+      stroke: '#d2d2d7',
+      accent: '#0071e3',
+      accentSoft: '#e8f3ff',
+    },
+  },
   compatibility: {
     cameraHelp:
-      'Gunakan browser mobile modern melalui HTTPS atau localhost, lalu izinkan akses kamera agar mode AR dapat dimulai.',
+      'Use a modern mobile browser over HTTPS or localhost, then allow camera access to start AR scanning.',
     markerHelp:
-      'Arahkan kamera ke marker custom pada poster dan jaga marker tetap terang, rata, serta terlihat penuh di frame.',
+      'Point your camera to the custom marker on the poster and keep it flat, bright, and fully visible in frame.',
     fallbackHelp:
-      'Jika model final belum dipakai atau gagal dimuat, mockup procedural tetap menjaga presentasi berjalan stabil.',
+      'If the final model is unavailable, the procedural fallback keeps the demo narrative running safely.',
     desktopHint:
-      'Desktop cocok untuk preview alur tampilan, tetapi uji marker dan kamera tetap harus dilakukan di mobile modern.',
+      'Desktop is for layout preview. Use mobile for camera permission and marker tracking validation.',
   },
   operatorGuidance: {
     cameraDenied:
-      'Jika izin kamera ditolak, aktifkan kembali permission browser untuk origin ini lalu buka ulang mode AR.',
+      'If camera permission is denied, re-enable camera access for this origin and re-open AR scan.',
     markerSlow:
-      'Jika marker belum terkunci, dekatkan kamera sekitar 20–35 cm, ratakan poster, dan kurangi pantulan cahaya.',
+      'If marker lock is slow, move to 20–35 cm distance, flatten the poster, and reduce reflective glare.',
     markerLost:
-      'Jika objek hilang, tahan perangkat lebih stabil selama 1–2 detik lalu pastikan seluruh marker kembali masuk frame.',
+      'If tracking is lost, hold your phone steady for 1–2 seconds and bring the full marker back into frame.',
     sceneDelayed:
-      'Jika scene terasa lambat siap, tunggu beberapa detik atau refresh halaman. Saat demo, tutup tab berat lain di perangkat.',
+      'If AR scene loading feels delayed, wait a few seconds or refresh. During live demos, close heavy background tabs.',
     devFallback:
-      'Untuk troubleshooting, marker Hiro fallback dapat dipakai untuk memverifikasi jalur AR dasar.',
+      'For troubleshooting, use the Hiro fallback marker to verify baseline AR readiness.',
     remoteFallback:
-      'Jika jalur remote gagal, chatbot harus tetap kembali aman ke FAQ lokal tanpa mengganggu alur presentasi.',
+      'If remote chatbot fails, fallback to local FAQ automatically and continue presentation flow.',
   },
   statusCopy: {
-    idle: 'Siapkan poster lalu masuk ke mode AR saat presenter siap memulai demonstrasi.',
-    requestingCamera: 'Aplikasi sedang meminta izin kamera. Setelah diizinkan, arahkan perangkat ke marker pada poster.',
-    cameraReady: 'Kamera aktif. Sekarang arahkan poster ke marker custom untuk memunculkan produk.',
-    sceneLoading: 'Mode AR sedang disiapkan sebelum tracking marker dimulai.',
-    sceneDelayed: 'Scene AR belum sepenuhnya stabil. Tunggu sebentar atau refresh bila kamera belum responsif.',
-    markerSearching: 'Marker belum terkunci. Dekatkan kamera dan pastikan marker terlihat penuh.',
-    markerSearchTimeout: 'Marker belum terbaca setelah beberapa detik. Gunakan panduan operator agar proses locking lebih cepat.',
-    markerFound: 'Marker terkunci. Produk AR siap dipresentasikan bersama hotspot fiturnya.',
-    markerLost: 'Marker sempat hilang. Kembalikan marker ke dalam frame agar objek stabil lagi.',
-    cameraDenied: 'Akses kamera belum diberikan. Aktifkan izin kamera untuk melanjutkan demonstrasi AR.',
-    unsupported: 'Perangkat atau browser ini belum ideal untuk WebAR penuh. Gunakan fallback visual dan CTA untuk melanjutkan presentasi.',
-    modelFallback: 'Mockup procedural dipakai sebagai jalur aman presentasi karena model final tidak aktif atau gagal dimuat.',
-    chatbotRemoteLoading: 'Asisten sedang mencoba mengambil jawaban dari endpoint remote-ready.',
-    chatbotRemoteFallback: 'Jalur remote tidak tersedia, jadi chatbot kembali memakai FAQ lokal.',
+    idle: 'Ready to start AR scan when the presenter is ready.',
+    requestingCamera: 'Requesting camera permission. After allowing access, point to the poster marker.',
+    cameraReady: 'Camera active. Now align the custom marker to reveal the AR product.',
+    sceneLoading: 'Preparing AR scene before marker tracking starts.',
+    sceneDelayed: 'AR scene is still stabilizing. Wait a moment or refresh if camera response is delayed.',
+    markerSearching: 'Marker not locked yet. Move closer and keep the marker fully visible.',
+    markerSearchTimeout: 'Marker is still not detected. Use fallback guidance to improve lock speed.',
+    markerFound: 'Marker locked. AR product and feature hotspots are now presentation-ready.',
+    markerLost: 'Marker was lost. Re-center the marker in frame to restore stable tracking.',
+    cameraDenied: 'Camera access was not granted. Enable camera permission to continue AR scanning.',
+    unsupported: 'This browser/device is in preview mode. Use a modern mobile browser for full AR scanning.',
+    modelFallback: 'Procedural fallback model is active to keep the demo flow stable.',
+    chatbotRemoteLoading: 'Assistant is attempting a remote-ready response.',
+    chatbotRemoteFallback: 'Remote assistant unavailable, returning safely to local FAQ.',
   },
   knownLimitations: [
-    'Tracking marker paling akurat tetap membutuhkan browser mobile modern dan origin HTTPS.',
-    'Desktop preview tidak mewakili akurasi tracking kamera secara penuh.',
-    'Marker glossy, blur, atau terlalu kecil akan menurunkan stabilitas lock secara signifikan.',
-    'Mode remote chatbot bersifat opsional; presentasi utama tidak bergantung padanya.',
+    'Best marker tracking still requires a modern mobile browser and HTTPS origin.',
+    'Desktop preview does not represent real-world camera tracking performance.',
+    'Marker print quality and lighting strongly affect lock stability.',
+    'Remote chatbot mode is optional and not required for the primary live demo flow.',
   ],
 };
 
 export const productContent = {
-  productName: 'Nova X Vision 5G',
+  productName: 'Apple Devices AR Experience',
   tagline:
-    'Poster smartphone yang semula statis diubah menjadi pengalaman AR interaktif untuk membantu penjelasan fitur, memperkuat kesan visual, dan mendukung niat beli.',
-  narrativeTitle: 'Dari poster statis menjadi presentasi produk yang hidup',
+    'Turn a static Apple device poster into a clean AR narrative with guided feature points and conversion-ready support.',
+  narrativeTitle: 'From static poster to live product walkthrough',
   narrative:
-    'Demo ini menunjukkan bagaimana marker-based WebAR dapat menambah vividness dan informativeness pada media poster, sementara FAQ ringan membantu menjawab pertanyaan penting tanpa membuat alur presentasi menjadi rumit.',
+    'This flow demonstrates how marker-based WebAR improves product vividness and information clarity while keeping presenter control simple.',
   valueProps: [
-    'Static WebAR tanpa instalasi aplikasi tambahan',
-    'Hotspot fitur untuk membantu penjelasan kamera, layar, performa, dan baterai',
-    'FAQ pendukung presentasi untuk pertanyaan pembelian yang paling umum',
+    'No app install required for participants',
+    'Focused hotspot narrative for camera, display, performance, and battery stories',
+    'Post-scan FAQ support for common purchase questions',
   ],
-  shortSpecs: ['6.78” AMOLED 144Hz HDR', '200MP AI Camera', '12GB RAM + 512GB', '5200mAh + 100W Hyper Charge'],
+  shortSpecs: ['Pro-grade camera pipeline', 'High-refresh display', 'Flagship-class performance', 'All-day battery + fast charging'],
   instruction: {
-    title: 'Alur Demonstrasi',
+    title: 'Demo sequence',
     checklist: [
-      'Buka halaman ini dari browser mobile modern dengan HTTPS atau localhost.',
-      'Tekan “Mulai Demonstrasi AR” lalu izinkan akses kamera.',
-      'Arahkan kamera ke marker custom pada poster sampai tracking terkunci.',
-      'Gunakan hotspot untuk menjelaskan nilai produk secara singkat dan terarah.',
-      'Tutup dengan FAQ singkat lalu arahkan audiens ke CTA penawaran.',
+      'Open this page from a modern mobile browser over HTTPS or localhost.',
+      'Tap “Start AR Scan” and allow camera access.',
+      'Align camera to the custom poster marker until tracking locks.',
+      'Use hotspots to explain value points in sequence.',
+      'Close with FAQ support and one offer CTA.',
     ],
   },
   cta: {
-    label: 'Buka Halaman Penawaran',
-    url: 'https://example.com/nova-x-vision-5g',
+    label: 'Open Offer Page',
+    url: 'https://example.com/apple-device-offer',
     supportingText:
-      'Setelah interaksi AR selesai, CTA ini menjadi jembatan paling sederhana dari presentasi menuju intent pembelian.',
+      'After AR interaction, this CTA provides a direct bridge from product understanding to purchase intent.',
   },
   hotspots: [
     {
       id: 'camera',
-      label: 'Kamera',
-      title: '200MP Ultra Detail Camera',
+      label: 'Camera',
+      title: 'Pro Camera System',
       summary:
-        'Menekankan kemampuan kamera untuk detail tinggi, portrait malam, dan konten visual yang relevan bagi pengguna aktif.',
+        'Emphasize detail capture, portrait depth control, and low-light reliability for daily and creator workflows.',
     },
     {
       id: 'display',
-      label: 'Layar',
-      title: 'AMOLED 144Hz HDR Display',
+      label: 'Display',
+      title: 'High-Refresh Retina-Class Display',
       summary:
-        'Menjelaskan pengalaman visual yang terang, mulus, dan nyaman untuk hiburan maupun penggunaan intensif.',
+        'Highlight visual smoothness, brightness consistency, and color comfort across media and productivity use.',
     },
     {
       id: 'performance',
-      label: 'Performa',
-      title: 'Flagship 5G Performance',
+      label: 'Performance',
+      title: 'Flagship Silicon Performance',
       summary:
-        'Mendukung narasi rasional tentang multitasking, konektivitas, dan kesiapan perangkat untuk beban kerja berat.',
+        'Explain responsive multitasking, efficient sustained power, and readiness for demanding mobile workflows.',
     },
     {
       id: 'battery',
-      label: 'Baterai',
-      title: '5200mAh + 100W Hyper Charge',
+      label: 'Battery',
+      title: 'All-Day Battery + Fast Top-Up',
       summary:
-        'Membantu audiens memahami manfaat praktis: lebih tahan lama, lebih cepat diisi, dan lebih siap untuk mobilitas.',
+        'Frame practical value: fewer charging interruptions and faster recovery during high-mobility routines.',
     },
   ],
 };
@@ -135,61 +177,61 @@ export const chatbotContent = {
   remoteReady: true,
   providerLabel: 'Presentation FAQ Assistant',
   personaName: 'NOVA Assistant',
-  title: 'FAQ Pendukung Presentasi',
-  subtitle: 'Asisten singkat untuk menjawab pertanyaan paling umum setelah audiens melihat pengalaman AR.',
+  title: 'Post-scan FAQ Assistant',
+  subtitle: 'Concise answers for common questions after the audience sees the AR experience.',
   greeting:
-    'Halo! Saya bisa membantu menjawab pertanyaan singkat tentang harga, kamera, promo, dan cara melanjutkan ke penawaran produk.',
-  emptyState: 'Gunakan pertanyaan cepat atau ketik pertanyaan singkat Anda.',
-  inputPlaceholder: 'Tanya soal harga, kamera, promo, atau langkah pembelian…',
-  sendLabel: 'Kirim',
+    'Hi! I can help with quick answers on price range, camera value, promo logic, and how to continue to the offer page.',
+  emptyState: 'Use a quick question or type your own short prompt.',
+  inputPlaceholder: 'Ask about price, camera value, promo, or next purchase step…',
+  sendLabel: 'Send',
   quickQuestions: [
-    'Berapa perkiraan harga produk ini?',
-    'Apa keunggulan kameranya?',
-    'Ada promo atau bonus pembelian?',
-    'Bagaimana cara membeli setelah scan poster?',
+    'What is the estimated price range?',
+    'What camera value should we highlight?',
+    'Any promo angle for launch?',
+    'How do users continue after scanning?',
   ],
   escalation: {
-    label: 'Lanjut ke penawaran produk',
-    url: 'https://example.com/nova-x-vision-5g',
-    helperText: 'Gunakan tombol ini saat audiens siap berpindah dari eksplorasi ke intent pembelian.',
+    label: 'Continue to offer page',
+    url: 'https://example.com/apple-device-offer',
+    helperText: 'Use this when the audience is ready to move from exploration to action.',
   },
   integration: {
     endpoint: '/api/chatbot',
     transport: 'http',
     requestShape: 'POST { question } -> { answer, source, matchedQuestion? }',
     timeoutMs: 4500,
-    notes: 'Mode presentasi utama tetap local-first. Jalur remote hanya bonus teknis bila dibutuhkan di kemudian hari.',
+    notes: 'Primary live mode stays local-first. Remote mode remains optional for future extensions.',
   },
   fallbackResponse:
-    'Saya belum punya jawaban khusus untuk itu. Coba tanya tentang harga, kamera, promo, atau cara melanjutkan pembelian.',
+    'I do not have a specific answer for that yet. Try asking about price range, camera value, promo, or purchase continuation.',
   faq: [
     {
       id: 'price',
-      intents: ['harga', 'price', 'berapa', 'biaya', 'budget'],
-      question: 'Berapa perkiraan harga produk ini?',
+      intents: ['price', 'cost', 'range', 'budget', 'berapa', 'harga'],
+      question: 'What is the estimated price range?',
       answer:
-        'Untuk kebutuhan demonstrasi, Nova X Vision 5G diposisikan sebagai smartphone flagship dengan estimasi harga mulai dari Rp9.999.000, tergantung varian memori dan promo penjualan.',
+        'For demo framing, position this as a premium Apple device category with pricing adapted to storage tier and active campaign period.',
     },
     {
       id: 'camera',
-      intents: ['kamera', 'foto', 'video', '200mp', 'night', 'portrait'],
-      question: 'Apa keunggulan kameranya?',
+      intents: ['camera', 'photo', 'video', 'low light', 'portrait'],
+      question: 'What camera value should we highlight?',
       answer:
-        'Keunggulan utamanya ada pada kamera 200MP, AI Night Portrait, dan stabilisasi cerdas sehingga cocok untuk detail tinggi, konten harian, dan kondisi low-light.',
+        'Focus on practical value: reliable low-light portraits, stable video capture, and consistent detail quality for daily and creator use.',
     },
     {
       id: 'promo',
-      intents: ['promo', 'bonus', 'diskon', 'hadiah', 'preorder', 'cashback'],
-      question: 'Ada promo atau bonus pembelian?',
+      intents: ['promo', 'bonus', 'discount', 'launch', 'cashback'],
+      question: 'Any promo angle for launch?',
       answer:
-        'Dalam skenario kampanye, promo dapat berupa bonus TWS, cashback marketplace, cicilan 0%, atau bundling kuota data selama periode peluncuran.',
+        'Common launch angles include accessory bundles, financing support, trade-in incentives, or channel-specific cashback mechanics.',
     },
     {
       id: 'buy',
-      intents: ['beli', 'buy', 'marketplace', 'checkout', 'pesan', 'order'],
-      question: 'Bagaimana cara membeli setelah scan poster?',
+      intents: ['buy', 'purchase', 'checkout', 'order', 'after scan'],
+      question: 'How do users continue after scanning?',
       answer:
-        'Setelah eksplorasi AR selesai, audiens dapat langsung menekan tombol “Buka Halaman Penawaran” untuk diarahkan ke halaman penjualan atau marketplace resmi.',
+        'After the AR walkthrough, direct users to the single offer CTA so they can continue to the official purchase or campaign page.',
     },
   ],
 };

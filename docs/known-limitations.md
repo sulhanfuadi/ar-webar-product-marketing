@@ -1,6 +1,6 @@
 # Known Limitations
 
-- Akurasi marker terbaik tetap membutuhkan browser mobile modern dan HTTPS.
-- Desktop preview tidak mewakili performa tracking kamera yang sesungguhnya.
-- Kualitas cetak marker dan kondisi cahaya sangat memengaruhi stabilitas tracking.
-- Mode remote chatbot bersifat opsional dan bukan jalur utama demo.
+- Best marker tracking still requires a modern mobile browser and HTTPS origin.
+- Desktop preview does not represent real camera tracking performance.
+- Marker print quality and lighting quality directly affect tracking stability.
+- Remote chatbot mode is optional and not required for core live demos.

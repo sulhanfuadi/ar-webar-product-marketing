@@ -1,12 +1,12 @@
-# Nova X Vision Smart Poster AR
+# Apple Devices Smart Poster AR Demo
 
-A marker-based static WebAR application for academic presentations: transforming static consumer electronics posters into more engaging product demonstrations through AR hotspots and presentation-supporting FAQs.
+A marker-based static WebAR application for academic and campaign presentations: transforming static Apple device posters into clean, scan-first product demonstrations.
 
 ## Final focus
-- Academic polished demo, not a raw prototype
-- Single presentation flow: poster → AR scan → feature hotspots → concise FAQ → CTA
-- Local-first chatbot as the primary demo path
-- Static-first deployment so presentations remain stable without backend dependency
+- Apple-inspired light UI (inspired only, no official Apple branding assets)
+- Two-step presentation flow: minimal intro → AR scan → post-scan FAQ + offer
+- Local-first chatbot support after AR stage
+- Static-first deployment for stable demo execution
 
 ## Stack
 - Vite vanilla
@@ -28,18 +28,17 @@ npm run smoke:test
 ```
 
 ## Source of truth
-- `src/config/content.js` for branding, narrative, runtime copy, operator guidance, CTA, and chatbot configuration.
-- `src/lib/arScene.js` for landing visuals, presentation panel structure, and AR stage layout.
-- `src/lib/chatbot.js` for local-first FAQ behavior and safe fallback.
-- `src/main.js` for AR runtime state orchestration and UI synchronization.
+- `src/config/content.js` for flow copy, theme tokens, runtime guidance, and chatbot configuration.
+- `src/lib/arScene.js` for the three-view layout and AR scene structure.
+- `src/lib/chatbot.js` for local-first FAQ behavior with safe fallback.
+- `src/main.js` for view state machine and AR runtime orchestration.
 
 ## Demo flow
-1. Open the page in a modern mobile browser via HTTPS or localhost.
-2. Tap `Mulai Demonstrasi AR` and allow camera access.
-3. Align and hold the custom marker on the poster until the AR product appears.
-4. Explain features through hotspots in sequence.
-5. Use concise FAQ answers when the audience asks questions.
-6. Close with the `Buka Halaman Penawaran` button.
+1. Open the page from a modern mobile browser over HTTPS or localhost.
+2. Land on a minimal intro screen and tap `Start AR Scan`.
+3. Allow camera access and lock the marker on the poster.
+4. Explain feature hotspots while tracking is stable.
+5. Continue to post-scan support for concise FAQ and offer CTA.
 
 ## Replaceable assets
 - `public/assets/poster/poster-preview.svg`
@@ -49,22 +48,22 @@ npm run smoke:test
 - `public/assets/branding/brand-thumb.svg`
 - `public/assets/models/phone-demo.glb`
 
-## Final chatbot principles
-- Primary presentation mode: `local`
-- `remote` mode is only an additional technical option
-- If remote fails, answers must safely fall back to the local FAQ
+## Chatbot principles
+- Primary mode: `local`
+- `remote` mode remains an optional extension
+- If remote fails, reply must safely fall back to local FAQ
 
 ## Minimum manual QA
-- Layout remains clean on narrow desktop and narrow mobile screens.
-- AR overlay does not collide with CTA or guidance components.
-- Permission states (denied, searching, found, lost) run consistently.
-- Local FAQ answers core questions (price, camera, promo, purchase).
-- Poster preview and marker guide load correctly.
+- Intro view is minimal and shows one dominant CTA.
+- AR scan view keeps overlays compact and tappable on narrow mobile.
+- Camera and marker runtime states (denied/searching/found/lost) remain consistent.
+- Post-scan view contains chatbot and CTA (not intro view).
+- Marker/poster assets load without broken paths.
 
 ## Deploy
-- Recommended deployment target: `Vercel`
-- Final acceptance still passes on the static-first path
-- `/api/chatbot` endpoint is optional for remote-ready demos
+- Recommended target: `Vercel`
+- Full scan behavior requires HTTPS in production
+- `/api/chatbot` is optional for remote-ready demos
 
 ## Handoff documents
 - `docs/operator-runbook.md`

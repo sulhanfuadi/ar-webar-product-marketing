@@ -1,19 +1,19 @@
 # Operator Runbook
 
-## Persiapan singkat
-- Gunakan browser mobile modern dengan HTTPS.
-- Siapkan poster cetak dengan marker custom di area kanan bawah.
-- Pastikan pencahayaan cukup dan minim glare.
-- Siapkan marker Hiro fallback untuk troubleshooting dasar.
+## Quick preparation
+- Use a modern mobile browser over HTTPS.
+- Prepare a printed poster with the custom marker in the intended area.
+- Ensure sufficient lighting and minimal glare.
+- Keep Hiro fallback marker ready for baseline troubleshooting.
 
-## Narasi presentasi
-- Jelaskan konteks: poster statis diubah menjadi pengalaman AR interaktif.
-- Mulai mode AR, lock marker, lalu tampilkan hotspot utama.
-- Gunakan FAQ hanya untuk menjawab pertanyaan inti audiens.
-- Arahkan penutup ke CTA penawaran produk.
+## Live presentation flow
+- Start from the minimal intro and set context quickly.
+- Tap `Start AR Scan`, lock marker, and narrate hotspots in sequence.
+- Move to post-scan support for concise FAQ answers.
+- Close with a single offer CTA handoff.
 
-## Jika terjadi kendala
-- Kamera ditolak: aktifkan ulang permission browser.
-- Marker sulit lock: dekatkan perangkat, ratakan poster, kurangi glare.
-- Tracking hilang: tahan perangkat stabil 1–2 detik, kembalikan marker ke frame.
-- Chatbot remote gagal: kembali ke local-first flow tanpa menghentikan presentasi.
+## If issues occur
+- Camera denied: re-enable permission for this origin and retry scan.
+- Marker slow to lock: move closer, flatten poster, reduce glare.
+- Tracking lost: hold phone steady 1–2 seconds and re-center marker.
+- Remote assistant fails: continue with local-first FAQ flow.

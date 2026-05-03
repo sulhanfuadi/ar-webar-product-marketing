@@ -8,8 +8,21 @@ app.innerHTML = createAppMarkup();
 document.title = appConfig.appName;
 
 const appElements = {
+  views: document.querySelectorAll('[data-view]'),
+  introView: document.querySelector('[data-view="intro_minimal"]'),
+  arView: document.querySelector('[data-view="ar_scan"]'),
+  postView: document.querySelector('[data-view="post_scan"]'),
   arStage: document.querySelector('#ar-stage'),
   enterArButton: document.querySelector('#enter-ar-btn'),
+  introHelpButton: document.querySelector('#intro-help-btn'),
+  introHelperCopy: document.querySelector('#intro-helper-copy'),
+  introDeviceHint: document.querySelector('#intro-device-hint'),
+  backToIntroButton: document.querySelector('#back-to-intro-btn'),
+  openPostScanButton: document.querySelector('#open-post-scan-btn'),
+  backToScanButton: document.querySelector('#back-to-scan-btn'),
+  restartDemoButton: document.querySelector('#restart-demo-btn'),
+  toggleFallbackHelpButton: document.querySelector('#toggle-fallback-help-btn'),
+  fallbackHelpText: document.querySelector('#fallback-help-text'),
   trackingStatus: document.querySelector('#tracking-status'),
   supportCopy: document.querySelector('#support-copy'),
   compatBanner: document.querySelector('#compat-banner'),
@@ -37,7 +50,7 @@ const appElements = {
 const hotspotMap = new Map(productContent.hotspots.map((item) => [item.id, item]));
 
 const runtimeState = {
-  arStageOpen: false,
+  currentView: appConfig.views.intro_minimal.id,
   cameraGranted: false,
   markerFound: false,
   modelReady: assetManifest.model.mode !== 'gltf',
@@ -60,8 +73,12 @@ const runtimeLabels = {
   found: 'Runtime marker found',
   lost: 'Runtime marker lost',
   fallback: 'Runtime fallback active',
-  unsupported: 'Runtime unsupported',
+  unsupported: 'Runtime preview mode',
 };
+
+function isProbablyMobile() {
+  return /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent || '');
+}
 
 function clearTimer(name) {
   if (runtimeState.timers[name]) {
@@ -106,6 +123,25 @@ function setRuntimeStage(stage, message, detail, tone = 'neutral') {
   if (detail) updateSupportCopy(detail);
 }
 
+function setView(viewId) {
+  runtimeState.currentView = viewId;
+
+  appElements.views.forEach((view) => {
+    view.hidden = view.dataset.view !== viewId;
+  });
+
+  document.body.classList.toggle('view-ar-active', viewId === appConfig.views.ar_scan.id);
+}
+
+function scrollToActiveView() {
+  const target = document.querySelector(`[data-view="${runtimeState.currentView}"]`);
+  if (!target) return;
+
+  window.requestAnimationFrame(() => {
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
 function setHotspot(id) {
   const active = hotspotMap.get(id);
   if (!active) return;
@@ -118,37 +154,32 @@ function setHotspot(id) {
   });
 }
 
-function openArStage() {
-  if (runtimeState.arStageOpen) return;
-
-  runtimeState.arStageOpen = true;
-  appElements.arStage.hidden = false;
-  document.body.classList.add('ar-active');
-}
-
-function scrollToArStage() {
-  if (!appElements.arStage) return;
-
-  window.requestAnimationFrame(() => {
-    appElements.arStage.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-}
-
 function setFallbackModeLabel() {
-  const fallbackLabel = assetManifest.marker.devFallbackMode === 'preset-hiro' ? 'Hiro fallback ready' : assetManifest.marker.devFallbackMode;
+  const fallbackLabel =
+    assetManifest.marker.devFallbackMode === 'preset-hiro' ? 'Hiro fallback ready' : assetManifest.marker.devFallbackMode;
   setPill(appElements.fallbackModePill, fallbackLabel, 'warning');
 }
 
 function checkCompatibility() {
   const cameraSupported = Boolean(navigator.mediaDevices?.getUserMedia);
   const secureContextReady = window.isSecureContext || ['localhost', '127.0.0.1'].includes(window.location.hostname);
+  const mobileReady = isProbablyMobile();
+
+  if (!mobileReady) {
+    setCompatibilityMessage(appConfig.compatibility.desktopHint);
+    setRuntimeStage('unsupported', appConfig.statusCopy.unsupported, appConfig.compatibility.desktopHint, 'warning');
+    setPill(appElements.cameraStatePill, 'Camera mobile-only', 'warning');
+    setPill(appElements.markerStatePill, 'Marker preview-only', 'warning');
+    setOperatorGuidance('Preview mode active', appConfig.compatibility.desktopHint);
+    return false;
+  }
 
   if (!cameraSupported || !secureContextReady) {
     setCompatibilityMessage(appConfig.statusCopy.unsupported);
     setRuntimeStage('unsupported', appConfig.statusCopy.unsupported, appConfig.compatibility.cameraHelp, 'warning');
     setPill(appElements.cameraStatePill, 'Camera unsupported', 'warning');
     setPill(appElements.markerStatePill, 'Marker waiting', 'warning');
-    setOperatorGuidance('Perangkat belum kompatibel penuh', appConfig.compatibility.desktopHint);
+    setOperatorGuidance('Compatibility check needed', appConfig.compatibility.cameraHelp);
     return false;
   }
 
@@ -161,7 +192,7 @@ function startSceneReadyTimer() {
   runtimeState.timers.sceneReady = window.setTimeout(() => {
     if (!runtimeState.sceneLoaded) {
       setRuntimeStage('scene_loading', appConfig.statusCopy.sceneDelayed, appConfig.operatorGuidance.sceneDelayed, 'warning');
-      setOperatorGuidance('Scene belum sepenuhnya siap', appConfig.operatorGuidance.sceneDelayed);
+      setOperatorGuidance('Scene still preparing', appConfig.operatorGuidance.sceneDelayed);
     }
   }, appConfig.runtime.sceneReadyTimeoutMs);
 }
@@ -171,7 +202,7 @@ function startMarkerSearchTimer() {
   runtimeState.timers.markerSearch = window.setTimeout(() => {
     if (!runtimeState.markerFound && runtimeState.cameraGranted) {
       setRuntimeStage('searching', appConfig.statusCopy.markerSearchTimeout, appConfig.operatorGuidance.markerSlow, 'warning');
-      setOperatorGuidance('Marker belum terkunci', appConfig.operatorGuidance.markerSlow);
+      setOperatorGuidance('Marker not locked yet', appConfig.operatorGuidance.markerSlow);
     }
   }, appConfig.runtime.markerSearchTimeoutMs);
 }
@@ -186,7 +217,7 @@ function activateProceduralFallback(reasonMessage = appConfig.statusCopy.modelFa
 
   setPill(appElements.modelStatePill, 'Model fallback active', 'warning');
   setRuntimeStage('fallback', reasonMessage, appConfig.compatibility.fallbackHelp, 'warning');
-  setOperatorGuidance('Fallback visual aktif', appConfig.compatibility.fallbackHelp);
+  setOperatorGuidance('Fallback visual active', appConfig.compatibility.fallbackHelp);
 }
 
 function initModelHandling() {
@@ -217,7 +248,11 @@ function setChatbotPending(isPending) {
   appElements.chatbotInput.disabled = isPending;
   appElements.chatbotSendButton.disabled = isPending;
   appElements.chatbotForm.setAttribute('aria-busy', isPending ? 'true' : 'false');
-  setPill(appElements.chatbotModePill, isPending ? 'FAQ processing' : `Mode ${chatbotContent.mode}`, isPending ? 'warning' : 'ok');
+  setPill(
+    appElements.chatbotModePill,
+    isPending ? 'FAQ processing' : `Mode ${chatbotContent.mode}`,
+    isPending ? 'warning' : 'ok',
+  );
 }
 
 function appendChatMessage(role, text, meta = '') {
@@ -245,14 +280,21 @@ async function askChatbot(question) {
     const reply = await getChatbotReply(cleanQuestion);
     const meta =
       reply.meta?.source === 'faq'
-        ? `Sumber: FAQ lokal (${reply.meta.faqId})`
-        : reply.meta?.source === 'remote-stub'
-          ? 'Sumber: remote stub API'
-          : reply.meta?.source === 'remote-ready-fallback'
-            ? appConfig.statusCopy.chatbotRemoteFallback
-            : 'Sumber: fallback umum';
+        ? `Source: local FAQ (${reply.meta.faqId})`
+        : reply.meta?.source === 'remote-ready-fallback'
+          ? 'Source: remote fallback to local FAQ'
+          : `Source: ${reply.meta?.source || 'assistant'}`;
 
     appendChatMessage('assistant', reply.text, meta);
+
+    if (reply.meta?.source === 'remote-ready-fallback') {
+      setRuntimeStage(
+        'fallback',
+        appConfig.statusCopy.chatbotRemoteFallback,
+        appConfig.operatorGuidance.remoteFallback,
+        'warning',
+      );
+    }
   } finally {
     setChatbotPending(false);
   }
@@ -260,12 +302,14 @@ async function askChatbot(question) {
 
 function initChatbot() {
   createInitialMessages().forEach((message) => {
-    appendChatMessage(message.role, message.text, 'Mode presentasi: local-first');
+    appendChatMessage('assistant', message.text, `Mode presentation: local-first (${message.meta?.mode || 'local'})`);
   });
 
   appElements.chatbotForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const value = appElements.chatbotInput.value;
+    const value = appElements.chatbotInput.value.trim();
+    if (!value) return;
+
     appElements.chatbotInput.value = '';
     await askChatbot(value);
     appElements.chatbotInput.focus();
@@ -282,7 +326,7 @@ async function requestCameraAccess() {
   setPill(appElements.cameraStatePill, 'Camera requesting', 'neutral');
   setPill(appElements.markerStatePill, 'Marker pending', 'neutral');
   setRuntimeStage('requesting_camera', appConfig.statusCopy.requestingCamera, appConfig.compatibility.cameraHelp, 'neutral');
-  setOperatorGuidance('Meminta izin kamera', appConfig.compatibility.cameraHelp);
+  setOperatorGuidance('Requesting camera access', appConfig.compatibility.cameraHelp);
 
   try {
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -297,32 +341,64 @@ async function requestCameraAccess() {
     if (runtimeState.sceneLoaded) {
       setPill(appElements.markerStatePill, 'Marker searching', 'warning');
       setRuntimeStage('searching', appConfig.statusCopy.markerSearching, appConfig.compatibility.markerHelp, 'warning');
-      setOperatorGuidance('Arahkan ke marker', appConfig.operatorGuidance.markerSlow);
+      setOperatorGuidance('Point to marker', appConfig.operatorGuidance.markerSlow);
       startMarkerSearchTimer();
     } else {
       setRuntimeStage('scene_loading', appConfig.statusCopy.sceneLoading, appConfig.operatorGuidance.sceneDelayed, 'neutral');
-      setOperatorGuidance('Scene sedang disiapkan', appConfig.operatorGuidance.sceneDelayed);
+      setOperatorGuidance('Preparing AR scene', appConfig.operatorGuidance.sceneDelayed);
       startSceneReadyTimer();
     }
   } catch (error) {
     runtimeState.cameraGranted = false;
     setPill(appElements.cameraStatePill, 'Camera denied', 'warning');
     setRuntimeStage('idle', appConfig.statusCopy.cameraDenied, appConfig.operatorGuidance.cameraDenied, 'warning');
-    setOperatorGuidance('Izin kamera ditolak', appConfig.operatorGuidance.cameraDenied);
+    setOperatorGuidance('Camera denied', appConfig.operatorGuidance.cameraDenied);
     console.error(error);
   }
 }
 
-appElements.enterArButton.addEventListener('click', async () => {
-  openArStage();
-  scrollToArStage();
+function enterArFlow() {
+  setView(appConfig.views.ar_scan.id);
+  scrollToActiveView();
   setFallbackModeLabel();
 
   if (!checkCompatibility()) {
     return;
   }
 
-  await requestCameraAccess();
+  void requestCameraAccess();
+}
+
+appElements.enterArButton.addEventListener('click', () => {
+  enterArFlow();
+});
+
+appElements.introHelpButton.addEventListener('click', () => {
+  appElements.introHelperCopy.hidden = !appElements.introHelperCopy.hidden;
+});
+
+appElements.backToIntroButton.addEventListener('click', () => {
+  setView(appConfig.views.intro_minimal.id);
+  scrollToActiveView();
+});
+
+appElements.openPostScanButton.addEventListener('click', () => {
+  setView(appConfig.views.post_scan.id);
+  scrollToActiveView();
+});
+
+appElements.backToScanButton.addEventListener('click', () => {
+  setView(appConfig.views.ar_scan.id);
+  scrollToActiveView();
+});
+
+appElements.restartDemoButton.addEventListener('click', () => {
+  setView(appConfig.views.intro_minimal.id);
+  scrollToActiveView();
+});
+
+appElements.toggleFallbackHelpButton.addEventListener('click', () => {
+  appElements.fallbackHelpText.hidden = !appElements.fallbackHelpText.hidden;
 });
 
 appElements.marker?.addEventListener('markerFound', () => {
@@ -330,15 +406,15 @@ appElements.marker?.addEventListener('markerFound', () => {
   clearTimer('markerLostCooldown');
   runtimeState.markerFound = true;
   setPill(appElements.markerStatePill, 'Marker found', 'ok');
-  setRuntimeStage('found', appConfig.statusCopy.markerFound, 'Gunakan hotspot secara berurutan untuk menjaga narasi tetap ringkas.', 'ok');
-  setOperatorGuidance('Tracking terkunci', 'Lanjutkan narasi fitur lalu tutup dengan FAQ singkat dan CTA penawaran.');
+  setRuntimeStage('found', appConfig.statusCopy.markerFound, 'Use hotspots in sequence for a concise narrative.', 'ok');
+  setOperatorGuidance('Tracking locked', 'Continue feature narrative, then move audience to post-scan FAQ and offer CTA.');
 });
 
 appElements.marker?.addEventListener('markerLost', () => {
   runtimeState.markerFound = false;
   setPill(appElements.markerStatePill, 'Marker lost', 'warning');
   setRuntimeStage('lost', appConfig.statusCopy.markerLost, appConfig.operatorGuidance.markerLost, 'warning');
-  setOperatorGuidance('Tracking hilang sementara', appConfig.operatorGuidance.markerLost);
+  setOperatorGuidance('Tracking temporarily lost', appConfig.operatorGuidance.markerLost);
 
   clearTimer('markerLostCooldown');
   runtimeState.timers.markerLostCooldown = window.setTimeout(() => {
@@ -358,7 +434,7 @@ appElements.scene?.addEventListener('loaded', () => {
 
   if (runtimeState.cameraGranted && !runtimeState.markerFound) {
     setRuntimeStage('searching', appConfig.statusCopy.markerSearching, appConfig.compatibility.markerHelp, 'warning');
-    setOperatorGuidance('Scene siap, mulai lock marker', appConfig.operatorGuidance.markerSlow);
+    setOperatorGuidance('Scene ready, lock marker now', appConfig.operatorGuidance.markerSlow);
     startMarkerSearchTimer();
   } else if (!runtimeState.cameraGranted) {
     setRuntimeStage('ready', appConfig.statusCopy.idle, appConfig.compatibility.cameraHelp, 'neutral');
@@ -370,7 +446,7 @@ document.querySelectorAll('[data-hotspot-id]').forEach((button, index) => {
     setHotspot(button.dataset.hotspotId);
     if (!runtimeState.markerFound) {
       setRuntimeStage('searching', appConfig.statusCopy.markerSearching, appConfig.compatibility.markerHelp, 'warning');
-      setOperatorGuidance('Hotspot siap, marker belum lock', appConfig.operatorGuidance.markerSlow);
+      setOperatorGuidance('Hotspot ready, marker not locked yet', appConfig.operatorGuidance.markerSlow);
     }
   });
 
@@ -379,9 +455,16 @@ document.querySelectorAll('[data-hotspot-id]').forEach((button, index) => {
   }
 });
 
+function initIntroHint() {
+  appElements.introDeviceHint.textContent = isProbablyMobile()
+    ? appConfig.compatibility.cameraHelp
+    : appConfig.views.intro_minimal.desktopPreview;
+}
+
 initChatbot();
 setChatbotPending(false);
 setFallbackModeLabel();
-checkCompatibility();
+setView(appConfig.views.intro_minimal.id);
+initIntroHint();
 setRuntimeStage('idle', appConfig.statusCopy.idle, appConfig.compatibility.cameraHelp, 'neutral');
-setOperatorGuidance('Demonstrasi siap dimulai', `${appConfig.operatorGuidance.markerSlow} ${appConfig.operatorGuidance.devFallback}`);
+setOperatorGuidance('Demo ready', `${appConfig.operatorGuidance.markerSlow} ${appConfig.operatorGuidance.devFallback}`);
