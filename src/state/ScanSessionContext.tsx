@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { ScanRuntimeState, ScanStage } from '../types/app';
 
@@ -25,17 +25,41 @@ const ScanSessionContext = createContext<ScanSessionContextValue | null>(null);
 export function ScanSessionProvider({ children }: { children: ReactNode }) {
   const [runtime, setRuntime] = useState<ScanRuntimeState>(initialRuntime);
 
+  const setStage = useCallback((stage: ScanStage) => {
+    setRuntime((prev) => ({ ...prev, stage }));
+  }, []);
+
+  const setCameraGranted = useCallback((cameraGranted: boolean) => {
+    setRuntime((prev) => ({ ...prev, cameraGranted }));
+  }, []);
+
+  const setMarkerLocked = useCallback((markerLocked: boolean) => {
+    setRuntime((prev) => ({ ...prev, markerLocked }));
+  }, []);
+
+  const setFallbackActive = useCallback((fallbackActive: boolean) => {
+    setRuntime((prev) => ({ ...prev, fallbackActive }));
+  }, []);
+
+  const setErrorMessage = useCallback((errorMessage: string | null) => {
+    setRuntime((prev) => ({ ...prev, errorMessage }));
+  }, []);
+
+  const resetRuntime = useCallback(() => {
+    setRuntime(initialRuntime);
+  }, []);
+
   const value = useMemo<ScanSessionContextValue>(
     () => ({
       runtime,
-      setStage: (stage) => setRuntime((prev) => ({ ...prev, stage })),
-      setCameraGranted: (cameraGranted) => setRuntime((prev) => ({ ...prev, cameraGranted })),
-      setMarkerLocked: (markerLocked) => setRuntime((prev) => ({ ...prev, markerLocked })),
-      setFallbackActive: (fallbackActive) => setRuntime((prev) => ({ ...prev, fallbackActive })),
-      setErrorMessage: (errorMessage) => setRuntime((prev) => ({ ...prev, errorMessage })),
-      resetRuntime: () => setRuntime(initialRuntime),
+      setStage,
+      setCameraGranted,
+      setMarkerLocked,
+      setFallbackActive,
+      setErrorMessage,
+      resetRuntime,
     }),
-    [runtime],
+    [runtime, resetRuntime, setCameraGranted, setErrorMessage, setFallbackActive, setMarkerLocked, setStage],
   );
 
   return <ScanSessionContext.Provider value={value}>{children}</ScanSessionContext.Provider>;

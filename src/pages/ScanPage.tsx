@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ScanHUD } from '../components/ScanHUD';
 import { routes, scanTarget, viewCopy } from '../content/appContent';
@@ -14,6 +14,7 @@ export function ScanPage() {
   const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { runtime, setStage, setCameraGranted, setMarkerLocked, setFallbackActive } = useScanSession();
+  const [bootNonce, setBootNonce] = useState(0);
 
   const onStage = useCallback(
     (stage: ScanStage) => {
@@ -34,6 +35,17 @@ export function ScanPage() {
   const mobile = useMemo(() => isProbablyMobile(), []);
 
   useEffect(() => {
+    if (runtime.stage !== 'requesting_camera' && runtime.stage !== 'ready') return;
+
+    const timer = window.setTimeout(() => {
+      setFallbackActive(true);
+      setStage('error');
+    }, 14000);
+
+    return () => window.clearTimeout(timer);
+  }, [runtime.stage, setFallbackActive, setStage]);
+
+  useEffect(() => {
     if (!mobile) {
       setStage('preview');
       setFallbackActive(true);
@@ -48,6 +60,7 @@ export function ScanPage() {
     onCameraGranted: setCameraGranted,
     onMarkerLocked: setMarkerLocked,
     enabled: mobile,
+    bootNonce,
   });
 
   return (
@@ -72,6 +85,39 @@ export function ScanPage() {
       <main className="relative mx-auto h-[calc(100dvh-4.2rem)] w-full max-w-6xl overflow-hidden bg-black sm:rounded-apple sm:border sm:border-apple-stroke">
         <div ref={containerRef} className="absolute inset-0 z-10 bg-black" />
         <ScanHUD runtime={runtime} isMobile={mobile} />
+
+        {runtime.stage === 'error' && (
+          <div className="absolute bottom-4 left-1/2 z-40 w-[min(92%,480px)] -translate-x-1/2 rounded-2xl border border-red-200 bg-apple-dangerSoft p-3 text-center text-sm text-red-700">
+            <p className="font-medium">AR runtime failed</p>
+            <p className="mt-1">Tap retry, then allow camera again in browser prompt.</p>
+            <button
+              type="button"
+              onClick={() => {
+                setStage('requesting_camera');
+                setBootNonce((value) => value + 1);
+              }}
+              className="mt-3 h-10 rounded-full bg-apple-accent px-5 text-sm font-medium text-white"
+            >
+              Retry Camera
+            </button>
+          </div>
+        )}
+
+        {(runtime.stage === 'requesting_camera' || runtime.stage === 'ready') && (
+          <div className="absolute bottom-4 left-1/2 z-40 w-[min(92%,480px)] -translate-x-1/2 rounded-2xl border border-amber-200 bg-apple-warningSoft p-3 text-center text-sm text-amber-800">
+            <p className="font-medium">If camera feed does not appear, retry manually</p>
+            <button
+              type="button"
+              onClick={() => {
+                setStage('requesting_camera');
+                setBootNonce((value) => value + 1);
+              }}
+              className="mt-3 h-10 rounded-full bg-apple-accent px-5 text-sm font-medium text-white"
+            >
+              Force Retry
+            </button>
+          </div>
+        )}
       </main>
     </div>
   );

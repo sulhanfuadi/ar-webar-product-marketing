@@ -10,9 +10,13 @@ interface UseMindArOptions {
   onCameraGranted: (granted: boolean) => void;
   onMarkerLocked: (locked: boolean) => void;
   enabled: boolean;
+  bootNonce: number;
 }
 
-const MINDAR_SCRIPT = 'https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js';
+const MINDAR_SCRIPTS = [
+  'https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js',
+  'https://unpkg.com/mind-ar@1.2.5/dist/mindar-image-three.prod.js',
+];
 
 function withTimeout<T>(promise: Promise<T>, timeoutMs: number, label: string) {
   return Promise.race<T>([
@@ -28,22 +32,33 @@ function loadMindARScript() {
     return Promise.resolve();
   }
 
-  return new Promise<void>((resolve, reject) => {
-    const existing = document.querySelector<HTMLScriptElement>('script[data-mindar="true"]');
-    if (existing) {
-      existing.addEventListener('load', () => resolve());
-      existing.addEventListener('error', () => reject(new Error('MindAR script failed to load')));
-      return;
-    }
+  const tryLoad = (src: string) =>
+    new Promise<void>((resolve, reject) => {
+      const existing = document.querySelector<HTMLScriptElement>(`script[data-mindar-src="${src}"]`);
+      if (existing) {
+        existing.addEventListener('load', () => resolve(), { once: true });
+        existing.addEventListener('error', () => reject(new Error('MindAR script failed to load')), { once: true });
+        return;
+      }
 
-    const script = document.createElement('script');
-    script.src = MINDAR_SCRIPT;
-    script.async = true;
-    script.dataset.mindar = 'true';
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error('MindAR script failed to load'));
-    document.head.appendChild(script);
-  });
+      const script = document.createElement('script');
+      script.src = src;
+      script.async = true;
+      script.dataset.mindar = 'true';
+      script.dataset.mindarSrc = src;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error(`MindAR script failed to load from ${src}`));
+      document.head.appendChild(script);
+    });
+
+  return MINDAR_SCRIPTS.reduce<Promise<void>>(
+    (chain, src) =>
+      chain.catch(() => {
+        if (window.MINDAR?.IMAGE?.MindARThree) return Promise.resolve();
+        return tryLoad(src);
+      }),
+    Promise.reject(new Error('init')),
+  ).catch((error) => Promise.reject(error));
 }
 
 export function useMindArRuntime({
@@ -54,6 +69,7 @@ export function useMindArRuntime({
   onCameraGranted,
   onMarkerLocked,
   enabled,
+  bootNonce,
 }: UseMindArOptions) {
   const runtimeRef = useRef<{ stop: (() => void) | null; cleanup: (() => void) | null }>({ stop: null, cleanup: null });
   const [isBooting, setIsBooting] = useState(false);
@@ -131,7 +147,7 @@ export function useMindArRuntime({
         onCameraGranted(true);
         onStage('ready');
 
-        await withTimeout(loadMindARScript(), 10000, 'MindAR script load');
+        await withTimeout(loadMindARScript(), 7000, 'MindAR script load');
         if (canceled || !containerRef.current || !window.MINDAR?.IMAGE?.MindARThree) return;
 
         let runtime = buildRuntime(imageTargetSrc);
@@ -191,7 +207,7 @@ export function useMindArRuntime({
       runtimeRef.current.stop = null;
       runtimeRef.current.cleanup = null;
     };
-  }, [containerRef, enabled, fallbackImageTargetSrc, imageTargetSrc, onCameraGranted, onMarkerLocked, onStage]);
+  }, [bootNonce, containerRef, enabled, fallbackImageTargetSrc, imageTargetSrc, onCameraGranted, onMarkerLocked, onStage]);
 
   return status;
 }
