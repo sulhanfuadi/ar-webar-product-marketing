@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { useMindArRuntime } from '../ar/mindarRuntime';
+import { ScanActionPanel } from '../components/ScanActionPanel';
 import { ScanHUD } from '../components/ScanHUD';
-import { mvpProduct, routes } from '../content/appContent';
+import { mvpProduct } from '../content/appContent';
 import { useScanSession } from '../state/ScanSessionContext';
 import type { ScanStage } from '../types/app';
 
@@ -26,7 +26,6 @@ function toCameraErrorMessage(error: unknown) {
 }
 
 export function ScanPage() {
-  const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const basicVideoRef = useRef<HTMLVideoElement | null>(null);
   const basicStreamRef = useRef<MediaStream | null>(null);
@@ -65,6 +64,7 @@ export function ScanPage() {
   );
 
   const mobile = useMemo(() => isProbablyMobile(), []);
+  const markerLocked = runtime.stage === 'found';
 
   useEffect(() => {
     if (runtime.stage !== 'requesting_camera' && runtime.stage !== 'ready') return;
@@ -159,25 +159,8 @@ export function ScanPage() {
   });
 
   return (
-    <div className="min-h-[100dvh] bg-apple-bg">
-      <header className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-3 pb-2 pt-[max(env(safe-area-inset-top),0.75rem)]">
-        <Link
-          to={routes.intro}
-          className="flex h-10 items-center justify-center rounded-full border border-apple-stroke bg-white px-4 text-sm text-apple-text"
-        >
-          {mvpProduct.scan.back}
-        </Link>
-        <p className="text-center text-sm font-medium text-apple-muted">{mvpProduct.scan.title}</p>
-        <button
-          type="button"
-          onClick={() => navigate(routes.afterScan)}
-          className="flex h-10 items-center justify-center rounded-full bg-apple-accent px-4 text-sm font-medium text-white"
-        >
-          {mvpProduct.scan.continue}
-        </button>
-      </header>
-
-      <main className="relative mx-auto h-[calc(100dvh-4.2rem)] w-full max-w-6xl overflow-hidden bg-black sm:rounded-apple sm:border sm:border-apple-stroke">
+    <div className="min-h-[100dvh] bg-apple-bg px-2 pb-2 pt-[max(env(safe-area-inset-top),0.5rem)]">
+      <main className="relative mx-auto h-[calc(100dvh-1rem)] w-full max-w-6xl overflow-hidden bg-black sm:rounded-[28px] sm:border sm:border-apple-stroke">
         <div ref={containerRef} className="mindar-stage absolute inset-0 z-10 bg-black" />
 
         {basicCameraMode && (
@@ -190,18 +173,47 @@ export function ScanPage() {
           />
         )}
 
+        <div className="pointer-events-none absolute left-3 right-3 top-3 z-40">
+          <header className="pointer-events-auto mx-auto flex max-w-3xl items-center justify-between rounded-full border border-white/60 bg-white/88 px-3 py-2 shadow-apple backdrop-blur-xl">
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-apple-accent" />
+              <p className="text-xs font-medium text-apple-text">{mvpProduct.scan.title}</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <a
+                href={mvpProduct.scanTarget.referenceImageUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full border border-apple-stroke bg-white px-3 py-1.5 text-xs font-medium text-apple-text"
+              >
+                {mvpProduct.scan.referenceLabel}
+              </a>
+              <button
+                type="button"
+                onClick={resetAndRetryAr}
+                className="rounded-full bg-apple-accent px-3 py-1.5 text-xs font-medium text-white"
+              >
+                Restart
+              </button>
+            </div>
+          </header>
+        </div>
+
         <ScanHUD
           runtime={runtime}
           isMobile={mobile}
           runtimeMessages={mvpProduct.scan.runtimeMessages}
-          desktopHint={mvpProduct.intro.desktopHint}
+          desktopHint={mvpProduct.scan.desktopHint}
           guidanceText={mvpProduct.scan.guidance}
+          lockHint={mvpProduct.scan.lockHint}
         />
+
+        {markerLocked && <ScanActionPanel product={mvpProduct} />}
 
         {runtime.stage === 'error' && (
           <div className="absolute bottom-4 left-1/2 z-40 w-[min(92%,480px)] -translate-x-1/2 rounded-2xl border border-red-200 bg-apple-dangerSoft p-3 text-center text-sm text-red-700">
             <p className="font-medium">AR runtime failed</p>
-            <p className="mt-1">Retry AR first. If still failing, open basic camera mode.</p>
+            <p className="mt-1">Retry AR first. If it still fails, open Basic Camera mode.</p>
             <div className="mt-3 flex items-center justify-center gap-2">
               <button
                 type="button"
@@ -225,7 +237,7 @@ export function ScanPage() {
           </div>
         )}
 
-        {(runtime.stage === 'requesting_camera' || runtime.stage === 'ready') && !basicCameraMode && (
+        {(runtime.stage === 'requesting_camera' || runtime.stage === 'ready') && !basicCameraMode && !markerLocked && (
           <div className="absolute bottom-4 left-1/2 z-40 w-[min(92%,480px)] -translate-x-1/2 rounded-2xl border border-amber-200 bg-apple-warningSoft p-3 text-center text-sm text-amber-800">
             <p className="font-medium">If camera feed does not appear, retry manually</p>
             <button

@@ -1,32 +1,26 @@
 import type { ProductConfig } from '../../types/app';
-import { baseRuntimeMessages, buildMvpScanTarget, commonAfterScanCopy, commonIntroCopy } from './shared';
+import { baseRuntimeMessages, buildMvpScanTarget } from './shared';
 
 export const appleMacbook: ProductConfig = {
   id: 'apple-macbook',
-  name: 'MacBook Air MVP',
-  intro: {
-    ...commonIntroCopy,
-    title: 'Scan this MacBook Air poster / Scan poster MacBook Air ini.',
-    subtitle:
-      'Marker-based single-image MVP for product storytelling and conversion / MVP marker-based satu gambar untuk storytelling produk dan konversi.',
-    helperBody:
-      'Use HTTPS on mobile, allow camera access, and keep the whole poster visible / Gunakan HTTPS di mobile, izinkan kamera, dan jaga seluruh poster tetap terlihat.',
-    referenceLabel: 'Open marker reference / Buka referensi marker',
-  },
+  name: 'Apple Product AR Demo',
   scan: {
-    title: 'MacBook Air AR Scan / Scan AR MacBook Air',
-    back: 'Back / Kembali',
-    continue: 'Continue / Lanjut',
-    fallbackHelp: 'Need fallback help? / Butuh bantuan fallback?',
+    title: 'Apple Product AR Experience',
     guidance:
-      'Point camera to the same MacBook Air poster, reduce glare, hold steady / Arahkan kamera ke poster yang sama, kurangi pantulan cahaya, tahan stabil.',
+      'Point your camera to the Apple product marker, reduce glare, and keep the full image visible.',
+    desktopHint: 'Desktop is preview-only. Use Chrome Android or Safari iPhone for full camera-based AR scan.',
+    referenceLabel: 'Marker Reference',
+    lockHint: 'Lock the marker to reveal product details and quick actions.',
     runtimeMessages: baseRuntimeMessages(
-      'Marker locked. Continue to detail and conversion / Marker terkunci. Lanjut ke detail dan konversi.',
+      'Marker locked. Product details and quick actions are now available.',
     ),
   },
-  afterScan: {
-    ...commonAfterScanCopy,
-    title: 'Conversion Handoff / Handoff Konversi',
+  scanPanel: {
+    eyebrow: 'Live Product Overlay',
+    title: 'Apple Product Quick Brief',
+    subtitle: 'Keep the marker locked while you browse details and conversion actions.',
+    actionsHeading: 'Quick Actions',
+    mediaHeading: '2D / 3D Preview',
   },
   scanTarget: buildMvpScanTarget(),
   arModel: {
@@ -38,19 +32,19 @@ export const appleMacbook: ProductConfig = {
   actions: [
     {
       id: 'detail',
-      label: 'Detail / Detail Produk',
+      label: 'Details',
       url: 'https://www.apple.com/macbook-air/',
       style: 'secondary',
     },
     {
       id: 'contact',
-      label: 'Contact / Hubungi',
+      label: 'Contact',
       url: 'https://wa.me/6285291105501?text=Halo%2C%20saya%20tertarik%20dengan%20demo%20AR%20MacBook%20Air.%20Boleh%20minta%20info%20lanjutan%3F',
       style: 'outline',
     },
     {
       id: 'buy',
-      label: 'Buy / Beli',
+      label: 'Buy',
       url: 'https://www.apple.com/shop/buy-mac/macbook-air',
       style: 'primary',
     },
@@ -59,25 +53,25 @@ export const appleMacbook: ProductConfig = {
     {
       id: '2d',
       label: '2D',
-      headline: '2D Info Card / Kartu Info 2D',
+      headline: '2D Product Information',
       description:
-        'This placeholder simulates static product information layered after scan / Placeholder ini mensimulasikan informasi produk statis setelah scan.',
+        'This placeholder simulates a clean 2D product information card shown directly in the scan experience.',
       points: [
-        'Chip: Apple Silicon class performance / Performa kelas Apple Silicon',
-        'Battery: up to 18 hours claim (marketing placeholder) / Klaim hingga 18 jam',
-        'Display: high-resolution retina class panel / Panel kelas retina resolusi tinggi',
+        'Chip: high-efficiency Apple silicon-class performance.',
+        'Battery: all-day usage claim for presentation purposes.',
+        'Display: high-resolution display with accurate color profile.',
       ],
     },
     {
       id: '3d',
       label: '3D',
-      headline: '3D Preview Placeholder / Placeholder Pratinjau 3D',
+      headline: '3D Preview Placeholder',
       description:
-        'Final 3D model can be plugged in later without changing conversion flow / Model 3D final bisa dipasang nanti tanpa ubah alur konversi.',
+        'Final 3D model can be upgraded later while preserving the same scan and conversion flow.',
       points: [
-        'Current state uses fallback mesh in AR runtime / Saat ini memakai fallback mesh',
-        'Model path remains `/assets/models/apple-macbook/model.glb` / Jalur model tetap sama',
-        'Safe for MVP demo while asset is still pending / Aman untuk demo MVP saat aset belum final',
+        'Current runtime still uses a fallback mesh if no GLB is available.',
+        'Model path contract remains `/assets/models/apple-macbook/model.glb`.',
+        'Safe for MVP demos while final 3D assets are still in progress.',
       ],
     },
   ],

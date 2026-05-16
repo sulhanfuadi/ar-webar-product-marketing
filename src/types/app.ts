@@ -73,42 +73,28 @@ export interface ProductMediaPreview {
   points: string[];
 }
 
-export interface ProductIntroCopy {
-  eyebrow: string;
-  title: string;
-  subtitle: string;
-  primaryCta: string;
-  helperLabel: string;
-  helperBody: string;
-  desktopHint: string;
-  referenceLabel: string;
-}
-
 export interface ProductScanCopy {
   title: string;
-  back: string;
-  continue: string;
-  fallbackHelp: string;
   guidance: string;
+  desktopHint: string;
+  referenceLabel: string;
+  lockHint: string;
   runtimeMessages: ScanRuntimeMessages;
 }
 
-export interface ProductAfterScanCopy {
+export interface ProductScanPanelCopy {
   eyebrow: string;
   title: string;
   subtitle: string;
   actionsHeading: string;
   mediaHeading: string;
-  backToScan: string;
-  restart: string;
 }
 
 export interface ProductConfig {
   id: string;
   name: string;
-  intro: ProductIntroCopy;
   scan: ProductScanCopy;
-  afterScan: ProductAfterScanCopy;
+  scanPanel: ProductScanPanelCopy;
   scanTarget: ScanTargetConfig;
   arModel?: ProductArModelConfig;
   actions: ProductAction[];

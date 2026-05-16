@@ -2,9 +2,8 @@ import type { ProductConfig, ThemeTokens } from '../types/app';
 import { appleMacbook } from './products/appleMacbook';
 
 export const routes = {
-  intro: '/',
+  root: '/',
   scan: '/scan',
-  afterScan: '/after-scan',
 } as const;
 
 export const themeTokens: ThemeTokens = {
@@ -26,6 +25,6 @@ export const operatorGuidance = {
 } as const;
 
 export const appMeta = {
-  appName: 'MacBook Air Single-Marker AR MVP',
+  appName: 'Apple Product Scan-First AR MVP',
   supportedMobile: 'Chrome Android / Safari iPhone',
 };
