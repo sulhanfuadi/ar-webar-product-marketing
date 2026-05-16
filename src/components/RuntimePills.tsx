@@ -1,8 +1,8 @@
 import type { ScanRuntimeState } from '../types/app';
 
 function pillTone(value: boolean, warning = false) {
-  if (value) return 'bg-apple-successSoft text-green-800 border-green-300';
-  if (warning) return 'bg-apple-warningSoft text-amber-800 border-amber-300';
+  if (value) return 'bg-apple-successSoft text-apple-successText border-apple-successStroke';
+  if (warning) return 'bg-apple-warningSoft text-apple-warningText border-apple-warningStroke';
   return 'bg-white text-apple-text border-apple-stroke';
 }
 

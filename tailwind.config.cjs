@@ -12,9 +12,15 @@ module.exports = {
           stroke: '#d2d2d7',
           accent: '#0071e3',
           accentSoft: '#e8f3ff',
-          successSoft: '#ecf9f0',
-          warningSoft: '#fff6e9',
-          dangerSoft: '#ffecec'
+          successSoft: '#edf8f1',
+          successStroke: '#cfe7d9',
+          successText: '#2f6b47',
+          warningSoft: '#fff7eb',
+          warningStroke: '#f1debf',
+          warningText: '#8a6635',
+          dangerSoft: '#fff1f1',
+          dangerStroke: '#efcfcf',
+          dangerText: '#8a3f3f'
         }
       },
       boxShadow: {

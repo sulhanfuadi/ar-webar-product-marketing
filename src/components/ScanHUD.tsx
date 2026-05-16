@@ -17,7 +17,7 @@ export function ScanHUD({ runtime, isMobile, runtimeMessages, desktopHint, guida
   return (
     <div className="pointer-events-none absolute left-3 right-3 top-[4.2rem] z-30 space-y-2">
       {fallbackNotice && (
-        <div className="pointer-events-auto rounded-2xl border border-amber-200 bg-apple-warningSoft p-3 text-xs text-amber-800">
+        <div className="pointer-events-auto rounded-2xl border border-apple-warningStroke bg-apple-warningSoft p-3 text-xs text-apple-warningText">
           {fallbackNotice}
         </div>
       )}
@@ -29,19 +29,21 @@ export function ScanHUD({ runtime, isMobile, runtimeMessages, desktopHint, guida
           {runtime.stage === 'lost' ? operatorGuidance.markerLost : guidanceText}
         </p>
         {(runtime.stage === 'requesting_camera' || runtime.stage === 'ready' || runtime.stage === 'searching') && (
-          <p className="mt-2 rounded-lg bg-apple-accentSoft px-2 py-1.5 text-[11px] text-apple-text">{lockHint}</p>
+          <p className="mt-2 rounded-lg border border-apple-warningStroke bg-apple-warningSoft px-2 py-1.5 text-[11px] text-apple-warningText">
+            {lockHint}
+          </p>
         )}
       </div>
 
       {runtime.stage === 'error' && (
-        <div className="pointer-events-auto rounded-2xl border border-red-200 bg-apple-dangerSoft p-3 text-xs text-red-700">
+        <div className="pointer-events-auto rounded-2xl border border-apple-dangerStroke bg-apple-dangerSoft p-3 text-xs text-apple-dangerText">
           <p className="font-medium">AR camera runtime failed.</p>
           <p className="mt-1">{runtime.errorMessage ?? 'Use Retry AR, or switch to Basic Camera mode.'}</p>
         </div>
       )}
 
       {!isMobile && (
-        <div className="pointer-events-auto rounded-2xl border border-red-200 bg-apple-dangerSoft p-3 text-xs text-red-700">
+        <div className="pointer-events-auto rounded-2xl border border-apple-dangerStroke bg-apple-dangerSoft p-3 text-xs text-apple-dangerText">
           {desktopHint}
         </div>
       )}

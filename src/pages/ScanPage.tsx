@@ -211,7 +211,7 @@ export function ScanPage() {
         {markerLocked && <ScanActionPanel product={mvpProduct} />}
 
         {runtime.stage === 'error' && (
-          <div className="absolute bottom-4 left-1/2 z-40 w-[min(92%,480px)] -translate-x-1/2 rounded-2xl border border-red-200 bg-apple-dangerSoft p-3 text-center text-sm text-red-700">
+          <div className="absolute bottom-4 left-1/2 z-40 w-[min(92%,480px)] -translate-x-1/2 rounded-2xl border border-apple-dangerStroke bg-apple-dangerSoft p-3 text-center text-sm text-apple-dangerText">
             <p className="font-medium">AR runtime failed</p>
             <p className="mt-1">Retry AR first. If it still fails, open Basic Camera mode.</p>
             <div className="mt-3 flex items-center justify-center gap-2">
@@ -238,7 +238,7 @@ export function ScanPage() {
         )}
 
         {(runtime.stage === 'requesting_camera' || runtime.stage === 'ready') && !basicCameraMode && !markerLocked && (
-          <div className="absolute bottom-4 left-1/2 z-40 w-[min(92%,480px)] -translate-x-1/2 rounded-2xl border border-amber-200 bg-apple-warningSoft p-3 text-center text-sm text-amber-800">
+          <div className="absolute bottom-4 left-1/2 z-40 w-[min(92%,480px)] -translate-x-1/2 rounded-2xl border border-apple-warningStroke bg-apple-warningSoft p-3 text-center text-sm text-apple-warningText">
             <p className="font-medium">If camera feed does not appear, retry manually</p>
             <button
               type="button"
