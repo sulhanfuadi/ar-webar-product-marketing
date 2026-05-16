@@ -7,17 +7,17 @@ const mustExist = [
   'src/App.tsx',
   'src/index.css',
   'src/content/appContent.ts',
-  'src/content/products/index.ts',
-  'src/content/products/appleIphone.ts',
   'src/content/products/appleMacbook.ts',
-  'src/content/products/appleAirpods.ts',
-  'src/content/products/appleIpad.ts',
-  'src/content/products/appleWatch.ts',
+  'src/content/products/shared.ts',
   'src/state/ScanSessionContext.tsx',
   'src/ar/mindarRuntime.ts',
   'src/pages/IntroPage.tsx',
   'src/pages/ScanPage.tsx',
   'src/pages/AfterScanPage.tsx',
+  'src/components/AfterScanCTA.tsx',
+  'scripts/generate-mvp-marker.mjs',
+  'public/assets/markers/mvp/macbook-air/reference.png',
+  'public/assets/markers/mvp/macbook-air/target.mind',
   'README.md',
   'docs/release-checklist.md',
   'docs/mobile-qa-matrix.md',
@@ -33,7 +33,7 @@ if (missing.length) {
 }
 
 const appText = fs.readFileSync(path.join(root, 'src/App.tsx'), 'utf8');
-const appSnippets = ['routes.scan', 'routes.afterScan', '<Routes>', '<Route'];
+const appSnippets = ['routes.intro', 'routes.scan', 'routes.afterScan', '<Routes>', '<Route'];
 const missingApp = appSnippets.filter((snippet) => !appText.includes(snippet));
 if (missingApp.length) {
   console.error('App route snippets missing:\n' + missingApp.join('\n'));
@@ -49,35 +49,49 @@ if (missingRuntime.length) {
 }
 
 const contentText = fs.readFileSync(path.join(root, 'src/content/appContent.ts'), 'utf8');
-const contentSnippets = ['products', 'defaultProductId', 'getActiveProduct', 'toProductPath'];
+const contentSnippets = ['mvpProduct', 'appleMacbook', 'MacBook Air Single-Marker AR MVP'];
 const missingContent = contentSnippets.filter((snippet) => !contentText.includes(snippet));
 if (missingContent.length) {
-  console.error('Content snippets missing:\n' + missingContent.join('\n'));
-  process.exit(1);
-}
-
-const productIndexText = fs.readFileSync(path.join(root, 'src/content/products/index.ts'), 'utf8');
-const productSnippets = ['appleIphone', 'appleMacbook', 'appleAirpods', 'appleIpad', 'appleWatch'];
-const missingProducts = productSnippets.filter((snippet) => !productIndexText.includes(snippet));
-if (missingProducts.length) {
-  console.error('Product symbols missing in registry:\n' + missingProducts.join('\n'));
+  console.error('MVP content snippets missing:\n' + missingContent.join('\n'));
   process.exit(1);
 }
 
 const scanPageText = fs.readFileSync(path.join(root, 'src/pages/ScanPage.tsx'), 'utf8');
-const scanPageSnippets = ['useSearchParams', 'getActiveProduct', 'toProductPath', 'mindTargetUrl'];
+const scanPageSnippets = ['mvpProduct.scanTarget.mindTargetUrl', 'navigate(routes.afterScan)', 'to={routes.intro}'];
 const missingScanPage = scanPageSnippets.filter((snippet) => !scanPageText.includes(snippet));
 if (missingScanPage.length) {
-  console.error('Scan page product-query snippets missing:\n' + missingScanPage.join('\n'));
+  console.error('Scan page MVP snippets missing:\n' + missingScanPage.join('\n'));
   process.exit(1);
 }
 
+if (scanPageText.includes('useSearchParams') || scanPageText.includes('getActiveProduct')) {
+  console.error('Scan page must not include legacy product-query logic in single-marker MVP mode');
+  process.exit(1);
+}
+
+const afterScanCtaText = fs.readFileSync(path.join(root, 'src/components/AfterScanCTA.tsx'), 'utf8');
+const ctaSnippets = ['product.actions.map', 'product.mediaPreviews.map', 'actionsHeading', 'mediaHeading'];
+const missingCta = ctaSnippets.filter((snippet) => !afterScanCtaText.includes(snippet));
+if (missingCta.length) {
+  console.error('After-scan action hub snippets missing:\n' + missingCta.join('\n'));
+  process.exit(1);
+}
+
+const sharedText = fs.readFileSync(path.join(root, 'src/content/products/shared.ts'), 'utf8');
+if (!sharedText.includes('/assets/markers/mvp/macbook-air/target.mind')) {
+  console.error('Shared marker contract missing MVP target path');
+  process.exit(1);
+}
 
 const macbookText = fs.readFileSync(path.join(root, 'src/content/products/appleMacbook.ts'), 'utf8');
-const macbookSnippets = ['arModel', 'model.glb'];
+const macbookSnippets = [
+  'https://www.apple.com/macbook-air/',
+  'https://www.apple.com/shop/buy-mac/macbook-air',
+  'wa.me/6285291105501',
+];
 const missingMacbook = macbookSnippets.filter((snippet) => !macbookText.includes(snippet));
 if (missingMacbook.length) {
-  console.error('MacBook AR model snippets missing:\n' + missingMacbook.join('\n'));
+  console.error('MacBook MVP snippets missing:\n' + missingMacbook.join('\n'));
   process.exit(1);
 }
 
@@ -87,4 +101,4 @@ if (!vercelText.includes('rewrites')) {
   process.exit(1);
 }
 
-console.log('Smoke check passed: multi-product query-based AR flow is present.');
+console.log('Smoke check passed: single-marker MacBook Air MVP flow is present.');

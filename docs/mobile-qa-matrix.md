@@ -1,26 +1,26 @@
-# Mobile QA Matrix (Strict, Multi-Product)
+# Mobile QA Matrix (Single-Marker MVP)
 
-## Target devices
-- Android phone (latest Chrome)
-- iPhone (latest Safari)
+## Devices and browsers
+- Chrome Android (latest)
+- Safari iPhone (latest)
 
-## Mandatory scenarios
-1. Open `/?product=apple-iphone` and confirm one clear CTA (`Start AR Scan`).
-2. Tap CTA and verify route changes to `/scan?product=apple-iphone`.
-3. Camera permission prompt appears and state changes accordingly.
-4. AR scan viewport is full-screen and controls remain tappable.
-5. Marker runtime states can be observed (searching/found/lost/error).
-6. Continue to `/after-scan?product=apple-iphone` and verify offer CTA visibility.
-7. Repeat scenarios 1–6 with:
-   - `apple-macbook`
-   - `apple-airpods`
-   - `apple-ipad`
-   - `apple-watch`
-8. Open `/scan?product=unknown` and verify fallback notice + default product behavior.
+## Mandatory test paths
+1. `/`
+2. `/scan`
+3. `/after-scan`
+
+## Scenario checklist
+- Intro CTA opens `/scan` without reload.
+- Camera permission prompt appears and can be granted.
+- Marker locks when scanning `public/assets/markers/mvp/macbook-air/reference.png`.
+- Runtime state changes are visible (`searching`, `found`, `lost`, `error`).
+- Continue button opens `/after-scan`.
+- `Detail`, `Contact`, `Buy` links open expected targets.
+- `2D` and `3D` tabs switch correctly and render panel content.
+- Restart returns to `/` and resets session state.
 
 ## Fail criteria
-- Multiple page sections visible simultaneously.
 - AR viewport not full-screen on mobile.
-- Controls clipped by safe-area/notch.
-- Route flow broken or requires page refresh to continue.
-- Product query is dropped when moving between intro/scan/after-scan pages.
+- Controls overlap/notch clipping.
+- Marker lock never occurs under normal lighting.
+- Action buttons open wrong links or dead links.

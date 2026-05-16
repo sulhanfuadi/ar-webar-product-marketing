@@ -1,28 +1,19 @@
-# Next Steps TODO
+# Next Steps TODO (Single-Marker MVP)
 
 ## Done
-- [x] Replaced per-product marker references with real images from `public/assets/products/source`.
-- [x] Recompiled per-product `target.mind` files for:
-  - `apple-iphone`
-  - `apple-macbook`
-  - `apple-airpods`
-  - `apple-ipad`
-  - `apple-watch`
-- [x] Added marker generator script: `npm run markers:generate`.
+- [x] Locked architecture to single-product MacBook Air MVP.
+- [x] Added single-image marker pipeline and generated target.
+- [x] Added real action hub: Detail, Contact (WhatsApp), Buy.
+- [x] Added dummy 2D/3D preview tabs in after-scan page.
 
 ## Remaining
-- [ ] Run strict mobile QA on all product routes:
-  - `/scan?product=apple-iphone`
-  - `/scan?product=apple-macbook`
-  - `/scan?product=apple-airpods`
-  - `/scan?product=apple-ipad`
-  - `/scan?product=apple-watch`
-- [ ] Test with the exact final printed poster output (paper, size, lighting) to validate real-world lock stability.
-- [ ] Generate fresh public HTTPS preview URL for final sign-off.
+- [ ] Run strict mobile QA on Chrome Android and Safari iPhone.
+- [ ] Validate tracking with final printed poster (paper size + lighting).
+- [ ] Publish fresh HTTPS preview URL for final lecturer review.
 
 ## Regeneration command
-If any marker image changes, regenerate all product targets:
+If marker source image changes:
 
 ```bash
-npm run markers:generate
+npm run marker:generate
 ```

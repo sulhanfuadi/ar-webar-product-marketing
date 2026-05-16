@@ -1,37 +1,26 @@
-# Release Checklist (V2 Multi-Product)
+# Release Checklist (Single-Marker MVP)
 
 ## Functional gate
+- `npm run marker:generate` passes.
 - `npm run build` passes.
 - `npm run smoke:test` passes.
-- `/` shows minimal intro with single dominant CTA.
-- `/scan` opens full-screen AR interface with visible runtime state.
-- `/after-scan` shows clean conversion handoff CTA.
-- `/scan?product=<valid-id>` loads matching product copy + target.
-- `/scan?product=<invalid-id>` falls back to default product with non-blocking notice.
-- Product context persists across flow:
-  - `/?product=<id>`
-  - `/scan?product=<id>`
-  - `/after-scan?product=<id>`
+- `/` shows bilingual intro + scan CTA.
+- `/scan` opens full-screen AR camera flow.
+- `/after-scan` shows action hub (`Detail`, `Contact`, `Buy`).
+- `/after-scan` shows dummy media tabs (`2D`, `3D`).
 
-## Product coverage gate
-- Product routes verified:
-  - `/scan?product=apple-iphone`
-  - `/scan?product=apple-macbook`
-  - `/scan?product=apple-airpods`
-  - `/scan?product=apple-ipad`
-  - `/scan?product=apple-watch`
-- Product configs stored in `src/content/products/` with registry update in `src/content/products/index.ts`.
-- Product marker assets are present in `public/assets/markers/products/<product-id>/`.
-- For `apple-macbook`, GLB model loading is verified when `public/assets/models/apple-macbook/model.glb` exists.
-- Missing/invalid MacBook GLB gracefully falls back to default mesh (no runtime crash).
+## Marker gate
+- Marker reference exists at `public/assets/markers/mvp/macbook-air/reference.png`.
+- Marker target exists at `public/assets/markers/mvp/macbook-air/target.mind`.
+- Tracking lock is validated using the same poster image as marker source.
 
 ## Mobile quality gate (strict)
 - Passes on latest Chrome Android.
 - Passes on latest Safari iPhone.
-- No overlap, hidden-view leakage, or collapsed layout on narrow screens.
-- Runtime transitions observable: requesting_camera → searching → found/lost/error.
+- No clipped controls around notch/safe area.
+- Runtime transitions visible: requesting_camera → searching → found/lost/error.
 
 ## Deploy gate
-- Vercel preview URL available for QA (HTTPS).
-- SPA route rewrites work for `/scan` and `/after-scan`.
-- Known limitations communicated in `docs/known-limitations.md`.
+- Vercel preview URL available over HTTPS.
+- SPA rewrites work for `/scan` and `/after-scan`.
+- Known limits are communicated in `docs/known-limitations.md`.
