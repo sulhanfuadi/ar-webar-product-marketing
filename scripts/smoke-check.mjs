@@ -52,7 +52,7 @@ if (missingRuntime.length) {
 }
 
 const contentText = fs.readFileSync(path.join(root, 'src/content/appContent.ts'), 'utf8');
-const contentSnippets = ['mvpProduct', 'appleMacbook', 'Apple Product Scan-First AR MVP'];
+const contentSnippets = ['mvpProduct', 'appleMacbook', 'Product Scan-First AR MVP'];
 const missingContent = contentSnippets.filter((snippet) => !contentText.includes(snippet));
 if (missingContent.length) {
   console.error('MVP content snippets missing:\n' + missingContent.join('\n'));
@@ -104,4 +104,4 @@ if (!vercelText.includes('rewrites')) {
   process.exit(1);
 }
 
-console.log('Smoke check passed: scan-first single-marker Apple-style MVP flow is present.');
+console.log('Smoke check passed: scan-first single-marker MVP flow is present.');

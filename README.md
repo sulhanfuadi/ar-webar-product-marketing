@@ -1,4 +1,4 @@
-# Apple Product Scan-First WebAR MVP
+# Product Scan-First WebAR MVP
 
 A focused single-marker WebAR MVP using React + TypeScript + MindAR.  
 This revision is scan-first: all product details and conversion actions live directly inside the scan page.
@@ -6,7 +6,7 @@ This revision is scan-first: all product details and conversion actions live dir
 ## Core architecture
 - Vite + React + TypeScript
 - React Router (`/` redirects to `/scan`)
-- Tailwind CSS with Apple-inspired design tokens
+- Tailwind CSS with refined neutral design tokens
 - MindAR + Three.js image-tracking runtime
 
 ## Route behavior

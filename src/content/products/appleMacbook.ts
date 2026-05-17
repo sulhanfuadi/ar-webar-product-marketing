@@ -3,23 +3,22 @@ import { baseRuntimeMessages, buildMvpScanTarget } from './shared';
 
 export const appleMacbook: ProductConfig = {
   id: 'apple-macbook',
-  name: 'Apple Product AR Demo',
+  name: 'Product AR Demo',
   scan: {
-    title: 'Apple Product AR Experience',
-    guidance:
-      'Point your camera to the Apple product marker, reduce glare, and keep the full image visible.',
-    desktopHint: 'Desktop is preview-only. Use Chrome Android or Safari iPhone for full camera-based AR scan.',
-    referenceLabel: 'Marker Reference',
+    title: 'AR Scan',
+    guidance: 'Point your camera to the printed marker, reduce glare, and keep the full image visible.',
+    desktopHint: 'Desktop is preview-only. Use Chrome Android or Safari iPhone for live camera scanning.',
+    referenceLabel: 'Reference',
     lockHint: 'Lock the marker to reveal product details and quick actions.',
     runtimeMessages: baseRuntimeMessages(
       'Marker locked. Product details and quick actions are now available.',
     ),
   },
   scanPanel: {
-    eyebrow: 'Live Product Overlay',
-    title: 'Apple Product Quick Brief',
-    subtitle: 'Keep the marker locked while you browse details and conversion actions.',
-    actionsHeading: 'Quick Actions',
+    eyebrow: 'Live Overlay',
+    title: 'Product Quick Brief',
+    subtitle: 'Keep the marker locked while reviewing key details and conversion actions.',
+    actionsHeading: 'Actions',
     mediaHeading: '2D / 3D Preview',
   },
   scanTarget: buildMvpScanTarget(),
@@ -39,7 +38,7 @@ export const appleMacbook: ProductConfig = {
     {
       id: 'contact',
       label: 'Contact',
-      url: 'https://wa.me/6285291105501?text=Halo%2C%20saya%20tertarik%20dengan%20demo%20AR%20MacBook%20Air.%20Boleh%20minta%20info%20lanjutan%3F',
+      url: 'https://wa.me/6285291105501?text=Hello%2C%20I%27m%20interested%20in%20the%20AR%20MacBook%20Air%20demo.%20Could%20you%20share%20more%20details%3F',
       style: 'outline',
     },
     {
@@ -55,11 +54,11 @@ export const appleMacbook: ProductConfig = {
       label: '2D',
       headline: '2D Product Information',
       description:
-        'This placeholder simulates a clean 2D product information card shown directly in the scan experience.',
+        'This placeholder simulates a clean 2D information card displayed directly in the scan experience.',
       points: [
-        'Chip: high-efficiency Apple silicon-class performance.',
-        'Battery: all-day usage claim for presentation purposes.',
-        'Display: high-resolution display with accurate color profile.',
+        'Chip: high-efficiency performance class for daily productivity.',
+        'Battery: all-day usage claim for MVP presentation purposes.',
+        'Display: high-resolution panel with accurate color profile.',
       ],
     },
     {
@@ -79,7 +78,7 @@ export const appleMacbook: ProductConfig = {
     {
       id: 'chip',
       label: 'Chip',
-      title: 'Apple Silicon Performance',
+      title: 'Silicon-Class Performance',
       summary: 'Fast compile cycles, efficient multitasking, and consistent sustained speed.',
       x: -30,
       y: 30,

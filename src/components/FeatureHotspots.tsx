@@ -21,7 +21,7 @@ export function FeatureHotspots({ hotspots }: { hotspots: ProductHotspot[] }) {
             onClick={() => setActiveId(hotspot.id)}
             className={`pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2 rounded-full border px-3 py-1 text-xs backdrop-blur ${
               activeId === hotspot.id
-                ? 'border-blue-500 bg-apple-accent text-white'
+                ? 'border-apple-accent bg-apple-accent text-white'
                 : 'border-apple-stroke bg-white/90 text-apple-text'
             }`}
             style={{ left: `${50 + hotspot.x}%`, top: `${hotspot.y}%` }}
@@ -33,7 +33,7 @@ export function FeatureHotspots({ hotspots }: { hotspots: ProductHotspot[] }) {
       </div>
 
       <div className="pointer-events-none absolute left-3 right-3 top-[13.6rem] z-30">
-        <div className="pointer-events-auto rounded-2xl border border-apple-stroke bg-white/92 p-3 shadow-apple backdrop-blur">
+        <div className="pointer-events-auto rounded-2xl border border-apple-stroke bg-white/90 p-3 shadow-apple backdrop-blur">
           <p className="text-[11px] uppercase tracking-[0.11em] text-apple-muted">Feature Focus</p>
           <h3 className="mt-1 text-base font-semibold text-apple-text">{active.title}</h3>
           <p className="mt-1 text-sm leading-relaxed text-apple-muted">{active.summary}</p>

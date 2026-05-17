@@ -159,8 +159,8 @@ export function ScanPage() {
   });
 
   return (
-    <div className="min-h-[100dvh] bg-apple-bg px-2 pb-2 pt-[max(env(safe-area-inset-top),0.5rem)]">
-      <main className="relative mx-auto h-[calc(100dvh-1rem)] w-full max-w-6xl overflow-hidden bg-black sm:rounded-[28px] sm:border sm:border-apple-stroke">
+    <div className="min-h-[100dvh] bg-apple-bg p-2 sm:p-3">
+      <main className="relative mx-auto h-[calc(100dvh-1rem)] w-full max-w-6xl overflow-hidden rounded-[28px] border border-apple-stroke bg-black shadow-apple">
         <div ref={containerRef} className="mindar-stage absolute inset-0 z-10 bg-black" />
 
         {basicCameraMode && (
@@ -174,24 +174,24 @@ export function ScanPage() {
         )}
 
         <div className="pointer-events-none absolute left-3 right-3 top-3 z-40">
-          <header className="pointer-events-auto mx-auto flex max-w-3xl items-center justify-between rounded-full border border-white/60 bg-white/88 px-3 py-2 shadow-apple backdrop-blur-xl">
-            <div className="flex items-center gap-2">
+          <header className="pointer-events-auto mx-auto flex max-w-3xl items-center gap-2 rounded-2xl border border-white/25 bg-black/60 p-1.5 shadow-apple backdrop-blur-xl">
+            <div className="flex min-w-0 flex-1 items-center gap-2 px-2">
               <span className="h-2 w-2 rounded-full bg-apple-accent" />
-              <p className="text-xs font-medium text-apple-text">{mvpProduct.scan.title}</p>
+              <p className="truncate text-sm font-medium text-white">{mvpProduct.scan.title}</p>
             </div>
             <div className="flex items-center gap-2">
               <a
                 href={mvpProduct.scanTarget.referenceImageUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full border border-apple-stroke bg-white px-3 py-1.5 text-xs font-medium text-apple-text"
+                className="inline-flex h-9 min-w-24 items-center justify-center rounded-full border border-white/30 bg-white/10 px-3 text-sm font-medium text-white transition hover:bg-white/20"
               >
                 {mvpProduct.scan.referenceLabel}
               </a>
               <button
                 type="button"
                 onClick={resetAndRetryAr}
-                className="rounded-full bg-apple-accent px-3 py-1.5 text-xs font-medium text-white"
+                className="inline-flex h-9 min-w-24 items-center justify-center rounded-full bg-apple-accent px-3 text-sm font-medium text-white transition hover:brightness-105"
               >
                 Restart
               </button>
@@ -211,42 +211,46 @@ export function ScanPage() {
         {markerLocked && <ScanActionPanel product={mvpProduct} />}
 
         {runtime.stage === 'error' && (
-          <div className="absolute bottom-4 left-1/2 z-40 w-[min(92%,480px)] -translate-x-1/2 rounded-2xl border border-apple-dangerStroke bg-apple-dangerSoft p-3 text-center text-sm text-apple-dangerText">
-            <p className="font-medium">AR runtime failed</p>
-            <p className="mt-1">Retry AR first. If it still fails, open Basic Camera mode.</p>
-            <div className="mt-3 flex items-center justify-center gap-2">
-              <button
-                type="button"
-                onClick={resetAndRetryAr}
-                className="h-10 rounded-full bg-apple-accent px-5 text-sm font-medium text-white"
-              >
-                Retry AR
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setFallbackActive(true);
-                  setErrorMessage(null);
-                  setBasicCameraMode(true);
-                }}
-                className="h-10 rounded-full border border-apple-stroke bg-white px-5 text-sm font-medium text-apple-text"
-              >
-                Open Basic Camera
-              </button>
-            </div>
+          <div className="absolute bottom-3 left-3 right-3 z-40">
+            <article className="mx-auto w-full max-w-3xl rounded-2xl border border-apple-dangerStroke bg-black/60 p-4 text-white backdrop-blur-xl">
+              <p className="text-sm font-semibold">AR runtime interrupted</p>
+              <p className="mt-1 text-sm text-white/75">Retry AR first. If it still fails, open Basic Camera mode.</p>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={resetAndRetryAr}
+                  className="inline-flex h-10 items-center justify-center rounded-full bg-apple-accent px-5 text-sm font-medium text-white transition hover:brightness-105"
+                >
+                  Retry AR
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFallbackActive(true);
+                    setErrorMessage(null);
+                    setBasicCameraMode(true);
+                  }}
+                  className="inline-flex h-10 items-center justify-center rounded-full border border-white/30 bg-white/10 px-5 text-sm font-medium text-white transition hover:bg-white/20"
+                >
+                  Open Basic Camera
+                </button>
+              </div>
+            </article>
           </div>
         )}
 
         {(runtime.stage === 'requesting_camera' || runtime.stage === 'ready') && !basicCameraMode && !markerLocked && (
-          <div className="absolute bottom-4 left-1/2 z-40 w-[min(92%,480px)] -translate-x-1/2 rounded-2xl border border-apple-warningStroke bg-apple-warningSoft p-3 text-center text-sm text-apple-warningText">
-            <p className="font-medium">If camera feed does not appear, retry manually</p>
-            <button
-              type="button"
-              onClick={resetAndRetryAr}
-              className="mt-3 h-10 rounded-full bg-apple-accent px-5 text-sm font-medium text-white"
-            >
-              Force Retry
-            </button>
+          <div className="absolute bottom-3 left-3 right-3 z-40">
+            <div className="mx-auto w-full max-w-3xl rounded-2xl border border-apple-warningStroke bg-black/60 p-4 text-white backdrop-blur-xl">
+              <p className="text-sm text-white/80">If camera feed does not appear, run a manual retry.</p>
+              <button
+                type="button"
+                onClick={resetAndRetryAr}
+                className="mt-3 inline-flex h-10 items-center justify-center rounded-full bg-apple-accent px-5 text-sm font-medium text-white transition hover:brightness-105"
+              >
+                Force Retry
+              </button>
+            </div>
           </div>
         )}
       </main>

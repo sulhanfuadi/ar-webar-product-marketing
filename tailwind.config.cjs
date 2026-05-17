@@ -4,27 +4,27 @@ module.exports = {
     extend: {
       colors: {
         apple: {
-          bg: '#f5f5f7',
+          bg: '#f2f3f5',
           surface: '#ffffff',
-          elevated: '#fbfbfd',
-          text: '#1d1d1f',
-          muted: '#6e6e73',
-          stroke: '#d2d2d7',
-          accent: '#0071e3',
-          accentSoft: '#e8f3ff',
-          successSoft: '#edf8f1',
-          successStroke: '#cfe7d9',
-          successText: '#2f6b47',
-          warningSoft: '#fff7eb',
-          warningStroke: '#f1debf',
-          warningText: '#8a6635',
-          dangerSoft: '#fff1f1',
-          dangerStroke: '#efcfcf',
-          dangerText: '#8a3f3f'
+          elevated: '#f8f9fb',
+          text: '#121417',
+          muted: '#616770',
+          stroke: '#d8dce2',
+          accent: '#1f7a5a',
+          accentSoft: '#e8f4ef',
+          successSoft: '#eaf7ef',
+          successStroke: '#cde8d8',
+          successText: '#245d45',
+          warningSoft: '#fff7ed',
+          warningStroke: '#f0dcc2',
+          warningText: '#8f6530',
+          dangerSoft: '#fff2f2',
+          dangerStroke: '#f0cfd2',
+          dangerText: '#8d3e49'
         }
       },
       boxShadow: {
-        apple: '0 12px 30px rgba(17, 17, 26, 0.06)'
+        apple: '0 16px 40px rgba(15, 23, 42, 0.12)'
       },
       borderRadius: {
         apple: '20px'

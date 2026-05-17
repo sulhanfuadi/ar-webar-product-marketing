@@ -7,12 +7,12 @@ export const routes = {
 } as const;
 
 export const themeTokens: ThemeTokens = {
-  base: '#f5f5f7',
+  base: '#f2f3f5',
   surface: '#ffffff',
-  text: '#1d1d1f',
-  muted: '#6e6e73',
-  stroke: '#d2d2d7',
-  accent: '#0071e3',
+  text: '#121417',
+  muted: '#616770',
+  stroke: '#d8dce2',
+  accent: '#1f7a5a',
 };
 
 export const mvpProduct: ProductConfig = appleMacbook;
@@ -25,6 +25,6 @@ export const operatorGuidance = {
 } as const;
 
 export const appMeta = {
-  appName: 'Apple Product Scan-First AR MVP',
+  appName: 'Product Scan-First AR MVP',
   supportedMobile: 'Chrome Android / Safari iPhone',
 };

@@ -1,4 +1,4 @@
-# Operator Runbook (Scan-First Apple Product MVP)
+# Operator Runbook (Scan-First Product MVP)
 
 ## Pre-demo setup
 - Use an HTTPS URL (Vercel preview or active tunnel).
@@ -26,9 +26,9 @@ Script source priority:
 3. Point camera at the same marker image until lock is detected.
 4. Show in-scan product panel once marker is locked.
 5. Demonstrate action links:
-   - Details (Apple product page)
+   - Details (product page)
    - Contact (WhatsApp)
-   - Buy (Apple buy page)
+   - Buy (buy page)
 6. Switch between `2D` and `3D` dummy tabs.
 
 ## Troubleshooting
