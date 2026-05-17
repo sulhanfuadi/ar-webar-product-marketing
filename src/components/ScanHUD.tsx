@@ -3,9 +3,7 @@ import type { ScanRuntimeMessages, ScanRuntimeState } from '../types/app';
 
 interface ScanHUDProps {
   runtime: ScanRuntimeState;
-  isMobile: boolean;
   runtimeMessages: ScanRuntimeMessages;
-  desktopHint: string;
   guidanceText: string;
   lockHint: string;
   fallbackNotice?: string | null;
@@ -21,7 +19,7 @@ function formatStageLabel(stage: ScanRuntimeState['stage']) {
   return stage.replaceAll('_', ' ');
 }
 
-export function ScanHUD({ runtime, isMobile, runtimeMessages, desktopHint, guidanceText, lockHint, fallbackNotice }: ScanHUDProps) {
+export function ScanHUD({ runtime, runtimeMessages, guidanceText, lockHint, fallbackNotice }: ScanHUDProps) {
   const message = runtimeMessages[runtime.stage] ?? runtimeMessages.idle;
 
   return (
@@ -54,12 +52,6 @@ export function ScanHUD({ runtime, isMobile, runtimeMessages, desktopHint, guida
         <div className="pointer-events-auto rounded-2xl border border-apple-dangerStroke bg-black/60 p-3 text-xs text-white backdrop-blur-xl">
           <p className="font-medium">Camera runtime failed.</p>
           <p className="mt-1 text-white/75">{runtime.errorMessage ?? 'Use Retry AR, or switch to Basic Camera mode.'}</p>
-        </div>
-      )}
-
-      {!isMobile && (
-        <div className="pointer-events-auto rounded-2xl border border-apple-warningStroke bg-apple-warningSoft p-3 text-xs text-apple-warningText">
-          {desktopHint}
         </div>
       )}
     </div>

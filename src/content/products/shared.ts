@@ -33,5 +33,5 @@ export const baseRuntimeMessages = (foundMessage: string): ScanRuntimeMessages =
   found: foundMessage,
   lost: 'Marker lost. Re-center the marker to restore tracking.',
   error: 'Camera or AR runtime failed.',
-  preview: 'Preview mode only. Use a mobile device for full scan validation.',
+  preview: 'Align the marker and keep the full image visible for stable tracking.',
 });

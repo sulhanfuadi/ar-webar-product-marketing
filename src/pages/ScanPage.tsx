@@ -180,14 +180,6 @@ export function ScanPage() {
               <p className="truncate text-sm font-medium text-white">{mvpProduct.scan.title}</p>
             </div>
             <div className="flex items-center gap-2">
-              <a
-                href={mvpProduct.scanTarget.referenceImageUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex h-9 min-w-24 items-center justify-center rounded-full border border-white/30 bg-white/10 px-3 text-sm font-medium text-white transition hover:bg-white/20"
-              >
-                {mvpProduct.scan.referenceLabel}
-              </a>
               <button
                 type="button"
                 onClick={resetAndRetryAr}
@@ -201,9 +193,7 @@ export function ScanPage() {
 
         <ScanHUD
           runtime={runtime}
-          isMobile={mobile}
           runtimeMessages={mvpProduct.scan.runtimeMessages}
-          desktopHint={mvpProduct.scan.desktopHint}
           guidanceText={mvpProduct.scan.guidance}
           lockHint={mvpProduct.scan.lockHint}
         />
