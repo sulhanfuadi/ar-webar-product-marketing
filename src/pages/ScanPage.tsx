@@ -42,7 +42,9 @@ export function ScanPage() {
 
   const [bootNonce, setBootNonce] = useState(0);
   const [basicCameraMode, setBasicCameraMode] = useState(false);
-  const [detailOpen, setDetailOpen] = useState(false);
+  const previewMode = useMemo(() => new URLSearchParams(window.location.search).get('qa_preview'), []);
+  const forceLocked = previewMode === 'locked' || previewMode === 'details';
+  const [detailOpen, setDetailOpen] = useState(previewMode === 'details');
 
   const stopBasicCamera = useCallback(() => {
     if (basicVideoRef.current) {
@@ -73,7 +75,7 @@ export function ScanPage() {
   );
 
   const mobile = useMemo(() => isProbablyMobile(), []);
-  const markerLocked = runtime.stage === 'found';
+  const markerLocked = runtime.stage === 'found' || forceLocked;
   const modelReady = runtime.modelLoadState === 'ready';
   const modelLoading = runtime.modelLoadState === 'loading';
   const modelFailed = runtime.modelLoadState === 'error';
@@ -161,10 +163,11 @@ export function ScanPage() {
   }, [setErrorMessage, setFallbackActive, setModelErrorMessage, setModelLoadState, setStage, stopBasicCamera]);
 
   useEffect(() => {
+    if (forceLocked) return;
     if (runtime.stage === 'lost' || runtime.stage === 'error') {
       setDetailOpen(false);
     }
-  }, [runtime.stage]);
+  }, [forceLocked, runtime.stage]);
 
   useMindArRuntime({
     containerRef,
