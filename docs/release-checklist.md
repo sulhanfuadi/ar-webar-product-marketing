@@ -6,8 +6,11 @@
 - `npm run smoke:test` passes.
 - `/` redirects to `/scan`.
 - `/scan` opens full-screen AR camera flow.
-- `View Details` appears only when marker is locked.
-- `View Details` popup opens and model can be rotated via drag.
+- `3D Detail` appears only when marker is locked.
+- Bottom action bar appears on marker lock with `Contact`, `Buy`, `Specification`.
+- `Specification` opens in-app modal and closes without leaving scan flow.
+- `3D Detail` popup opens and model supports rotate + pinch zoom.
+- `Reset View` restores stable default framing.
 - Popup close returns cleanly to scan flow.
 - When GLB load fails, UI shows explicit model-load error and `Retry Scan`.
 
@@ -20,6 +23,7 @@
 - Passes on latest Chrome Android.
 - Passes on latest Safari iPhone.
 - No clipped controls around notch/safe area.
+- 3D detail modal remains readable on `360x780`, `390x844`, `412x915`.
 - Runtime transitions visible: requesting_camera → searching → found/lost/error.
 
 ## Deploy gate

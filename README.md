@@ -1,7 +1,7 @@
 # Product Scan-First WebAR MVP
 
 A focused single-marker WebAR MVP using React + TypeScript + MindAR.  
-This revision is scan-first and 3D-first: marker lock reveals a minimal control surface with `View Details` for model inspection.
+This revision is scan-first and 3D-first: marker lock reveals minimal controls with `3D Detail` plus business actions.
 
 ## Core architecture
 - Vite + React + TypeScript
@@ -28,9 +28,19 @@ npm run marker:generate
 `markers:generate` remains as a backward-compatible alias.
 
 ## In-scan controls (minimal)
-- `Restart` is always visible in the header.
-- `View Details` appears only when marker is locked.
-- `View Details` opens a popup 3D viewer where users can drag to rotate the model.
+- Header controls:
+  - `3D Detail` (visible only when marker is locked)
+  - `Restart` (always visible)
+- Bottom action bar (visible only when marker is locked):
+  - `Contact`
+  - `Buy`
+  - `Specification` (opens in-app modal, no tab switch)
+
+## 3D detail viewer behavior
+- Fullscreen mobile modal with safe-area padding.
+- Interaction: rotate + pinch zoom (pan disabled).
+- Utility action: `Reset View`.
+- If model fails to load, viewer shows explicit error with `Retry Load`.
 
 ## 3D model runtime
 - Active GLB path:
@@ -70,5 +80,5 @@ npm run preview
   - Safari iPhone (latest)
 
 ## MVP scope
-- Included: scan-first marker AR, minimal controls (`Restart` + locked-state `View Details`), popup rotate-only 3D detail viewer.
+- Included: scan-first marker AR, locked-state `3D Detail`, locked-state business action bar (`Contact`, `Buy`, `Specification`), zoomable 3D detail viewer, in-app specification modal.
 - Excluded: chatbot runtime and CMS/admin tooling.

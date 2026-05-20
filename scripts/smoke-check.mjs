@@ -13,6 +13,7 @@ const mustExist = [
   'src/ar/mindarRuntime.ts',
   'src/pages/ScanPage.tsx',
   'src/components/ModelDetailModal.tsx',
+  'src/components/SpecificationModal.tsx',
   'scripts/generate-mvp-marker.mjs',
   'public/assets/markers/mvp/macbook-air/reference.png',
   'public/assets/markers/mvp/macbook-air/target.mind',
@@ -64,8 +65,10 @@ const scanPageText = fs.readFileSync(path.join(root, 'src/pages/ScanPage.tsx'), 
 const scanPageSnippets = [
   'mvpProduct.scanTarget.mindTargetUrl',
   'runtime.stage === \'found\'',
-  'View Details',
+  '3D Detail',
   'ModelDetailModal',
+  'SpecificationModal',
+  'Specification',
   'runtime.modelLoadState',
   '3D model failed to load',
 ];
@@ -92,15 +95,23 @@ if (!sharedText.includes('/assets/markers/mvp/macbook-air/target.mind')) {
 }
 
 const detailModalText = fs.readFileSync(path.join(root, 'src/components/ModelDetailModal.tsx'), 'utf8');
-const modalSnippets = ['GLTFLoader', 'Drag to rotate model', 'Loading 3D model', 'safe-area-inset-top'];
+const modalSnippets = ['GLTFLoader', 'OrbitControls', 'Reset View', 'Loading 3D model', 'safe-area-inset-top', 'Retry Load'];
 const missingModal = modalSnippets.filter((snippet) => !detailModalText.includes(snippet));
 if (missingModal.length) {
   console.error('Model detail modal snippets missing:\n' + missingModal.join('\n'));
   process.exit(1);
 }
 
+const specificationModalText = fs.readFileSync(path.join(root, 'src/components/SpecificationModal.tsx'), 'utf8');
+const specificationModalSnippets = ['Specification', 'safe-area-inset-top', 'No specification data is configured'];
+const missingSpecificationModal = specificationModalSnippets.filter((snippet) => !specificationModalText.includes(snippet));
+if (missingSpecificationModal.length) {
+  console.error('Specification modal snippets missing:\n' + missingSpecificationModal.join('\n'));
+  process.exit(1);
+}
+
 const macbookText = fs.readFileSync(path.join(root, 'src/content/products/appleMacbook.ts'), 'utf8');
-const macbookSnippets = ['View Details', '/assets/models/apple-macbook/model.glb'];
+const macbookSnippets = ['3D Detail', '/assets/models/apple-macbook/model.glb', 'specifications', 'Contact', 'Buy'];
 const missingMacbook = macbookSnippets.filter((snippet) => !macbookText.includes(snippet));
 if (missingMacbook.length) {
   console.error('MacBook MVP snippets missing:\n' + missingMacbook.join('\n'));

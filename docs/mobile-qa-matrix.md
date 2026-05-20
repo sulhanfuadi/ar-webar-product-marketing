@@ -13,9 +13,12 @@
 - Camera permission prompt appears and can be granted.
 - Marker locks when scanning `public/assets/markers/mvp/macbook-air/reference.png`.
 - Runtime state transitions are visible (`searching`, `found`, `lost`, `error`).
-- `View Details` button appears only when marker is locked, aligned at right-side control cluster.
-- `View Details` popup loads `public/assets/models/apple-macbook/model.glb`.
-- Drag interaction rotates the model (no zoom/pan controls).
+- `3D Detail` appears only when marker is locked, aligned at right-side control cluster.
+- Bottom action bar appears on marker lock with `Contact`, `Buy`, and `Specification`.
+- `Specification` opens as in-app modal and closes without route/tab change.
+- `3D Detail` popup loads `public/assets/models/apple-macbook/model.glb`.
+- Drag rotates model, pinch zoom works, pan stays disabled.
+- `Reset View` returns framing to the default fit.
 - Modal layout is full-screen and usable on 3 viewport baselines:
   - `360x780`
   - `390x844`
@@ -27,5 +30,5 @@
 - AR viewport is not full-screen on mobile.
 - Controls overlap with notch/safe-area.
 - Marker lock never occurs under normal lighting.
-- Detail popup fails to load/rotate model after marker lock.
+- Detail popup fails to load/rotate/zoom model after marker lock.
 - Model-load failure still shows misleading placeholder mesh.
