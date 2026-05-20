@@ -139,8 +139,8 @@ export function ModelDetailModal({ open, modelUrl, title, onClose }: ModelDetail
           lastX = event.clientX;
           lastY = event.clientY;
 
-          pivot.rotation.y += deltaX * 0.01;
-          pivot.rotation.x = threeModule.MathUtils.clamp(pivot.rotation.x + deltaY * 0.005, -0.9, 0.9);
+          pivot.rotation.y += deltaX * 0.008;
+          pivot.rotation.x = threeModule.MathUtils.clamp(pivot.rotation.x + deltaY * 0.004, -0.95, 0.95);
         };
 
         const onPointerUp = (event: PointerEvent) => {
@@ -188,12 +188,21 @@ export function ModelDetailModal({ open, modelUrl, title, onClose }: ModelDetail
             loadedRoot = root;
 
             const box = new threeModule.Box3().setFromObject(root);
-            const size = box.getSize(new threeModule.Vector3());
             const center = box.getCenter(new threeModule.Vector3());
-            const maxDim = Math.max(size.x, size.y, size.z, 0.001);
-
             root.position.sub(center);
-            root.scale.setScalar(1.25 / maxDim);
+
+            const centeredBox = new threeModule.Box3().setFromObject(root);
+            const sphere = centeredBox.getBoundingSphere(new threeModule.Sphere());
+            const radius = Math.max(sphere.radius, 0.001);
+            const fovRad = threeModule.MathUtils.degToRad(camera.fov);
+            const fitDistance = (radius * 1.25) / Math.sin(fovRad / 2);
+
+            camera.position.set(0, radius * 0.18, fitDistance);
+            camera.near = Math.max(fitDistance / 200, 0.01);
+            camera.far = Math.max(fitDistance * 25, 50);
+            camera.lookAt(0, 0, 0);
+            camera.updateProjectionMatrix();
+
             pivot.add(root);
 
             setViewerState('ready');
@@ -241,35 +250,45 @@ export function ModelDetailModal({ open, modelUrl, title, onClose }: ModelDetail
   }
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/75 p-3">
-      <div className="relative w-full max-w-3xl rounded-[24px] border border-white/25 bg-black/80 p-3 shadow-apple backdrop-blur-xl">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.12em] text-white/60">3D Detail Viewer</p>
-            <h2 className="mt-1 text-base font-semibold text-white">{title}</h2>
-            <p className="mt-1 text-xs text-white/70">Drag to rotate model</p>
+    <div className="fixed inset-0 z-[70] bg-black/80">
+      <div
+        className="h-full w-full px-2 sm:flex sm:items-center sm:justify-center sm:p-4"
+        style={{
+          paddingTop: 'max(env(safe-area-inset-top), 0.5rem)',
+          paddingBottom: 'max(env(safe-area-inset-bottom), 0.5rem)',
+        }}
+      >
+        <div className="mx-auto flex h-full w-full max-w-4xl flex-col rounded-[24px] border border-white/25 bg-black/80 p-3 shadow-apple backdrop-blur-xl sm:h-[min(92dvh,880px)] sm:p-4">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-[11px] uppercase tracking-[0.12em] text-white/60">3D Detail Viewer</p>
+              <h2 className="mt-1 truncate text-xl font-semibold text-white sm:text-2xl">{title}</h2>
+              <p className="mt-1 text-sm text-white/70 sm:text-base">Drag to rotate model</p>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="inline-flex h-10 min-w-20 shrink-0 items-center justify-center rounded-full border border-white/30 bg-white/10 px-4 text-base font-medium text-white transition hover:bg-white/20"
+            >
+              Close
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="inline-flex h-9 min-w-20 items-center justify-center rounded-full border border-white/30 bg-white/10 px-3 text-sm font-medium text-white transition hover:bg-white/20"
-          >
-            Close
-          </button>
-        </div>
 
-        <div className="relative h-[56vh] min-h-[320px] overflow-hidden rounded-2xl border border-white/20 bg-black">
-          <div ref={canvasHostRef} className="h-full w-full" />
-          {viewerState === 'loading' && (
-            <div className="absolute inset-0 grid place-items-center bg-black/50 text-sm text-white/80">
-              Loading 3D model…
+          <div className="mt-3 min-h-0 flex-1">
+            <div className="relative h-full w-full overflow-hidden rounded-2xl border border-white/20 bg-black">
+              <div ref={canvasHostRef} className="h-full w-full" />
+              {viewerState === 'loading' && (
+                <div className="absolute inset-0 grid place-items-center bg-black/50 text-sm text-white/80">
+                  Loading 3D model…
+                </div>
+              )}
+              {viewerState === 'error' && (
+                <div className="absolute inset-0 grid place-items-center p-4 text-center text-sm text-white/85">
+                  {errorMessage ?? '3D model failed to load.'}
+                </div>
+              )}
             </div>
-          )}
-          {viewerState === 'error' && (
-            <div className="absolute inset-0 grid place-items-center p-4 text-center text-sm text-white/85">
-              {errorMessage ?? '3D model failed to load.'}
-            </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
