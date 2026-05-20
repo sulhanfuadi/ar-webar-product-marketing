@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useMindArRuntime } from '../ar/mindarRuntime';
-import { ScanActionPanel } from '../components/ScanActionPanel';
 import { ScanHUD } from '../components/ScanHUD';
 import { mvpProduct } from '../content/appContent';
 import { useScanSession } from '../state/ScanSessionContext';
@@ -197,8 +196,6 @@ export function ScanPage() {
           guidanceText={mvpProduct.scan.guidance}
           lockHint={mvpProduct.scan.lockHint}
         />
-
-        {markerLocked && <ScanActionPanel product={mvpProduct} />}
 
         {runtime.stage === 'error' && (
           <div className="absolute bottom-3 left-3 right-3 z-40">
