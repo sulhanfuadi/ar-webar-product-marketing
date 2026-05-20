@@ -9,9 +9,9 @@ export const appleMacbook: ProductConfig = {
     guidance: 'Point your camera to the printed marker, reduce glare, and keep the full image visible.',
     desktopHint: 'Desktop is preview-only. Use Chrome Android or Safari iPhone for live camera scanning.',
     referenceLabel: 'Reference',
-    lockHint: 'Lock the marker to reveal product details and quick actions.',
+    lockHint: 'Lock the marker to enable the View Details button.',
     runtimeMessages: baseRuntimeMessages(
-      'Marker locked. Product details and quick actions are now available.',
+      'Marker locked. Use View Details to inspect the 3D model.',
     ),
   },
   scanPanel: {

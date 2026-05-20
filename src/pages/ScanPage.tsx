@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useMindArRuntime } from '../ar/mindarRuntime';
-import { ScanHUD } from '../components/ScanHUD';
+import { ModelDetailModal } from '../components/ModelDetailModal';
 import { mvpProduct } from '../content/appContent';
 import { useScanSession } from '../state/ScanSessionContext';
 import type { ScanStage } from '../types/app';
@@ -33,6 +33,7 @@ export function ScanPage() {
 
   const [bootNonce, setBootNonce] = useState(0);
   const [basicCameraMode, setBasicCameraMode] = useState(false);
+  const [detailOpen, setDetailOpen] = useState(false);
 
   const stopBasicCamera = useCallback(() => {
     if (basicVideoRef.current) {
@@ -138,11 +139,18 @@ export function ScanPage() {
   const resetAndRetryAr = useCallback(() => {
     stopBasicCamera();
     setBasicCameraMode(false);
+    setDetailOpen(false);
     setFallbackActive(false);
     setErrorMessage(null);
     setStage('requesting_camera');
     setBootNonce((value) => value + 1);
   }, [setErrorMessage, setFallbackActive, setStage, stopBasicCamera]);
+
+  useEffect(() => {
+    if (runtime.stage === 'lost' || runtime.stage === 'error') {
+      setDetailOpen(false);
+    }
+  }, [runtime.stage]);
 
   useMindArRuntime({
     containerRef,
@@ -179,6 +187,15 @@ export function ScanPage() {
               <p className="truncate text-sm font-medium text-white">{mvpProduct.scan.title}</p>
             </div>
             <div className="flex items-center gap-2">
+              {markerLocked && (
+                <button
+                  type="button"
+                  onClick={() => setDetailOpen(true)}
+                  className="inline-flex h-9 min-w-28 items-center justify-center rounded-full border border-white/30 bg-white/10 px-3 text-sm font-medium text-white transition hover:bg-white/20"
+                >
+                  View Details
+                </button>
+              )}
               <button
                 type="button"
                 onClick={resetAndRetryAr}
@@ -189,13 +206,6 @@ export function ScanPage() {
             </div>
           </header>
         </div>
-
-        <ScanHUD
-          runtime={runtime}
-          runtimeMessages={mvpProduct.scan.runtimeMessages}
-          guidanceText={mvpProduct.scan.guidance}
-          lockHint={mvpProduct.scan.lockHint}
-        />
 
         {runtime.stage === 'error' && (
           <div className="absolute bottom-3 left-3 right-3 z-40">
@@ -241,6 +251,12 @@ export function ScanPage() {
           </div>
         )}
       </main>
+      <ModelDetailModal
+        open={detailOpen}
+        modelUrl={mvpProduct.arModel?.url ?? '/assets/models/apple-macbook/model.glb'}
+        title={mvpProduct.name}
+        onClose={() => setDetailOpen(false)}
+      />
     </div>
   );
 }
