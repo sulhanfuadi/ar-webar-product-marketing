@@ -197,30 +197,30 @@ export function ScanPage() {
         )}
 
         <div className="pointer-events-none absolute left-3 right-3 top-3 z-40">
-          <header className="pointer-events-auto mx-auto flex max-w-3xl items-center gap-2 rounded-2xl border border-white/25 bg-black/60 p-1.5 shadow-apple backdrop-blur-xl">
+          <header className="pointer-events-auto mx-auto flex w-full max-w-3xl items-center gap-1.5 rounded-2xl border border-white/25 bg-black/60 p-1.5 shadow-apple backdrop-blur-xl">
             <div className="flex min-w-0 flex-1 items-center gap-2 px-2">
               <span className="h-2 w-2 rounded-full bg-apple-accent" />
               <p className="truncate text-sm font-medium text-white">{mvpProduct.scan.title}</p>
             </div>
-            <div className="ml-auto flex shrink-0 items-center justify-end gap-2">
+            <div className="ml-auto flex shrink-0 items-center justify-end gap-1.5">
               {markerLocked && modelReady && (
                 <button
                   type="button"
                   onClick={() => setDetailOpen(true)}
-                  className="inline-flex h-9 min-w-24 items-center justify-center rounded-full border border-white/30 bg-white/10 px-3 text-sm font-medium text-white transition hover:bg-white/20"
+                  className="inline-flex h-8 min-w-20 items-center justify-center whitespace-nowrap rounded-full border border-white/30 bg-white/10 px-2.5 text-xs font-medium text-white transition hover:bg-white/20 sm:h-9 sm:min-w-24 sm:px-3 sm:text-sm"
                 >
                   View Details
                 </button>
               )}
               {markerLocked && modelLoading && (
-                <span className="inline-flex h-9 min-w-24 items-center justify-center rounded-full border border-white/20 bg-white/5 px-3 text-xs font-medium text-white/70">
+                <span className="inline-flex h-8 min-w-20 items-center justify-center whitespace-nowrap rounded-full border border-white/20 bg-white/5 px-2.5 text-xs font-medium text-white/70 sm:h-9 sm:min-w-24 sm:px-3">
                   Loading 3D…
                 </span>
               )}
               <button
                 type="button"
                 onClick={resetAndRetryAr}
-                className="inline-flex h-9 min-w-20 items-center justify-center rounded-full bg-apple-accent px-3 text-sm font-medium text-white transition hover:brightness-105"
+                className="inline-flex h-8 min-w-16 items-center justify-center whitespace-nowrap rounded-full bg-apple-accent px-2.5 text-xs font-medium text-white transition hover:brightness-105 sm:h-9 sm:min-w-20 sm:px-3 sm:text-sm"
               >
                 Restart
               </button>
