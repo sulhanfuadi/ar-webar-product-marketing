@@ -8,12 +8,16 @@ export type ScanStage =
   | 'error'
   | 'preview';
 
+export type ModelLoadState = 'idle' | 'loading' | 'ready' | 'error';
+
 export interface ScanRuntimeState {
   stage: ScanStage;
   cameraGranted: boolean;
   markerLocked: boolean;
   fallbackActive: boolean;
   errorMessage: string | null;
+  modelLoadState: ModelLoadState;
+  modelErrorMessage: string | null;
 }
 
 export interface ThemeTokens {

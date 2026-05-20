@@ -9,6 +9,8 @@ interface ScanSessionContextValue {
   setMarkerLocked: (locked: boolean) => void;
   setFallbackActive: (active: boolean) => void;
   setErrorMessage: (message: string | null) => void;
+  setModelLoadState: (state: ScanRuntimeState['modelLoadState']) => void;
+  setModelErrorMessage: (message: string | null) => void;
   resetRuntime: () => void;
 }
 
@@ -18,6 +20,8 @@ const initialRuntime: ScanRuntimeState = {
   markerLocked: false,
   fallbackActive: false,
   errorMessage: null,
+  modelLoadState: 'idle',
+  modelErrorMessage: null,
 };
 
 const ScanSessionContext = createContext<ScanSessionContextValue | null>(null);
@@ -45,6 +49,14 @@ export function ScanSessionProvider({ children }: { children: ReactNode }) {
     setRuntime((prev) => ({ ...prev, errorMessage }));
   }, []);
 
+  const setModelLoadState = useCallback((modelLoadState: ScanRuntimeState['modelLoadState']) => {
+    setRuntime((prev) => ({ ...prev, modelLoadState }));
+  }, []);
+
+  const setModelErrorMessage = useCallback((modelErrorMessage: string | null) => {
+    setRuntime((prev) => ({ ...prev, modelErrorMessage }));
+  }, []);
+
   const resetRuntime = useCallback(() => {
     setRuntime(initialRuntime);
   }, []);
@@ -57,9 +69,21 @@ export function ScanSessionProvider({ children }: { children: ReactNode }) {
       setMarkerLocked,
       setFallbackActive,
       setErrorMessage,
+      setModelLoadState,
+      setModelErrorMessage,
       resetRuntime,
     }),
-    [runtime, resetRuntime, setCameraGranted, setErrorMessage, setFallbackActive, setMarkerLocked, setStage],
+    [
+      runtime,
+      resetRuntime,
+      setCameraGranted,
+      setErrorMessage,
+      setFallbackActive,
+      setMarkerLocked,
+      setModelErrorMessage,
+      setModelLoadState,
+      setStage,
+    ],
   );
 
   return <ScanSessionContext.Provider value={value}>{children}</ScanSessionContext.Provider>;

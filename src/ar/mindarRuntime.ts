@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { RefObject } from 'react';
-import type { ProductArModelConfig } from '../types/app';
+import type { ModelLoadState, ProductArModelConfig } from '../types/app';
 
 type ThreeModule = typeof import('three');
 type GLTFLoaderModule = {
@@ -23,6 +23,8 @@ interface UseMindArOptions {
   onCameraGranted: (granted: boolean) => void;
   onMarkerLocked: (locked: boolean) => void;
   onError?: (message: string | null) => void;
+  onModelLoadState?: (state: ModelLoadState) => void;
+  onModelError?: (message: string | null) => void;
   enabled: boolean;
   bootNonce: number;
 }
@@ -61,6 +63,21 @@ function normalizeRuntimeError(error: unknown) {
   }
 
   return `AR runtime failed: ${raw}`;
+}
+
+function normalizeModelError(error: unknown) {
+  const raw = error instanceof Error ? error.message : String(error ?? 'Unknown model load failure');
+  const message = raw.toLowerCase();
+
+  if (message.includes('timed out')) {
+    return '3D model failed to load in time. Check connection, then retry scan.';
+  }
+
+  if (message.includes('404') || message.includes('not found')) {
+    return '3D model file was not found on this deployment. Redeploy with model asset included.';
+  }
+
+  return `3D model failed to load: ${raw}`;
 }
 
 function ensureGlobalMindAR(moduleValue: unknown) {
@@ -157,6 +174,8 @@ export function useMindArRuntime({
   onCameraGranted,
   onMarkerLocked,
   onError,
+  onModelLoadState,
+  onModelError,
   enabled,
   bootNonce,
 }: UseMindArOptions) {
@@ -166,13 +185,19 @@ export function useMindArRuntime({
   const status = useMemo(() => ({ isBooting }), [isBooting]);
 
   useEffect(() => {
-    if (!enabled || !containerRef.current) return;
+    if (!enabled || !containerRef.current) {
+      onModelLoadState?.('idle');
+      onModelError?.(null);
+      return;
+    }
 
     let canceled = false;
 
     const boot = async () => {
       setIsBooting(true);
       onError?.(null);
+      onModelError?.(null);
+      onModelLoadState?.('idle');
       onStage('requesting_camera');
       let permissionGranted = false;
 
@@ -202,24 +227,11 @@ export function useMindArRuntime({
         scene.add(lightA, lightB);
 
         const anchor = mindarThree.addAnchor(0);
-
-        const fallbackGroup = new threeModule.Group();
-        const body = new threeModule.Mesh(
-          new threeModule.BoxGeometry(0.6, 1.1, 0.06),
-          new threeModule.MeshStandardMaterial({ color: 0x1d1d1f, roughness: 0.3, metalness: 0.2 }),
-        );
-        const screen = new threeModule.Mesh(
-          new threeModule.BoxGeometry(0.53, 0.95, 0.01),
-          new threeModule.MeshStandardMaterial({ color: 0x9ec9f7, roughness: 0.45, metalness: 0.0 }),
-        );
-        screen.position.z = 0.035;
-        fallbackGroup.add(body);
-        fallbackGroup.add(screen);
-        anchor.group.add(fallbackGroup);
-
         if (arModel && gltfLoaderModule) {
           const tryLoadModel = async () => {
             try {
+              onModelLoadState?.('loading');
+              onModelError?.(null);
               const loader = new gltfLoaderModule.GLTFLoader();
               const loadedModel = await withTimeout(
                 new Promise<import('three').Object3D>((resolve, reject) => {
@@ -237,7 +249,7 @@ export function useMindArRuntime({
                     (error) => reject(error),
                   );
                 }),
-                8000,
+                25000,
                 'GLB model load',
               );
 
@@ -249,14 +261,23 @@ export function useMindArRuntime({
               loadedModel.position.set(arModel.position[0], arModel.position[1], arModel.position[2]);
               loadedModel.rotation.set(arModel.rotation[0], arModel.rotation[1], arModel.rotation[2]);
 
-              anchor.group.remove(fallbackGroup);
               anchor.group.add(loadedModel);
+              onModelLoadState?.('ready');
+              onModelError?.(null);
             } catch (error) {
-              console.warn('GLB model load failed, fallback mesh retained.', error);
+              console.warn('GLB model load failed.', error);
+              onModelLoadState?.('error');
+              onModelError?.(normalizeModelError(error));
             }
           };
 
           void tryLoadModel();
+        } else if (!arModel) {
+          onModelLoadState?.('error');
+          onModelError?.('3D model path is not configured for this product.');
+        } else {
+          onModelLoadState?.('error');
+          onModelError?.('3D loader module is unavailable in this runtime.');
         }
 
         anchor.onTargetFound = () => {
@@ -341,6 +362,8 @@ export function useMindArRuntime({
           onCameraGranted(false);
         }
 
+        onModelLoadState?.('idle');
+        onModelError?.(null);
         onError?.(normalizeRuntimeError(error));
         onStage('error');
       } finally {
@@ -365,6 +388,8 @@ export function useMindArRuntime({
     imageTargetSrc,
     onCameraGranted,
     onError,
+    onModelError,
+    onModelLoadState,
     onMarkerLocked,
     onStage,
     productArModel,

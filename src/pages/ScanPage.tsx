@@ -29,7 +29,16 @@ export function ScanPage() {
   const basicVideoRef = useRef<HTMLVideoElement | null>(null);
   const basicStreamRef = useRef<MediaStream | null>(null);
 
-  const { runtime, setStage, setCameraGranted, setMarkerLocked, setFallbackActive, setErrorMessage } = useScanSession();
+  const {
+    runtime,
+    setStage,
+    setCameraGranted,
+    setMarkerLocked,
+    setFallbackActive,
+    setErrorMessage,
+    setModelLoadState,
+    setModelErrorMessage,
+  } = useScanSession();
 
   const [bootNonce, setBootNonce] = useState(0);
   const [basicCameraMode, setBasicCameraMode] = useState(false);
@@ -65,6 +74,9 @@ export function ScanPage() {
 
   const mobile = useMemo(() => isProbablyMobile(), []);
   const markerLocked = runtime.stage === 'found';
+  const modelReady = runtime.modelLoadState === 'ready';
+  const modelLoading = runtime.modelLoadState === 'loading';
+  const modelFailed = runtime.modelLoadState === 'error';
 
   useEffect(() => {
     if (runtime.stage !== 'requesting_camera' && runtime.stage !== 'ready') return;
@@ -142,9 +154,11 @@ export function ScanPage() {
     setDetailOpen(false);
     setFallbackActive(false);
     setErrorMessage(null);
+    setModelLoadState('idle');
+    setModelErrorMessage(null);
     setStage('requesting_camera');
     setBootNonce((value) => value + 1);
-  }, [setErrorMessage, setFallbackActive, setStage, stopBasicCamera]);
+  }, [setErrorMessage, setFallbackActive, setModelErrorMessage, setModelLoadState, setStage, stopBasicCamera]);
 
   useEffect(() => {
     if (runtime.stage === 'lost' || runtime.stage === 'error') {
@@ -161,6 +175,8 @@ export function ScanPage() {
     onCameraGranted: setCameraGranted,
     onMarkerLocked: setMarkerLocked,
     onError: setErrorMessage,
+    onModelLoadState: setModelLoadState,
+    onModelError: setModelErrorMessage,
     enabled: mobile,
     bootNonce,
   });
@@ -186,26 +202,49 @@ export function ScanPage() {
               <span className="h-2 w-2 rounded-full bg-apple-accent" />
               <p className="truncate text-sm font-medium text-white">{mvpProduct.scan.title}</p>
             </div>
-            <div className="flex items-center gap-2">
-              {markerLocked && (
+            <div className="ml-auto flex shrink-0 items-center justify-end gap-2">
+              {markerLocked && modelReady && (
                 <button
                   type="button"
                   onClick={() => setDetailOpen(true)}
-                  className="inline-flex h-9 min-w-28 items-center justify-center rounded-full border border-white/30 bg-white/10 px-3 text-sm font-medium text-white transition hover:bg-white/20"
+                  className="inline-flex h-9 min-w-24 items-center justify-center rounded-full border border-white/30 bg-white/10 px-3 text-sm font-medium text-white transition hover:bg-white/20"
                 >
                   View Details
                 </button>
               )}
+              {markerLocked && modelLoading && (
+                <span className="inline-flex h-9 min-w-24 items-center justify-center rounded-full border border-white/20 bg-white/5 px-3 text-xs font-medium text-white/70">
+                  Loading 3D…
+                </span>
+              )}
               <button
                 type="button"
                 onClick={resetAndRetryAr}
-                className="inline-flex h-9 min-w-24 items-center justify-center rounded-full bg-apple-accent px-3 text-sm font-medium text-white transition hover:brightness-105"
+                className="inline-flex h-9 min-w-20 items-center justify-center rounded-full bg-apple-accent px-3 text-sm font-medium text-white transition hover:brightness-105"
               >
                 Restart
               </button>
             </div>
           </header>
         </div>
+
+        {markerLocked && modelFailed && (
+          <div className="absolute bottom-3 left-3 right-3 z-40">
+            <article className="mx-auto w-full max-w-3xl rounded-2xl border border-apple-dangerStroke bg-black/70 p-4 text-white backdrop-blur-xl">
+              <p className="text-sm font-semibold">3D model failed to load</p>
+              <p className="mt-1 text-sm text-white/75">
+                {runtime.modelErrorMessage ?? 'Model file failed to load. Retry scan to fetch the model again.'}
+              </p>
+              <button
+                type="button"
+                onClick={resetAndRetryAr}
+                className="mt-3 inline-flex h-10 items-center justify-center rounded-full bg-apple-accent px-5 text-sm font-medium text-white transition hover:brightness-105"
+              >
+                Retry Scan
+              </button>
+            </article>
+          </div>
+        )}
 
         {runtime.stage === 'error' && (
           <div className="absolute bottom-3 left-3 right-3 z-40">
