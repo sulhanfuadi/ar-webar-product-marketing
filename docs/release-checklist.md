@@ -6,8 +6,9 @@
 - `npm run smoke:test` passes.
 - `/` redirects to `/scan`.
 - `/scan` opens full-screen AR camera flow.
-- Product details + actions appear in-scan only when marker is locked.
-- `2D` and `3D` tabs switch correctly inside the in-scan panel.
+- `View Details` appears only when marker is locked.
+- `View Details` popup opens and model can be rotated via drag.
+- Popup close returns cleanly to scan flow.
 
 ## Marker gate
 - Marker reference exists at `public/assets/markers/mvp/macbook-air/reference.png`.

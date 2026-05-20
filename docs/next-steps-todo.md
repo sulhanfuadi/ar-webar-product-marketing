@@ -3,7 +3,7 @@
 ## Done
 - [x] Converted flow to scan-first route behavior.
 - [x] Removed after-scan UX dependency.
-- [x] Moved details + actions + 2D/3D dummy content into scan surface.
+- [x] Switched to 3D-first scan UX with locked-state `View Details` popup.
 - [x] Switched product/UI copy to English-only.
 
 ## Remaining

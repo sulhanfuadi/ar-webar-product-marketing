@@ -1,7 +1,7 @@
 # Product Scan-First WebAR MVP
 
 A focused single-marker WebAR MVP using React + TypeScript + MindAR.  
-This revision is scan-first: all product details and conversion actions live directly inside the scan page.
+This revision is scan-first and 3D-first: marker lock reveals a minimal control surface with `View Details` for model inspection.
 
 ## Core architecture
 - Vite + React + TypeScript
@@ -27,21 +27,22 @@ npm run marker:generate
 
 `markers:generate` remains as a backward-compatible alias.
 
-## In-scan conversion surface
-When marker is locked, the scan page reveals:
-- quick product details panel
-- `Details`, `Contact`, `Buy` actions
-- `2D` / `3D` dummy preview tabs
+## In-scan controls (minimal)
+- `Restart` is always visible in the header.
+- `View Details` appears only when marker is locked.
+- `View Details` opens a popup 3D viewer where users can drag to rotate the model.
 
-Current action links:
-- Details → `https://www.apple.com/macbook-air/`
-- Contact → WhatsApp link with prefilled message
-- Buy → `https://www.apple.com/shop/buy-mac/macbook-air`
-
-## 3D model placement (optional)
-- Optional GLB path:
+## 3D model runtime
+- Active GLB path:
   - `public/assets/models/apple-macbook/model.glb`
+- Current default source file:
+  - `resources/3d model/macbook_ultra_concept_texture1k.glb`
 - If missing/invalid, runtime safely falls back to default mesh.
+
+## Model attribution
+- Source:
+  - `https://skfb.ly/pIFA7`
+- Attribution should follow the license metadata on the source page.
 
 ## Run locally
 ```bash
@@ -64,5 +65,5 @@ npm run preview
   - Safari iPhone (latest)
 
 ## MVP scope
-- Included: scan-first marker AR, runtime states, in-scan conversion panel, dummy 2D/3D tabs.
+- Included: scan-first marker AR, minimal controls (`Restart` + locked-state `View Details`), popup rotate-only 3D detail viewer.
 - Excluded: chatbot runtime and CMS/admin tooling.

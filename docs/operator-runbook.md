@@ -24,12 +24,9 @@ Script source priority:
 1. Open `/` (auto redirects to `/scan`).
 2. Grant camera permission.
 3. Point camera at the same marker image until lock is detected.
-4. Show in-scan product panel once marker is locked.
-5. Demonstrate action links:
-   - Details (product page)
-   - Contact (WhatsApp)
-   - Buy (buy page)
-6. Switch between `2D` and `3D` dummy tabs.
+4. Show that `View Details` appears only after marker lock.
+5. Tap `View Details` and rotate the model by dragging.
+6. Close popup and continue scan tracking.
 
 ## Troubleshooting
 - Camera denied: re-enable camera permission in site settings.
