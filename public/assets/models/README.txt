@@ -1,13 +1,8 @@
-Placeholder model slot
-======================
+Model asset notes
+=================
 
-V1 uses a procedural A-Frame smartphone mockup so the demo works immediately.
+Primary WebAR model contract:
+- public/assets/models/apple-macbook/model.glb
 
-When you have a final 3D asset, place it here, for example:
-- smartphone.glb
-- smartphone.gltf + textures/
-
-Recommended:
-- Keep GLB under ~8 MB for mobile WebAR.
-- Center the model around origin.
-- Front face should look toward positive Z or be adjusted in scene rotation.
+Current MVP runtime uses a 1k texture GLB for mobile reliability.
+If model load fails at runtime, the app keeps a procedural fallback mesh.
