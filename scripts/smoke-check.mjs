@@ -12,10 +12,11 @@ const mustExist = [
   'src/state/ScanSessionContext.tsx',
   'src/ar/mindarRuntime.ts',
   'src/pages/ScanPage.tsx',
-  'src/components/ScanActionPanel.tsx',
+  'src/components/ModelDetailModal.tsx',
   'scripts/generate-mvp-marker.mjs',
   'public/assets/markers/mvp/macbook-air/reference.png',
   'public/assets/markers/mvp/macbook-air/target.mind',
+  'public/assets/models/apple-macbook/model.glb',
   'README.md',
   'docs/release-checklist.md',
   'docs/mobile-qa-matrix.md',
@@ -60,7 +61,7 @@ if (missingContent.length) {
 }
 
 const scanPageText = fs.readFileSync(path.join(root, 'src/pages/ScanPage.tsx'), 'utf8');
-const scanPageSnippets = ['mvpProduct.scanTarget.mindTargetUrl', 'runtime.stage === \'found\'', 'ScanActionPanel'];
+const scanPageSnippets = ['mvpProduct.scanTarget.mindTargetUrl', 'runtime.stage === \'found\'', 'View Details', 'ModelDetailModal'];
 const missingScanPage = scanPageSnippets.filter((snippet) => !scanPageText.includes(snippet));
 if (missingScanPage.length) {
   console.error('Scan page MVP snippets missing:\n' + missingScanPage.join('\n'));
@@ -72,11 +73,8 @@ if (scanPageText.includes('afterScan') || scanPageText.includes('useSearchParams
   process.exit(1);
 }
 
-const actionPanelText = fs.readFileSync(path.join(root, 'src/components/ScanActionPanel.tsx'), 'utf8');
-const ctaSnippets = ['product.actions.map', 'product.mediaPreviews.map', 'scanPanel.actionsHeading', 'scanPanel.mediaHeading'];
-const missingCta = ctaSnippets.filter((snippet) => !actionPanelText.includes(snippet));
-if (missingCta.length) {
-  console.error('In-scan action panel snippets missing:\n' + missingCta.join('\n'));
+if (scanPageText.includes('ScanActionPanel')) {
+  console.error('Scan page must not depend on ScanActionPanel in 3D-only mode');
   process.exit(1);
 }
 
@@ -86,12 +84,16 @@ if (!sharedText.includes('/assets/markers/mvp/macbook-air/target.mind')) {
   process.exit(1);
 }
 
+const detailModalText = fs.readFileSync(path.join(root, 'src/components/ModelDetailModal.tsx'), 'utf8');
+const modalSnippets = ['GLTFLoader', 'Drag to rotate model', 'Loading 3D model'];
+const missingModal = modalSnippets.filter((snippet) => !detailModalText.includes(snippet));
+if (missingModal.length) {
+  console.error('Model detail modal snippets missing:\n' + missingModal.join('\n'));
+  process.exit(1);
+}
+
 const macbookText = fs.readFileSync(path.join(root, 'src/content/products/appleMacbook.ts'), 'utf8');
-const macbookSnippets = [
-  'https://www.apple.com/macbook-air/',
-  'https://www.apple.com/shop/buy-mac/macbook-air',
-  'wa.me/6285291105501',
-];
+const macbookSnippets = ['View Details', '/assets/models/apple-macbook/model.glb'];
 const missingMacbook = macbookSnippets.filter((snippet) => !macbookText.includes(snippet));
 if (missingMacbook.length) {
   console.error('MacBook MVP snippets missing:\n' + missingMacbook.join('\n'));
@@ -104,4 +106,4 @@ if (!vercelText.includes('rewrites')) {
   process.exit(1);
 }
 
-console.log('Smoke check passed: scan-first single-marker MVP flow is present.');
+console.log('Smoke check passed: scan-first 3D-first single-marker MVP flow is present.');
