@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useMindArRuntime } from '../ar/mindarRuntime';
 import { ModelDetailModal } from '../components/ModelDetailModal';
+import { SpecificationModal } from '../components/SpecificationModal';
 import { mvpProduct } from '../content/appContent';
 import { useScanSession } from '../state/ScanSessionContext';
-import type { ScanStage } from '../types/app';
+import type { ProductAction, ScanStage } from '../types/app';
 
 function isProbablyMobile() {
   return /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent || '');
@@ -22,6 +23,18 @@ function toCameraErrorMessage(error: unknown) {
   }
 
   return `Basic camera fallback failed: ${raw}`;
+}
+
+function actionButtonClass(style: ProductAction['style']) {
+  if (style === 'primary') {
+    return 'border border-apple-accent bg-apple-accent text-white';
+  }
+
+  if (style === 'secondary') {
+    return 'border border-white/30 bg-white/10 text-white';
+  }
+
+  return 'border border-white/30 bg-transparent text-white';
 }
 
 export function ScanPage() {
@@ -45,6 +58,15 @@ export function ScanPage() {
   const previewMode = useMemo(() => new URLSearchParams(window.location.search).get('qa_preview'), []);
   const forceLocked = previewMode === 'locked' || previewMode === 'details';
   const [detailOpen, setDetailOpen] = useState(previewMode === 'details');
+  const [specificationOpen, setSpecificationOpen] = useState(false);
+
+  const businessActions = useMemo(
+    () =>
+      ['contact', 'buy']
+        .map((actionId) => mvpProduct.actions.find((action) => action.id === actionId))
+        .filter((action): action is ProductAction => Boolean(action)),
+    [],
+  );
 
   const stopBasicCamera = useCallback(() => {
     if (basicVideoRef.current) {
@@ -156,18 +178,27 @@ export function ScanPage() {
     stopBasicCamera();
     setBasicCameraMode(false);
     setDetailOpen(false);
+    setSpecificationOpen(false);
     setFallbackActive(false);
     setErrorMessage(null);
     setModelLoadState('idle');
     setModelErrorMessage(null);
     setStage('requesting_camera');
     setBootNonce((value) => value + 1);
-  }, [setErrorMessage, setFallbackActive, setModelErrorMessage, setModelLoadState, setStage, stopBasicCamera]);
+  }, [
+    setErrorMessage,
+    setFallbackActive,
+    setModelErrorMessage,
+    setModelLoadState,
+    setStage,
+    stopBasicCamera,
+  ]);
 
   useEffect(() => {
     if (forceLocked) return;
     if (runtime.stage === 'lost' || runtime.stage === 'error') {
       setDetailOpen(false);
+      setSpecificationOpen(false);
     }
   }, [forceLocked, runtime.stage]);
 
@@ -214,7 +245,7 @@ export function ScanPage() {
                   onClick={() => setDetailOpen(true)}
                   className="inline-flex h-8 min-w-20 items-center justify-center whitespace-nowrap rounded-full border border-white/30 bg-white/10 px-2.5 text-xs font-medium text-white transition hover:bg-white/20 sm:h-9 sm:min-w-24 sm:px-3 sm:text-sm"
                 >
-                  View Details
+                  3D Detail
                 </button>
               )}
               {markerLocked && modelLoading && !previewModelReady && (
@@ -233,8 +264,40 @@ export function ScanPage() {
           </header>
         </div>
 
+        {markerLocked && (
+          <div className="pointer-events-none absolute bottom-3 left-3 right-3 z-40">
+            <div
+              className="pointer-events-auto mx-auto w-full max-w-3xl rounded-2xl border border-white/25 bg-black/65 p-2 shadow-apple backdrop-blur-xl"
+              style={{
+                paddingBottom: 'max(env(safe-area-inset-bottom), 0.5rem)',
+              }}
+            >
+              <div className="grid grid-cols-3 gap-2">
+                {businessActions.map((action) => (
+                  <a
+                    key={action.id}
+                    href={action.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`flex h-10 items-center justify-center rounded-full px-2 text-sm font-medium transition hover:brightness-105 ${actionButtonClass(action.style)}`}
+                  >
+                    {action.label}
+                  </a>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setSpecificationOpen(true)}
+                  className="inline-flex h-10 items-center justify-center rounded-full border border-white/30 bg-white/10 px-2 text-sm font-medium text-white transition hover:bg-white/20"
+                >
+                  Specification
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {markerLocked && modelFailed && !previewModelReady && (
-          <div className="absolute bottom-3 left-3 right-3 z-40">
+          <div className="absolute bottom-[5.6rem] left-3 right-3 z-40 sm:bottom-[5.8rem]">
             <article className="mx-auto w-full max-w-3xl rounded-2xl border border-apple-dangerStroke bg-black/70 p-4 text-white backdrop-blur-xl">
               <p className="text-sm font-semibold">3D model failed to load</p>
               <p className="mt-1 text-sm text-white/75">
@@ -300,6 +363,12 @@ export function ScanPage() {
         modelUrl={mvpProduct.arModel?.url ?? '/assets/models/apple-macbook/model.glb'}
         title={mvpProduct.name}
         onClose={() => setDetailOpen(false)}
+      />
+      <SpecificationModal
+        open={specificationOpen}
+        title={mvpProduct.name}
+        specifications={mvpProduct.specifications}
+        onClose={() => setSpecificationOpen(false)}
       />
     </div>
   );
