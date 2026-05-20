@@ -29,3 +29,6 @@ dist-ssr
 
 # local resource bundle
 /resources/
+
+# local screenshots/debug captures
+/.artifacts/
