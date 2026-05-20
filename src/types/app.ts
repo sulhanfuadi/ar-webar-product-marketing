@@ -69,6 +69,11 @@ export interface ProductAction {
   style: 'primary' | 'secondary' | 'outline';
 }
 
+export interface ProductSpecification {
+  label: string;
+  value: string;
+}
+
 export interface ProductMediaPreview {
   id: '2d' | '3d' | string;
   label: string;
@@ -102,6 +107,7 @@ export interface ProductConfig {
   scanTarget: ScanTargetConfig;
   arModel?: ProductArModelConfig;
   actions: ProductAction[];
+  specifications: ProductSpecification[];
   mediaPreviews: ProductMediaPreview[];
   hotspots: ProductHotspot[];
 }

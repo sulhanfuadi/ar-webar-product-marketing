@@ -3,23 +3,23 @@ import { baseRuntimeMessages, buildMvpScanTarget } from './shared';
 
 export const appleMacbook: ProductConfig = {
   id: 'apple-macbook',
-  name: 'Product AR Demo',
+  name: 'MacBook Air Concept',
   scan: {
     title: 'AR Scan',
     guidance: 'Point your camera to the printed marker, reduce glare, and keep the full image visible.',
     desktopHint: 'Desktop is preview-only. Use Chrome Android or Safari iPhone for live camera scanning.',
     referenceLabel: 'Reference',
-    lockHint: 'Lock the marker to enable the View Details button.',
+    lockHint: 'Lock the marker to enable 3D Detail and action buttons.',
     runtimeMessages: baseRuntimeMessages(
-      'Marker locked. Use View Details to inspect the 3D model.',
+      'Marker locked. Use 3D Detail to inspect the model closer.',
     ),
   },
   scanPanel: {
     eyebrow: 'Live Overlay',
     title: 'Product Quick Brief',
-    subtitle: 'Keep the marker locked while reviewing key details and conversion actions.',
+    subtitle: 'Keep the marker locked while reviewing details and taking an action.',
     actionsHeading: 'Actions',
-    mediaHeading: '2D / 3D Preview',
+    mediaHeading: 'Product Summary',
   },
   scanTarget: buildMvpScanTarget(),
   arModel: {
@@ -29,12 +29,6 @@ export const appleMacbook: ProductConfig = {
     rotation: [0, 0, 0],
   },
   actions: [
-    {
-      id: 'detail',
-      label: 'Details',
-      url: 'https://www.apple.com/macbook-air/',
-      style: 'secondary',
-    },
     {
       id: 'contact',
       label: 'Contact',
@@ -48,29 +42,46 @@ export const appleMacbook: ProductConfig = {
       style: 'primary',
     },
   ],
-  mediaPreviews: [
+  specifications: [
     {
-      id: '2d',
-      label: '2D',
-      headline: '2D Product Information',
-      description:
-        'This placeholder simulates a clean 2D information card displayed directly in the scan experience.',
-      points: [
-        'Chip: high-efficiency performance class for daily productivity.',
-        'Battery: all-day usage claim for MVP presentation purposes.',
-        'Display: high-resolution panel with accurate color profile.',
-      ],
+      label: 'Model',
+      value: 'MacBook Air Concept',
     },
     {
-      id: '3d',
-      label: '3D',
-      headline: '3D Preview Placeholder',
-      description:
-        'Final 3D model can be upgraded later while preserving the same scan and conversion flow.',
+      label: 'Display',
+      value: '13-inch Liquid Retina class',
+    },
+    {
+      label: 'Chip Class',
+      value: 'Apple Silicon performance class',
+    },
+    {
+      label: 'Memory',
+      value: '8 GB unified memory (base demo spec)',
+    },
+    {
+      label: 'Storage',
+      value: '256 GB SSD (base demo spec)',
+    },
+    {
+      label: 'Battery',
+      value: 'All-day battery class for mobile productivity',
+    },
+    {
+      label: 'Weight',
+      value: 'Lightweight portability class',
+    },
+  ],
+  mediaPreviews: [
+    {
+      id: 'summary',
+      label: 'Summary',
+      headline: 'MacBook Air Concept',
+      description: 'Lightweight productivity laptop concept showcased in marker-based WebAR.',
       points: [
-        'Current runtime still uses a fallback mesh if no GLB is available.',
-        'Model path contract remains `/assets/models/apple-macbook/model.glb`.',
-        'Safe for MVP demos while final 3D assets are still in progress.',
+        '3D runtime model: texture1k GLB for stable mobile loading.',
+        'Detail viewer supports rotate and pinch zoom.',
+        'Contact and Buy actions are available directly from scan state.',
       ],
     },
   ],
