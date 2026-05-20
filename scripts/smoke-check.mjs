@@ -45,7 +45,7 @@ if (appText.includes('routes.afterScan')) {
 }
 
 const runtimeText = fs.readFileSync(path.join(root, 'src/ar/mindarRuntime.ts'), 'utf8');
-const runtimeSnippets = ['MindARThree', 'requesting_camera', 'onTargetFound', 'onTargetLost'];
+const runtimeSnippets = ['MindARThree', 'requesting_camera', 'onTargetFound', 'onTargetLost', 'onModelLoadState', 'normalizeModelError'];
 const missingRuntime = runtimeSnippets.filter((snippet) => !runtimeText.includes(snippet));
 if (missingRuntime.length) {
   console.error('MindAR runtime snippets missing:\n' + missingRuntime.join('\n'));
@@ -61,7 +61,14 @@ if (missingContent.length) {
 }
 
 const scanPageText = fs.readFileSync(path.join(root, 'src/pages/ScanPage.tsx'), 'utf8');
-const scanPageSnippets = ['mvpProduct.scanTarget.mindTargetUrl', 'runtime.stage === \'found\'', 'View Details', 'ModelDetailModal'];
+const scanPageSnippets = [
+  'mvpProduct.scanTarget.mindTargetUrl',
+  'runtime.stage === \'found\'',
+  'View Details',
+  'ModelDetailModal',
+  'runtime.modelLoadState',
+  '3D model failed to load',
+];
 const missingScanPage = scanPageSnippets.filter((snippet) => !scanPageText.includes(snippet));
 if (missingScanPage.length) {
   console.error('Scan page MVP snippets missing:\n' + missingScanPage.join('\n'));
@@ -85,7 +92,7 @@ if (!sharedText.includes('/assets/markers/mvp/macbook-air/target.mind')) {
 }
 
 const detailModalText = fs.readFileSync(path.join(root, 'src/components/ModelDetailModal.tsx'), 'utf8');
-const modalSnippets = ['GLTFLoader', 'Drag to rotate model', 'Loading 3D model'];
+const modalSnippets = ['GLTFLoader', 'Drag to rotate model', 'Loading 3D model', 'safe-area-inset-top'];
 const missingModal = modalSnippets.filter((snippet) => !detailModalText.includes(snippet));
 if (missingModal.length) {
   console.error('Model detail modal snippets missing:\n' + missingModal.join('\n'));

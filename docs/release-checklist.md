@@ -9,6 +9,7 @@
 - `View Details` appears only when marker is locked.
 - `View Details` popup opens and model can be rotated via drag.
 - Popup close returns cleanly to scan flow.
+- When GLB load fails, UI shows explicit model-load error and `Retry Scan`.
 
 ## Marker gate
 - Marker reference exists at `public/assets/markers/mvp/macbook-air/reference.png`.
@@ -25,3 +26,7 @@
 - HTTPS preview URL is available for mobile QA.
 - SPA rewrites work for `/scan`.
 - Known limitations are communicated in `docs/known-limitations.md`.
+- Production domain is `https://ar-webar-product-marketing.vercel.app`.
+- Production returns `200` for:
+  - `/assets/models/apple-macbook/model.glb`
+  - `/assets/markers/mvp/macbook-air/target.mind`

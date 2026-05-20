@@ -37,7 +37,12 @@ npm run marker:generate
   - `public/assets/models/apple-macbook/model.glb`
 - Current default source file:
   - `resources/3d model/macbook_ultra_concept_texture1k.glb`
-- If missing/invalid, runtime safely falls back to default mesh.
+- If missing/invalid, runtime shows a clear load error and asks user to retry scan.
+
+## Production demo URL
+- Primary live demo:
+  - `https://ar-webar-product-marketing.vercel.app`
+- Do not use stale URLs that are not mapped to this deployment.
 
 ## Model attribution
 - Source:
