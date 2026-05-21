@@ -32,7 +32,7 @@ export const appleMacbook: ProductConfig = {
     {
       id: 'contact',
       label: 'Contact',
-      url: 'https://wa.me/6285291105501?text=Hello%2C%20I%27m%20interested%20in%20the%20AR%20MacBook%20Air%20demo.%20Could%20you%20share%20more%20details%3F',
+      url: 'https://wa.me/6285291105501?text=Hello%2C%20I%27m%20interested%20in%20the%20MacBook%20Air%20product.%20Could%20you%20share%20more%20details%20about%20pricing%20and%20availability%3F',
       style: 'outline',
     },
     {
