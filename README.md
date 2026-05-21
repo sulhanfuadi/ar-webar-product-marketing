@@ -49,14 +49,9 @@ npm run marker:generate
   - `https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/testing/android/android-3d-detail.png`
   - `https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/testing/android/android-spesification.png`
 
-### Marker Locked (Android)
-![Android Marker Locked](public/assets/testing/android/android-scanned-marker.png)
-
-### 3D Detail Viewer (Android)
-![Android 3D Detail](public/assets/testing/android/android-3d-detail.png)
-
-### Specification Modal (Android)
-![Android Specification Modal](public/assets/testing/android/android-spesification.png)
+| Marker Locked (Android) | 3D Detail Viewer (Android) | Specification Modal (Android) |
+| --- | --- | --- |
+| ![Android Marker Locked](public/assets/testing/android/android-scanned-marker.png) | ![Android 3D Detail](public/assets/testing/android/android-3d-detail.png) | ![Android Specification Modal](public/assets/testing/android/android-spesification.png) |
 
 ## In-scan controls (current UX)
 - Header controls:
