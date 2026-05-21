@@ -52,13 +52,22 @@ export function SpecificationModal({ open, title, specifications, onClose }: Spe
           <div className="mt-3 min-h-0 flex-1 overflow-y-auto rounded-2xl border border-white/20 bg-black/30 p-3 sm:p-4">
             {specifications.length > 0 ? (
               <ul className="space-y-2">
-                {specifications.map((specification) => (
+                {specifications.map((specification, index) => (
                   <li
-                    key={`${specification.label}-${specification.value}`}
+                    key={`${specification.label}-${index}`}
                     className="rounded-xl border border-white/10 bg-black/30 px-3 py-2.5"
                   >
                     <p className="text-xs uppercase tracking-[0.08em] text-white/60">{specification.label}</p>
                     <p className="mt-1 text-sm font-medium text-white">{specification.value}</p>
+                    {specification.details && specification.details.length > 0 && (
+                      <ul className="mt-2 list-disc space-y-1 pl-4 text-xs leading-relaxed text-white/80 sm:text-sm">
+                        {specification.details.map((detail, detailIndex) => (
+                          <li key={`${specification.label}-${detailIndex}`}>
+                            {detail}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </li>
                 ))}
               </ul>

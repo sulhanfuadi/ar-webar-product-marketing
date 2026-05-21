@@ -44,32 +44,148 @@ export const appleMacbook: ProductConfig = {
   ],
   specifications: [
     {
-      label: 'Model',
-      value: 'MacBook Air Concept',
+      label: 'Source Sync',
+      value: 'Detailed summary synced on May 21, 2026',
+      details: [
+        'Primary buy page: https://www.apple.com/shop/buy-mac/macbook-air',
+        'Technical specs page: https://www.apple.com/macbook-air/specs/',
+      ],
     },
     {
-      label: 'Display',
-      value: '13-inch Liquid Retina class',
+      label: 'Model Lineup',
+      value: 'MacBook Air is offered in 13-inch and 15-inch sizes',
+      details: [
+        '13-inch lineup: M5 chip with 10-core CPU plus 8-core or 10-core GPU.',
+        '15-inch lineup: M5 chip with 10-core CPU and 10-core GPU.',
+        'Base buy configuration starts at 16GB unified memory and 512GB SSD in current store listing.',
+      ],
     },
     {
-      label: 'Chip Class',
-      value: 'Apple Silicon performance class',
+      label: 'Color Options',
+      value: 'Sky Blue, Silver, Starlight, Midnight',
+      details: [
+        'All finishes are shown as available options in the official buy flow.',
+        'Color availability can vary by region and stock.',
+      ],
     },
     {
-      label: 'Memory',
-      value: '8 GB unified memory (base demo spec)',
+      label: 'Chip Platform (M5)',
+      value: '10-core CPU with hardware-accelerated graphics features',
+      details: [
+        'GPU options include 8-core and 10-core variants depending on selected model.',
+        '16-core Neural Engine is listed in the technical specification.',
+        'Hardware acceleration includes ray tracing, mesh shading, and media encode/decode engines.',
+        'Memory bandwidth shown on the spec page is up to 120GB/s.',
+      ],
     },
     {
-      label: 'Storage',
-      value: '256 GB SSD (base demo spec)',
+      label: 'Unified Memory',
+      value: 'Starts at 16GB with configurable upgrades',
+      details: [
+        'Buy flow shows base 16GB unified memory.',
+        'Configurable options shown include 24GB and 32GB on selected variants.',
+      ],
     },
     {
-      label: 'Battery',
-      value: 'All-day battery class for mobile productivity',
+      label: 'SSD Storage',
+      value: 'Starts at 512GB with higher configurable capacities',
+      details: [
+        'Buy flow includes 512GB as base on the listed M5 configurations.',
+        'Configurable upgrades include 1TB, 2TB, and 4TB options (variant dependent).',
+      ],
     },
     {
-      label: 'Weight',
-      value: 'Lightweight portability class',
+      label: 'Display — 13-inch',
+      value: '13.6-inch Liquid Retina display (2560×1664)',
+      details: [
+        '500 nits brightness, Wide color (P3), and True Tone.',
+        'Full native resolution supports millions of colors.',
+      ],
+    },
+    {
+      label: 'Display — 15-inch',
+      value: '15.3-inch Liquid Retina display (2880×1864)',
+      details: [
+        '500 nits brightness, Wide color (P3), and True Tone.',
+        'Designed for larger workspace while staying in the Air form factor.',
+      ],
+    },
+    {
+      label: 'Camera & Audio',
+      value: '12MP Center Stage camera with multi-mic and Spatial Audio support',
+      details: [
+        'Camera supports 1080p HD video recording and advanced image signal processing.',
+        'Three-mic array with directional beamforming and voice isolation modes.',
+        '13-inch model: four-speaker system.',
+        '15-inch model: six-speaker system with force-cancelling woofers.',
+      ],
+    },
+    {
+      label: 'Battery & Power',
+      value: 'All-day battery profile with fast-charge support',
+      details: [
+        '13-inch battery: up to 18 hours video playback, up to 15 hours wireless web.',
+        '15-inch battery: up to 18 hours video playback, up to 15 hours wireless web.',
+        'Fast-charge support is listed with optional higher-watt USB-C adapters.',
+        'MagSafe 3 charging plus USB-C charging are supported.',
+      ],
+    },
+    {
+      label: 'Ports & Connectivity',
+      value: 'MagSafe 3, two Thunderbolt 4 / USB-C, 3.5 mm audio jack',
+      details: [
+        'Wi‑Fi 6E and Bluetooth 5.3 listed in current technical specifications.',
+        'External display support includes up to two external displays with lid closed on supported setup.',
+      ],
+    },
+    {
+      label: 'Input & Security',
+      value: 'Magic Keyboard, Touch ID, and large Force Touch trackpad',
+      details: [
+        'Backlit Magic Keyboard with full-height function row.',
+        'Touch ID for secure unlock, authentication, and payments.',
+        'Large Force Touch trackpad supports pressure-sensitive interactions.',
+      ],
+    },
+    {
+      label: 'Physical Design',
+      value: 'Thin aluminum enclosure built for portability',
+      details: [
+        '13-inch: approximately 11.97 × 8.46 × 0.44 inches, around 2.7 lb.',
+        '15-inch: approximately 13.40 × 9.35 × 0.45 inches, around 3.3 lb.',
+      ],
+    },
+    {
+      label: 'In the Box',
+      value: 'MacBook Air, USB-C to MagSafe 3 cable, and USB-C power adapter',
+      details: [
+        'Adapter wattage may differ by chosen model and charging option.',
+      ],
+    },
+    {
+      label: 'Purchase Programs',
+      value: 'Financing, trade-in, and education channels are available',
+      details: [
+        'Buy page highlights Apple Card Monthly Installments in supported markets.',
+        'Trade-in program provides estimated credit values based on device condition.',
+        'Education pricing and seasonal offers can be available through dedicated education store paths.',
+      ],
+    },
+    {
+      label: 'Protection & Support',
+      value: 'AppleCare+ options and onboarding services are offered',
+      details: [
+        'Buy page includes AppleCare+ selection during checkout.',
+        'Personal Setup and migration support are promoted for new buyers.',
+        'Standard return policies and delivery options are shown in FAQ sections.',
+      ],
+    },
+    {
+      label: 'Important Note',
+      value: 'Apple updates configurations, price, and availability regularly',
+      details: [
+        'Use the Buy button for the latest real-time options before final purchase decisions.',
+      ],
     },
   ],
   mediaPreviews: [

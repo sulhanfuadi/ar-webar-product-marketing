@@ -72,6 +72,7 @@ export interface ProductAction {
 export interface ProductSpecification {
   label: string;
   value: string;
+  details?: string[];
 }
 
 export interface ProductMediaPreview {
