@@ -84,9 +84,6 @@ export function ModelDetailModal({ open, modelUrl, title, onClose }: ModelDetail
     let controls: OrbitControlsInstance | null = null;
     let activeThreeModule: ThreeModule | null = null;
     let camera: import('three').PerspectiveCamera | null = null;
-    let initialCameraPosition: import('three').Vector3 | null = null;
-    let initialTargetPosition: import('three').Vector3 | null = null;
-
     const bootViewer = async () => {
       try {
         const [threeModule, gltfLoaderModule, orbitControlsModule] = (await Promise.all([
@@ -146,7 +143,7 @@ export function ModelDetailModal({ open, modelUrl, title, onClose }: ModelDetail
           const height = Math.max(host.clientHeight, 1);
           camera.aspect = width / height;
           camera.updateProjectionMatrix();
-          renderer.setSize(width, height, false);
+          renderer.setSize(width, height, true);
         };
 
         resize();
@@ -175,42 +172,49 @@ export function ModelDetailModal({ open, modelUrl, title, onClose }: ModelDetail
             }
 
             loadedRoot = root;
+            pivot.add(root);
+            root.updateMatrixWorld(true);
 
             const box = new threeModule.Box3().setFromObject(root);
+            if (box.isEmpty()) {
+              setViewerState('error');
+              setErrorMessage('3D model bounds are empty.');
+              return;
+            }
+
             const center = box.getCenter(new threeModule.Vector3());
             root.position.sub(center);
+            root.updateMatrixWorld(true);
 
             const centeredBox = new threeModule.Box3().setFromObject(root);
             const sphere = centeredBox.getBoundingSphere(new threeModule.Sphere());
             const radius = Math.max(sphere.radius, 0.001);
+            const target = sphere.center.clone();
             const aspect = Math.max(host.clientWidth, 1) / Math.max(host.clientHeight, 1);
             const verticalFov = threeModule.MathUtils.degToRad(camera.fov);
             const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * aspect);
 
             const fitHeightDistance = radius / Math.sin(verticalFov / 2);
             const fitWidthDistance = radius / Math.sin(horizontalFov / 2);
-            const fitDistance = Math.max(fitHeightDistance, fitWidthDistance) * 1.14;
+            const fitDistance = Math.max(fitHeightDistance, fitWidthDistance) * 1.28;
 
-            camera.position.set(0, radius * 0.16, fitDistance);
-            camera.near = Math.max(fitDistance / 200, 0.01);
-            camera.far = Math.max(fitDistance * 30, 80);
+            camera.position.copy(target).add(new threeModule.Vector3(0, 0, fitDistance));
+            camera.near = Math.max(fitDistance / 150, 0.01);
+            camera.far = Math.max(fitDistance * 40, 120);
             camera.updateProjectionMatrix();
 
-            controls.target.set(0, 0, 0);
-            controls.minDistance = Math.max(fitDistance * 0.52, radius * 0.7);
-            controls.maxDistance = Math.max(fitDistance * 2.2, controls.minDistance + 0.3);
+            controls.target.copy(target);
+            controls.minDistance = Math.max(fitDistance * 0.45, radius * 0.75);
+            controls.maxDistance = Math.max(fitDistance * 2.6, controls.minDistance + 0.5);
             controls.update();
+            controls.saveState();
 
-            initialCameraPosition = camera.position.clone();
-            initialTargetPosition = controls.target.clone();
             resetViewRef.current = () => {
-              if (!camera || !controls || !initialCameraPosition || !initialTargetPosition) return;
-              camera.position.copy(initialCameraPosition);
-              controls.target.copy(initialTargetPosition);
+              if (!controls) return;
+              controls.reset();
               controls.update();
             };
 
-            pivot.add(root);
             setViewerState('ready');
           },
           undefined,
