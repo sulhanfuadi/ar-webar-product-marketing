@@ -98,11 +98,9 @@ export function ScanPage() {
 
   const mobile = useMemo(() => isProbablyMobile(), []);
   const markerLocked = runtime.stage === 'found' || forceLocked;
-  const modelReady = runtime.modelLoadState === 'ready';
   const modelLoading = runtime.modelLoadState === 'loading';
   const modelFailed = runtime.modelLoadState === 'error';
   const previewModelReady = forceLocked;
-  const modelReadyUi = modelReady || previewModelReady;
 
   useEffect(() => {
     if (runtime.stage !== 'requesting_camera' && runtime.stage !== 'ready') return;
@@ -196,7 +194,7 @@ export function ScanPage() {
 
   useEffect(() => {
     if (forceLocked) return;
-    if (runtime.stage === 'lost' || runtime.stage === 'error') {
+    if (runtime.stage === 'error') {
       setDetailOpen(false);
       setSpecificationOpen(false);
     }
@@ -239,15 +237,6 @@ export function ScanPage() {
               <p className="truncate text-sm font-medium text-white">{mvpProduct.scan.title}</p>
             </div>
             <div className="ml-auto flex shrink-0 items-center justify-end gap-1.5">
-              {markerLocked && modelReadyUi && (
-                <button
-                  type="button"
-                  onClick={() => setDetailOpen(true)}
-                  className="inline-flex h-8 min-w-20 items-center justify-center whitespace-nowrap rounded-full border border-white/30 bg-white/10 px-2.5 text-xs font-medium text-white transition hover:bg-white/20 sm:h-9 sm:min-w-24 sm:px-3 sm:text-sm"
-                >
-                  3D Detail
-                </button>
-              )}
               {markerLocked && modelLoading && !previewModelReady && (
                 <span className="inline-flex h-8 min-w-20 items-center justify-center whitespace-nowrap rounded-full border border-white/20 bg-white/5 px-2.5 text-xs font-medium text-white/70 sm:h-9 sm:min-w-24 sm:px-3">
                   Loading 3D…
@@ -264,10 +253,20 @@ export function ScanPage() {
           </header>
         </div>
 
-        {markerLocked && (
-          <div className="pointer-events-none absolute bottom-3 left-3 right-3 z-40">
+        <div className="pointer-events-none absolute bottom-3 left-3 right-3 z-40">
+          <div className="pointer-events-auto mx-auto w-full max-w-3xl">
+            <button
+              type="button"
+              onClick={() => setDetailOpen(true)}
+              className="inline-flex h-11 w-full items-center justify-center rounded-full border border-white/30 bg-white/10 px-4 text-sm font-semibold text-white transition hover:bg-white/20"
+            >
+              3D Detail
+            </button>
+          </div>
+
+          {markerLocked && (
             <div
-              className="pointer-events-auto mx-auto w-full max-w-3xl rounded-2xl border border-white/25 bg-black/65 p-2 shadow-apple backdrop-blur-xl"
+              className="pointer-events-auto mx-auto mt-2 w-full max-w-3xl rounded-2xl border border-white/25 bg-black/65 p-2 shadow-apple backdrop-blur-xl"
               style={{
                 paddingBottom: 'max(env(safe-area-inset-bottom), 0.5rem)',
               }}
@@ -293,11 +292,15 @@ export function ScanPage() {
                 </button>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
-        {markerLocked && modelFailed && !previewModelReady && (
-          <div className="absolute bottom-[5.6rem] left-3 right-3 z-40 sm:bottom-[5.8rem]">
+        {modelFailed && !previewModelReady && (
+          <div
+            className={`absolute left-3 right-3 z-40 ${
+              markerLocked ? 'bottom-[10.6rem] sm:bottom-[10.8rem]' : 'bottom-[6.1rem] sm:bottom-[6.2rem]'
+            }`}
+          >
             <article className="mx-auto w-full max-w-3xl rounded-2xl border border-apple-dangerStroke bg-black/70 p-4 text-white backdrop-blur-xl">
               <p className="text-sm font-semibold">3D model failed to load</p>
               <p className="mt-1 text-sm text-white/75">
