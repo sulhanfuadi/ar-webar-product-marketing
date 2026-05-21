@@ -253,18 +253,18 @@ export function ScanPage() {
           </header>
         </div>
 
-        <div className="pointer-events-none absolute bottom-3 left-3 right-3 z-40">
-          <div className="pointer-events-auto mx-auto w-full max-w-3xl">
-            <button
-              type="button"
-              onClick={() => setDetailOpen(true)}
-              className="inline-flex h-11 w-full items-center justify-center rounded-full border border-white/30 bg-white/10 px-4 text-sm font-semibold text-white transition hover:bg-white/20"
-            >
-              3D Detail
-            </button>
-          </div>
+        {markerLocked && (
+          <div className="pointer-events-none absolute bottom-3 left-3 right-3 z-40">
+            <div className="pointer-events-auto mx-auto w-full max-w-3xl">
+              <button
+                type="button"
+                onClick={() => setDetailOpen(true)}
+                className="inline-flex h-11 w-full items-center justify-center rounded-full border border-white/30 bg-white/10 px-4 text-sm font-semibold text-white transition hover:bg-white/20"
+              >
+                3D Detail
+              </button>
+            </div>
 
-          {markerLocked && (
             <div
               className="pointer-events-auto mx-auto mt-2 w-full max-w-3xl rounded-2xl border border-white/25 bg-black/65 p-2 shadow-apple backdrop-blur-xl"
               style={{
@@ -292,14 +292,12 @@ export function ScanPage() {
                 </button>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
-        {modelFailed && !previewModelReady && (
+        {markerLocked && modelFailed && !previewModelReady && (
           <div
-            className={`absolute left-3 right-3 z-40 ${
-              markerLocked ? 'bottom-[10.6rem] sm:bottom-[10.8rem]' : 'bottom-[6.1rem] sm:bottom-[6.2rem]'
-            }`}
+            className="absolute bottom-[10.6rem] left-3 right-3 z-40 sm:bottom-[10.8rem]"
           >
             <article className="mx-auto w-full max-w-3xl rounded-2xl border border-apple-dangerStroke bg-black/70 p-4 text-white backdrop-blur-xl">
               <p className="text-sm font-semibold">3D model failed to load</p>
