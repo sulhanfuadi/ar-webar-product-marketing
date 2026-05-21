@@ -14,12 +14,18 @@ Current flow is scan-first and 3D-first: marker lock unlocks detail + conversion
 - `/scan` is the primary and only user-facing flow
 - no after-scan page UX
 
-## Single marker contract (source of truth)
-- Marker reference image:
-  - `public/assets/markers/mvp/macbook-air/reference.png`
-- Marker target file:
-  - `public/assets/markers/mvp/macbook-air/target.mind`
-- Live marker URL for testers:
+## GitHub asset links
+- Repository:
+  - `https://github.com/sulhanfuadi/ar-webar-product-marketing`
+- Public assets folder:
+  - `https://github.com/sulhanfuadi/ar-webar-product-marketing/tree/main/public/assets`
+
+## Marker contract (source of truth)
+- Marker poster file (GitHub):
+  - `https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/markers/mvp/macbook-air/reference.png`
+- Marker target file (GitHub):
+  - `https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/markers/mvp/macbook-air/target.mind`
+- Live marker poster URL:
   - `https://ar-webar-product-marketing.vercel.app/assets/markers/mvp/macbook-air/reference.png`
 - Regenerate marker target:
 
@@ -30,20 +36,27 @@ npm run marker:generate
 `markers:generate` remains as a backward-compatible alias.
 
 ## Testing poster (required)
-- Current AR flow is validated against this exact poster:
-  - `public/assets/markers/mvp/macbook-air/reference.png`
+- Current AR flow is validated against this exact poster image:
+  - `https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/markers/mvp/macbook-air/reference.png`
 - Use that image for QA/demo (print or show on secondary screen).
 - Keep full poster visible in camera frame for stable marker lock.
 
+![AR Marker Poster](public/assets/markers/mvp/macbook-air/reference.png)
+
 ## Android testing screenshots
-- Local files:
-  - `public/assets/testing/android/android-scanned-marker.png`
-  - `public/assets/testing/android/android-3d-detail.png`
-  - `public/assets/testing/android/android-spesification.png`
-- Production URLs:
-  - `https://ar-webar-product-marketing.vercel.app/assets/testing/android/android-scanned-marker.png`
-  - `https://ar-webar-product-marketing.vercel.app/assets/testing/android/android-3d-detail.png`
-  - `https://ar-webar-product-marketing.vercel.app/assets/testing/android/android-spesification.png`
+- GitHub files:
+  - `https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/testing/android/android-scanned-marker.png`
+  - `https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/testing/android/android-3d-detail.png`
+  - `https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/testing/android/android-spesification.png`
+
+### Marker Locked (Android)
+![Android Marker Locked](public/assets/testing/android/android-scanned-marker.png)
+
+### 3D Detail Viewer (Android)
+![Android 3D Detail](public/assets/testing/android/android-3d-detail.png)
+
+### Specification Modal (Android)
+![Android Specification Modal](public/assets/testing/android/android-spesification.png)
 
 ## In-scan controls (current UX)
 - Header controls:
@@ -67,10 +80,9 @@ npm run marker:generate
 - For latest commercial options (price, stock, promo, financing), use live `Buy` link.
 
 ## 3D model runtime
-- Active GLB path:
-  - `public/assets/models/apple-macbook/model.glb`
-- Current default source file:
-  - `resources/3d model/macbook_ultra_concept_texture1k.glb`
+- Active GLB file (GitHub):
+  - `https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/models/apple-macbook/model.glb`
+- Runtime currently uses the 1k texture variant for mobile reliability.
 - If missing/invalid, runtime shows a clear load error and asks user to retry scan.
 
 ## Production demo URL
