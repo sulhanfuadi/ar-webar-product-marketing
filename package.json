@@ -9,7 +9,12 @@
     "preview": "vite preview",
     "smoke:test": "node scripts/smoke-check.mjs",
     "marker:generate": "node scripts/generate-mvp-marker.mjs",
-    "markers:generate": "npm run marker:generate"
+    "markers:generate": "npm run marker:generate",
+    "test:compat": "playwright test",
+    "test:desktop": "playwright test --project='Desktop Chrome' --project='Desktop Firefox' --project='Desktop Safari (WebKit)' --project='Desktop Edge'",
+    "test:mobile": "playwright test --project='iPhone 14 – Safari (WebKit)' --project='iPhone 14 – Chrome iOS (WebKit)' --project='Pixel 7 – Chrome Android' --project='Pixel 7 – Samsung Internet' --project='Pixel 7 – Opera Android'",
+    "test:report": "playwright show-report test-results/html-report",
+    "test:report:gen": "node scripts/generate-compat-report.mjs"
   },
   "dependencies": {
     "react": "^19.2.0",
@@ -18,6 +23,7 @@
     "three": "^0.184.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "@types/three": "^0.184.0",
