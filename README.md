@@ -43,15 +43,17 @@ npm run marker:generate
 
 ![AR Marker Poster](public/assets/markers/mvp/macbook-air/reference.png)
 
-## Android testing screenshots
-- GitHub files:
-  - `https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/testing/android/android-scanned-marker.png`
-  - `https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/testing/android/android-3d-detail.png`
-  - `https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/testing/android/android-spesification.png`
+## Mobile testing screenshots
 
-| Marker Locked (Android) | 3D Detail Viewer (Android) | Specification Modal (Android) |
+### Android (Chrome)
+| Marker Locked | 3D Detail Viewer | Specification Modal |
 | --- | --- | --- |
 | ![Android Marker Locked](public/assets/testing/android/android-scanned-marker.png) | ![Android 3D Detail](public/assets/testing/android/android-3d-detail.png) | ![Android Specification Modal](public/assets/testing/android/android-spesification.png) |
+
+### iOS (Safari)
+| Marker Locked | 3D Detail Viewer | Specification Modal |
+| --- | --- | --- |
+| ![iPhone Marker Locked](public/assets/testing/ios/iphone-scanned-marker.png) | ![iPhone 3D Detail](public/assets/testing/ios/iphone-3d-detail.png) | ![iPhone Specification Modal](public/assets/testing/ios/iphone-specification.png) |
 
 ## In-scan controls (current UX)
 - Header controls:
