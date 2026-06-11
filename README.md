@@ -16,17 +16,17 @@ Current flow is scan-first and 3D-first: marker lock unlocks detail + conversion
 
 ## GitHub asset links
 - Repository:
-  - `https://github.com/sulhanfuadi/ar-webar-product-marketing`
+  - <https://github.com/sulhanfuadi/ar-webar-product-marketing>
 - Public assets folder:
-  - `https://github.com/sulhanfuadi/ar-webar-product-marketing/tree/main/public/assets`
+  - <https://github.com/sulhanfuadi/ar-webar-product-marketing/tree/main/public/assets>
 
 ## Marker contract (source of truth)
 - Marker poster file (GitHub):
-  - `https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/markers/mvp/macbook-air/reference.png`
+  - <https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/markers/mvp/macbook-air/reference.png>
 - Marker target file (GitHub):
-  - `https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/markers/mvp/macbook-air/target.mind`
+  - <https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/markers/mvp/macbook-air/target.mind>
 - Live marker poster URL:
-  - `https://ar-webar-product-marketing.vercel.app/assets/markers/mvp/macbook-air/reference.png`
+  - <https://ar-webar-product-marketing.vercel.app/assets/markers/mvp/macbook-air/reference.png>
 - Regenerate marker target:
 
 ```bash
@@ -37,7 +37,7 @@ npm run marker:generate
 
 ## Testing poster (required)
 - Current AR flow is validated against this exact poster image:
-  - `https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/markers/mvp/macbook-air/reference.png`
+  - <https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/markers/mvp/macbook-air/reference.png>
 - Use that image for QA/demo (print or show on secondary screen).
 - Keep full poster visible in camera frame for stable marker lock.
 
@@ -78,18 +78,18 @@ npm run marker:generate
 
 ## 3D model runtime
 - Active GLB file (GitHub):
-  - `https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/models/apple-macbook/model.glb`
+  - <https://github.com/sulhanfuadi/ar-webar-product-marketing/blob/main/public/assets/models/apple-macbook/model.glb>
 - Runtime currently uses the 1k texture variant for mobile reliability.
 - If missing/invalid, runtime shows a clear load error and asks user to retry scan.
 
 ## Production demo URL
 - Primary live demo:
-  - `https://ar-webar-product-marketing.vercel.app`
+  - <https://ar-webar-product-marketing.vercel.app>
 - Do not use stale URLs that are not mapped to this deployment.
 
 ## Model attribution
 - Source:
-  - `https://skfb.ly/pIFA7`
+  - <https://skfb.ly/pIFA7>
 - Attribution should follow the license metadata on the source page.
 
 ## Run locally
@@ -107,7 +107,7 @@ npm run preview
 ```
 
 ## Automated Compatibility Testing
-- We use Playwright for cross-browser portability testing.
+- We use [Playwright](https://playwright.dev/) for cross-browser portability testing.
 - Over 360 test cases are run across 11 browser configurations on iOS and Android platforms to ensure WebAR compatibility.
 - Run the test suite:
 ```bash
