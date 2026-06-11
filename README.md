@@ -104,11 +104,24 @@ npm run smoke:test
 npm run preview
 ```
 
+## Automated Compatibility Testing
+- We use Playwright for cross-browser portability testing.
+- Over 360 test cases are run across 11 browser configurations on iOS and Android platforms to ensure WebAR compatibility.
+- Run the test suite:
+```bash
+npm run test:compat
+```
+- Generate test reports:
+```bash
+npm run test:report:gen
+```
+
 ## QA policy
 - Desktop is preview-only.
-- Final sign-off requires:
-  - Chrome Android (latest)
-  - Safari iPhone (latest)
+- Automated tests ensure portability and feature support across:
+  - iOS (WebKit): Safari, Chrome iOS, Firefox iOS
+  - Android (Chromium & Gecko): Chrome, Samsung Internet, Firefox, Opera, UC Browser
+- Final sign-off for AR marker tracking and live camera performance requires manual testing on real devices.
 
 ## MVP scope
 - Included: scan-first marker AR, locked-state `3D Detail`, locked-state business action bar (`Contact`, `Buy`, `Specification`), zoomable 3D detail viewer, and in-app specification modal.
